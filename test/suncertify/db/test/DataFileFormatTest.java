@@ -6,10 +6,6 @@ import java.io.RandomAccessFile;
 
 import junit.framework.TestCase;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import suncertify.db.DataFileFormat;
 
 public class DataFileFormatTest extends TestCase {
@@ -18,18 +14,16 @@ public class DataFileFormatTest extends TestCase {
 	
 	private DataFileFormat dataFileFormat;
 	
-	@Before
 	public void setUp() {
 		try {
 			database = 
-					new RandomAccessFile("C:\\Documents and Settings\\Administrator\\Desktop\\PBC Goals\\OCJD\\db\\db-1x1.db", "r");
+					new RandomAccessFile("C:\\db-1x1.db", "r");
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
 		dataFileFormat = new DataFileFormat(database);
 	}
 	
-	@After
 	public void tearDown() {
 		if (database != null) {
 			try {
@@ -40,11 +34,11 @@ public class DataFileFormatTest extends TestCase {
 		}
 	}
 	
-	@Test
 	public void testDataFileFormat() {
 		assertEquals(257, dataFileFormat.getMagicNumber());
 		assertEquals(7, dataFileFormat.getNumberOfFieldsPerRecord());
 		assertEquals(159, dataFileFormat.getRecordLength());
+		assertFalse(dataFileFormat.getDatabaseSchema().isEmpty());
 		assertFalse(dataFileFormat.getDataSection().isEmpty());
 	}
 }
