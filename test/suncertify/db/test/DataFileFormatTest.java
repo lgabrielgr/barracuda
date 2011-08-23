@@ -37,8 +37,12 @@ public class DataFileFormatTest extends TestCase {
 	public void testDataFileFormat() {
 		assertEquals(257, dataFileFormat.getMagicNumber());
 		assertEquals(7, dataFileFormat.getNumberOfFieldsPerRecord());
-		assertEquals(159, dataFileFormat.getRecordLength());
-		assertFalse(dataFileFormat.getDatabaseSchema().isEmpty());
-		assertFalse(dataFileFormat.getDataSection().isEmpty());
+		assertEquals(160, dataFileFormat.getRecordLength());
+		assertFalse(dataFileFormat.getRecordFields().isEmpty());
+		assertFalse(dataFileFormat.getRecordRows().isEmpty());
+		
+		for (int row: dataFileFormat.getRecordRows()) {
+			System.out.println(row);
+		}
 	}
 }

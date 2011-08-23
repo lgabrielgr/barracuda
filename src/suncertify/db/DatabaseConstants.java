@@ -19,8 +19,17 @@ public class DatabaseConstants {
 	public static final String READ_WRITE_ACCESS_MODE = "rw";
 	
 	/**
-	 * Deleted record indicator.
+	 * Deleted record indicator, '1'.
 	 */
 	public static final int DELETED_RECORD = 1;
 	
+	/**
+	 * Not deleted record indicator, '0'.
+	 */
+	public static final int NOT_DELETED_RECORD = 0;
+	
+	/**
+	 * Empty string space.
+	 */
+	public static final String EMPTY_SPACE = " ";
 }

@@ -24,6 +24,11 @@ public class RecordField {
 	private int fieldValueLength;
 
 	/**
+	 * Field position in record.
+	 */
+	private int fieldPosition;
+	
+	/**
 	 * Retrieves the record field name.
 	 * 
 	 * @return Record field name.
@@ -77,6 +82,24 @@ public class RecordField {
 		this.fieldValueLength = fieldValueLength;
 	}
 	
+	/**
+	 * Retrieves the field position in record.
+	 * 
+	 * @return Field position in record.
+	 */
+	public int getFieldPosition() {
+		return fieldPosition;
+	}
+
+	/**
+	 * Sets the field position in record.
+	 * 
+	 * @param fieldPosition Field position in record.
+	 */
+	public void setFieldPosition(int fieldPosition) {
+		this.fieldPosition = fieldPosition;
+	}
+
 	/**
 	 * Returns a hash code value for this object.
 	 * 

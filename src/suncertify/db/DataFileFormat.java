@@ -36,12 +36,12 @@ public class DataFileFormat {
 	/**
 	 * Data section, contain the record rows saved in database.
 	 */
-	private Set<Integer> dataSection = new TreeSet<Integer>();
+	private Set<Integer> recordRows = new TreeSet<Integer>();
 	
 	/**
 	 * Database schema
 	 */
-	private Set<RecordField> databaseSchema = new LinkedHashSet<RecordField>();
+	private Set<RecordField> recordFields = new LinkedHashSet<RecordField>();
 
 	/**
 	 * Constructs a <code>DataFileFormat</code> object.
@@ -105,18 +105,18 @@ public class DataFileFormat {
 		try {
 			
 			final long initialDataPosition = database.getFilePointer();
-			final long databaseLength = database.length();
-			long currentRecordPosition = 0;
-			int recordRows = 0;
-			while (currentRecordPosition < databaseLength) {
+			
+			final long lastRecordRow = database.length() - getRecordLength();
+			long currentRecordRow = 0;
+			int totalRecordRows = 0;
+			while (currentRecordRow < lastRecordRow) {
 
-				// Append an extra position that is used to know if it is deleted
-				final int totalRecordLength = getRecordLength() + 1;
-				currentRecordPosition = initialDataPosition + (recordRows * totalRecordLength);
+				final int currentRecordPosition = totalRecordRows * getRecordLength();
+				currentRecordRow = initialDataPosition + currentRecordPosition;
 
-				dataSection.add((int)currentRecordPosition);
+				recordRows.add((int)currentRecordRow);
 
-				recordRows++;
+				totalRecordRows++;
 			}
 			
 		} finally {
@@ -153,7 +153,9 @@ public class DataFileFormat {
 
 				recordField.setFieldValueLength(database.readShort());
 
-				databaseSchema.add(recordField);
+				recordField.setFieldPosition(fieldIndex);
+				
+				recordFields.add(recordField);
 			}
 			
 		} finally {
@@ -180,7 +182,8 @@ public class DataFileFormat {
 			
 			setMagicNumber(database.readInt());
 
-			setRecordLength(database.readInt());
+			// Append an extra position that is used to know if it is deleted
+			setRecordLength(database.readInt() + 1);
 
 			setNumberOfFieldsPerRecord(database.readShort());
 			
@@ -248,8 +251,8 @@ public class DataFileFormat {
 	 * 
 	 * @return A set of rows where all records are stored in database.
 	 */
-	public Set<Integer> getDataSection() {
-		return dataSection;
+	public Set<Integer> getRecordRows() {
+		return recordRows;
 	}
 	
 	/**
@@ -257,8 +260,8 @@ public class DataFileFormat {
 	 * 
 	 * @return Database schema.
 	 */
-	public Set<RecordField> getDatabaseSchema() {
-		return databaseSchema;
+	public Set<RecordField> getRecordFields() {
+		return recordFields;
 	}
 	
 }
