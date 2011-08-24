@@ -32,4 +32,19 @@ public class DatabaseConstants {
 	 * Empty string space.
 	 */
 	public static final String EMPTY_SPACE = " ";
+	
+	/**
+	 * Smoking room indicator, 'Y'.
+	 */
+	public static final String SMOKING_ROOM = "Y";
+	
+	/**
+	 * Non-smoking room indicator, 'N'.
+	 */
+	public static final String NON_SMOKING_ROOM = "N";
+	
+	/**
+	 * 'owner' field name.
+	 */
+	public static final String OWNER_FIELD = "owner";
 }

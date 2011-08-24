@@ -406,6 +406,9 @@ public class Data implements DB {
 	/**
 	 * Returns a byte representation of the given record data to 
 	 * insert/update into the database.
+	 * <br />If a given field value length is bigger than the field length 
+	 * defined in the database, it gets a substring from the beginning
+	 * of the value to the field value length permitted. 
 	 * 
 	 * @param data Array of string that contains the record data.
 	 * @return A byte representation of the given record data.
@@ -420,8 +423,16 @@ public class Data implements DB {
 		
 		for (RecordField field: dataFileFormat.getRecordFields()) {
 			
-			final StringBuilder currentFieldValue = 
-					new StringBuilder(data[field.getFieldPosition()]);
+			final String fieldDataValue = data[field.getFieldPosition()];
+			
+			StringBuilder currentFieldValue = null;
+			
+			if (fieldDataValue.length() > field.getFieldValueLength()) {
+				currentFieldValue = new StringBuilder(
+						fieldDataValue.substring(0, field.getFieldValueLength()));
+			} else {
+				currentFieldValue = new StringBuilder(fieldDataValue);
+			}
 			
 			while (currentFieldValue.length() < field.getFieldValueLength()) {
 				currentFieldValue.append(DatabaseConstants.EMPTY_SPACE);
@@ -512,8 +523,11 @@ public class Data implements DB {
      * <br />4 - Rate per night.
      * <br />5 - Date available.
      * <br />6 - Owner ID.
-	 * <br />If the given criteria does not match as above, an empty array is 
+	 * <br /><br />If the given criteria does not match as above, an empty array is 
 	 * returned.
+	 * <br /><br />If a given field value length in the criteria is bigger than 
+	 * the field length defined in the database, it gets a substring from the 
+	 * beginning of the value to the field value length permitted.
 	 * 
 	 * @param criteria Array containing the search criteria, or null if 
 	 *                 want all records numbers in the database.
@@ -550,8 +564,11 @@ public class Data implements DB {
      * <br />4 - Rate per night.
      * <br />5 - Date available.
      * <br />6 - Owner ID.
-	 * <br />If the given criteria does not match as above, an empty array is 
+	 * <br /><br />If the given criteria does not match as above, an empty array is 
 	 * returned.
+	 * <br /><br />If a given field value length in the criteria is bigger than 
+	 * the field length defined in the database, it gets a substring from the 
+	 * beginning of the value to the field value length permitted.
 	 * 
 	 * @param criteria Criteria to apply in the search. Can be null.
 	 * @return An array that contains all the record rows found during the 
@@ -601,8 +618,11 @@ public class Data implements DB {
      * <br />4 - Rate per night.
      * <br />5 - Date available.
      * <br />6 - Owner ID.
-	 * <br />If the given criteria does not match as above, an empty list is 
+	 * <br /><br />If the given criteria does not match as above, an empty list is 
 	 * returned.
+	 * <br /><br />If a given field value length in the criteria is bigger than 
+	 * the field length defined in the database, it gets a substring from the 
+	 * beginning of the value to the field value length permitted.
 	 * 
 	 * @param criteria Criteria to apply in the search filter.
 	 * @return A list that contains all the record rows found during the 
@@ -632,15 +652,22 @@ public class Data implements DB {
 
 				boolean match = true;
 
-				for (int index = 0; 
-						index < dataFileFormat.getNumberOfFieldsPerRecord(); 
-						index++) {
-
-					if (!matchCriteria(recordData[index], criteria[index])) {
+				for (RecordField field: dataFileFormat.getRecordFields()) {
+					
+					final int fieldIndex = field.getFieldPosition();
+					
+					String fieldInCriteria = criteria[fieldIndex];
+					if ((fieldInCriteria != null) 
+							&& (fieldInCriteria.length() > field.getFieldValueLength())) {
+						fieldInCriteria = fieldInCriteria.substring(0, 
+								field.getFieldValueLength());
+					}
+					
+					if (!matchCriteria(recordData[fieldIndex], fieldInCriteria)) {
 						match = false;
 						break;
 					}
-
+					
 				}
 
 				if (match) {
@@ -781,6 +808,9 @@ public class Data implements DB {
 	/**
 	 * Verifies if the given record data already exists into the 
 	 * database (the owner id field is not checked).
+	 * <br />If a given field value length is bigger than the field length 
+	 * defined in the database, it gets a substring from the beginning
+	 * of the value to the field value length permitted.
 	 * 
 	 * @param dataToCompare Record data to verify.
 	 * @return True if already exists; otherwise, false.
@@ -790,7 +820,7 @@ public class Data implements DB {
 		final String methodName = "isRecordDuplicated";
 		DatabaseLogger.entering(CLASS_NAME, methodName);
 		
-		boolean recordDuplicated = true;
+		boolean recordDuplicated = false;
 		
 		final Set<Integer> recordRows = validRecords.keySet();
 		
@@ -800,12 +830,22 @@ public class Data implements DB {
 			
 			final String [] record = validRecords.get(currentRecordRow);
 			
-			for (int fieldIndex = 0; 
-					fieldIndex < (dataFileFormat.getNumberOfFieldsPerRecord() -1);
-					fieldIndex++) {
+			for (RecordField field: dataFileFormat.getRecordFields()) {
 				
-				if (!recordFieldsEqual(record[fieldIndex], 
-						dataToCompare[fieldIndex])) {
+				if (DatabaseConstants.OWNER_FIELD.equals(field.getFieldName())) {
+					continue;
+				}
+				
+				final int fieldIndex = field.getFieldPosition();
+				
+				String fieldToCompare = dataToCompare[fieldIndex];
+				if ((fieldToCompare != null) 
+						&& (fieldToCompare.length() > field.getFieldValueLength())) {
+					fieldToCompare = fieldToCompare.substring(0, 
+							field.getFieldNameLength());
+				}
+				
+				if (!recordFieldsEqual(record[fieldIndex], fieldToCompare)) {
 					recordDuplicated = false;
 					break;
 				}
@@ -817,7 +857,7 @@ public class Data implements DB {
 			} 
 		}
 		
-		DatabaseLogger.exiting(CLASS_NAME, methodName);
+		DatabaseLogger.exiting(CLASS_NAME, methodName, recordDuplicated);
 		
 		return recordDuplicated;
 	}

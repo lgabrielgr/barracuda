@@ -167,8 +167,7 @@ public class DataTest extends TestCase {
 			data.unlock(4394, lockValue);
 			
 		} catch (RecordNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail(e.getMessage());
 		}
 		
 	}
