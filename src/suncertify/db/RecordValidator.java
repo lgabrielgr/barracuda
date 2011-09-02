@@ -229,7 +229,7 @@ public class RecordValidator {
 	
 	/**
 	 * Validates a record owner value. It is considered invalid if the value
-	 * is null or not a number.
+	 * is null or not a number (empty string is valid).
 	 * 
 	 * @param owner Owner value to validate.
 	 * @return True is the record owner value is valid; otherwise, false.
@@ -245,7 +245,7 @@ public class RecordValidator {
 			
 			validOwner = false;
 			
-		} else {
+		} else if (!"".equals(owner)) {
 			
 			try {
 				

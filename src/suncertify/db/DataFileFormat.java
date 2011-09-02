@@ -7,7 +7,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Defines the format of data in the database file.
+ * Loads dynamically the format of data in the database file. If the database's
+ * format is updated (i.e. new field, new record length, field deleted) there
+ * is not need to modify this class.
  * 
  * @author Leo Gutierrez
  */

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * Represents a record in the database.
+ * <br />If the database record format changes (i.e. new record field) this 
+ * class must be updated with the new format. 
  * 
  * @author Leo Gutierrez
  */
@@ -13,6 +15,46 @@ public class Record implements Serializable {
 	 * Class serial version.
 	 */
 	private static final long serialVersionUID = 402264L;
+	
+	/**
+	 * Record's name field index.
+	 */
+	public static final int NAME_FIELD_INDEX = 0;
+	
+	/**
+	 * Record's location field index.
+	 */
+	public static final int LOCATION_FIELD_INDEX = 1;
+	
+	/**
+	 * Record's room size field index.
+	 */
+	public static final int SIZE_FIELD_INDEX = 2;
+	
+	/**
+	 * Record's smoking field index.
+	 */
+	public static final int SMOKING_FIELD_INDEX = 3;
+	
+	/**
+	 * Record's rate field index.
+	 */
+	public static final int RATE_FIELD_INDEX = 4;
+	
+	/**
+	 * Record's date field index.
+	 */
+	public static final int DATE_FIELD_INDEX = 5;
+	
+	/**
+	 * Record's owner field index.
+	 */
+	public static final int OWNER_FIELD_INDEX = 6;
+	
+	/**
+	 * Total record fields.
+	 */
+	public static final int TOTAL_RECORD_FIELDS = 7;
 	
 	/**
 	 * The name of the hotel this vacancy record relates to.
@@ -268,4 +310,27 @@ public class Record implements Serializable {
 	public void setDatabaseRow(int databaseRow) {
 		this.databaseRow = databaseRow;
 	}
+	
+	/**
+	 * Returns a String representation of this <code>Record</code>.
+	 * 
+	 * @see Object#toString()
+	 * 
+	 * @return A String representation of this <code>Record</code>.
+	 */
+	public String toString() {
+		
+		final StringBuilder recordString = new StringBuilder();
+		
+		recordString.append(getName()).append("/");
+		recordString.append(getLocation()).append("/");
+		recordString.append(getSize()).append("/");
+		recordString.append(getSmoking()).append("/");
+		recordString.append(getRate()).append("/");
+		recordString.append(getDate()).append("/");
+		recordString.append(getOwner());
+		
+		return recordString.toString();
+	}
+	
 }

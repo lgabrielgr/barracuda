@@ -47,4 +47,5 @@ public class DatabaseConstants {
 	 * 'owner' field name.
 	 */
 	public static final String OWNER_FIELD = "owner";
+	
 }

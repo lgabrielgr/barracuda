@@ -541,7 +541,7 @@ public class Data implements DB {
 		readLock.lock();
 		try {
 			
-			return searchCriteria(criteria);
+			return searchByCriteria(criteria);
 			
 		} finally {
 			
@@ -574,7 +574,7 @@ public class Data implements DB {
 	 * @return An array that contains all the record rows found during the 
 	 *         searching.
 	 */
-	private int[] searchCriteria(final String [] criteria) {
+	private int[] searchByCriteria(final String [] criteria) {
 		
 		final String methodName = "searchCriteria";
 		DatabaseLogger.entering(CLASS_NAME, methodName);
@@ -657,11 +657,6 @@ public class Data implements DB {
 					final int fieldIndex = field.getFieldPosition();
 					
 					String fieldInCriteria = criteria[fieldIndex];
-					if ((fieldInCriteria != null) 
-							&& (fieldInCriteria.length() > field.getFieldValueLength())) {
-						fieldInCriteria = fieldInCriteria.substring(0, 
-								field.getFieldValueLength());
-					}
 					
 					if (!matchCriteria(recordData[fieldIndex], fieldInCriteria)) {
 						match = false;

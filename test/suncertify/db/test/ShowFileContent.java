@@ -18,35 +18,27 @@ public class ShowFileContent {
 	 */
 	public static void main(String[] args) throws IOException {
 
-		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-		format.setLenient(false);
-		try {
-			System.out.println(format.parse("2011/08/24").toString());
-		} catch (ParseException e) {
-			System.out.println(e.getMessage());
+		final RandomAccessFile database = new RandomAccessFile("/home/leo/db/db-1x1.db", "rw");
+
+		database.seek(74);
+		
+		final long lastRecordRow = database.length() - 160;
+		long currentRecordRow = 0;
+		int totalRecordRows = 0;
+		while (currentRecordRow < lastRecordRow) {
+
+			final int currentRecordPosition = totalRecordRows * 160;
+			currentRecordRow = 74 + currentRecordPosition;
+
+			database.seek(currentRecordRow);
+			final byte [] record = new byte[160];
+			database.read(record);
+			System.out.println(currentRecordRow + ": " + new String(record));
+
+			totalRecordRows++;
 		}
 		
-//		final RandomAccessFile database = new RandomAccessFile("C:\\db-1x1.db", "rw");
-//
-//		database.seek(74);
-//		
-//		final long lastRecordRow = database.length() - 160;
-//		long currentRecordRow = 0;
-//		int totalRecordRows = 0;
-//		while (currentRecordRow < lastRecordRow) {
-//
-//			final int currentRecordPosition = totalRecordRows * 160;
-//			currentRecordRow = 74 + currentRecordPosition;
-//
-//			database.seek(currentRecordRow);
-//			final byte [] record = new byte[160];
-//			database.read(record);
-//			System.out.println(currentRecordRow + ": " + new String(record));
-//
-//			totalRecordRows++;
-//		}
-//		
-//		database.close();
+		database.close();
 	}
 
 }
