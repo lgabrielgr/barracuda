@@ -1,6 +1,8 @@
 package suncertify.db.test;
 
 
+import java.util.Set;
+
 import junit.framework.TestCase;
 import suncertify.db.Database;
 import suncertify.db.DuplicateKeyException;
@@ -15,7 +17,7 @@ public class DatabaseTest extends TestCase {
 		
 		try {
 			
-			database.read(74);
+			System.out.println(database.read(74));
 			
 			assertTrue(true);
 				
@@ -91,6 +93,70 @@ public class DatabaseTest extends TestCase {
 			
 		}
 		
+	}
+	
+	public void testUpdate() {
+		
+		try {
+			
+			Record record = database.read(74);
+			
+			record.setLocation("Guadalajara");
+			
+			database.update(74, record);
+			
+			record = database.read(74);
+			
+			assertEquals("Guadalajara", record.getLocation());
+			
+		} catch (RecordNotFoundException e) {
+			
+			fail(e.getMessage());
+			
+		}
+		
+		
+	}
+	
+	public void testUpdateRoomBooked() {
+		
+		try {
+
+			Record record = database.read(4714);
+
+			record.setOwner("0");
+
+			database.update(4714, record);
+
+			record = database.read(4714);
+			
+			record.setOwner("1");
+			
+			database.update(4714, record);
+			
+			fail("Record already booked updated");
+			
+		} catch (RecordNotFoundException e) {
+			
+			assertTrue(true);
+			
+		}
+		
+	}
+	
+	public void testFind() {
+		
+		Set<Record> records = database.find("Palace", null);
+		
+		assertEquals(3, records.size());
+		
+		records = database.find(null, "Hobbiton");
+		
+		assertEquals(3, records.size());
+		
+		records = database.find("Grandview", "Hobbiton");
+
+		assertEquals(1, records.size());
 	}
 	
 }

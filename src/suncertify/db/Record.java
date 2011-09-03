@@ -333,4 +333,68 @@ public class Record implements Serializable {
 		return recordString.toString();
 	}
 	
+	/**
+	 * Returns a hash code value for this <code>Record</code>.
+	 * 
+	 * @see Object#hashCode()
+	 * 
+	 * @return A hash code value for this <code>Record</code>.
+	 */
+	public int hashCode() {
+		
+		if (getName() == null) {
+			return 0;
+		} else {
+			return getName().hashCode();
+		}
+		
+	}
+	
+	/**
+	 * Indicates whether some other object is "equal to" this 
+	 * <code>Record</code>.
+	 * 
+	 * @see Object#equals(Object)
+	 * 
+	 * @return True if they're equals; False otherwise.
+	 */
+	public boolean equals(final Object object) {
+		
+		if (!(object instanceof Record)) {
+			return false;
+		}
+		
+		final Record recordToCompare = (Record)object;
+		
+		if (!recordToCompare.getName().equals(getName())) {
+			return false;
+		}
+		
+		if (!recordToCompare.getLocation().equals(getLocation())) {
+			return false;
+		}
+		
+		if (!recordToCompare.getSize().equals(getSize())) {
+			return false;
+		}
+		
+		if (!recordToCompare.getSmoking().equals(getSmoking())) {
+			return false;
+		}
+		
+		if (!recordToCompare.getDate().equals(getDate())) {
+			return false;
+		}
+		
+		if (!recordToCompare.getRate().equals(getRate())) {
+			return false;
+		}
+		
+		if (!recordToCompare.getOwner().equals(getOwner())) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 }
