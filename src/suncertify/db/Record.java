@@ -99,11 +99,6 @@ public class Record implements Serializable {
 	private int databaseRow;
 	
 	/**
-	 * Reference to the record validator.
-	 */
-	final private RecordValidator validator = new RecordValidator();
-	
-	/**
 	 * Constructs a <code>Record</code> object.
 	 */
 	public Record() {
@@ -127,6 +122,8 @@ public class Record implements Serializable {
 	 *                                  (null or empty).
 	 */
 	public void setName(String name) throws IllegalArgumentException {
+		
+		final RecordValidator validator = new RecordValidator();
 		
 		if (!validator.isValidHotelName(name)) {
 			throw new IllegalArgumentException("Hotel name not valid: " + name);
@@ -152,6 +149,8 @@ public class Record implements Serializable {
 	 *                                  valid (null or empty).
 	 */
 	public void setLocation(String location) throws IllegalArgumentException {
+		
+		final RecordValidator validator = new RecordValidator();
 		
 		if (!validator.isValidLocation(location)) {
 			throw new IllegalArgumentException("Hotel location not " +
@@ -179,6 +178,8 @@ public class Record implements Serializable {
 	 */
 	public void setSize(String size) throws IllegalArgumentException {
 		
+		final RecordValidator validator = new RecordValidator();
+		
 		if (!validator.isValidRoomSize(size)) {
 			throw new IllegalArgumentException("The room size is not " +
 					"valid: " + size);
@@ -204,6 +205,8 @@ public class Record implements Serializable {
 	 *                                  value (not 'Y' and 'N').
 	 */
 	public void setSmoking(String smoking) throws IllegalArgumentException {
+		
+		final RecordValidator validator = new RecordValidator();
 		
 		if (!validator.isValidSmoking(smoking)) {
 			throw new IllegalArgumentException("Room smoking value not " +
@@ -233,6 +236,8 @@ public class Record implements Serializable {
 	 */
 	public void setRate(String rate) throws IllegalArgumentException {
 		
+		final RecordValidator validator = new RecordValidator();
+		
 		if (!validator.isValidRate(rate)) {
 			throw new IllegalArgumentException("Room rate not valid: " + rate);
 		}
@@ -259,6 +264,8 @@ public class Record implements Serializable {
 	 */
 	public void setDate(String date) throws IllegalArgumentException {
 		
+		final RecordValidator validator = new RecordValidator();
+		
 		if (!validator.isValidDate(date)) {
 			throw new IllegalArgumentException("Date available not " +
 					"valid: " + date);
@@ -284,6 +291,8 @@ public class Record implements Serializable {
 	 *                                  (null, empty or not a positive number).
 	 */
 	public void setOwner(String owner) throws IllegalArgumentException {
+		
+		final RecordValidator validator = new RecordValidator();
 		
 		if (!validator.isValidOwner(owner)) {
 			throw new IllegalArgumentException("Owner value not " +

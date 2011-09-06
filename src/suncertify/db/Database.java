@@ -1,6 +1,5 @@
 package suncertify.db;
 
-import java.rmi.RemoteException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -95,7 +94,6 @@ public class Database implements IDatabase {
 	 * @param record Record data to update.
 	 * @throws RecordNotFoundException If the record is not found or it is 
 	 *                                 deleted.
-	 * @throws RemoteException If any networking error occurs.
 	 */
 	public void update(int recordRow, Record record)
 			throws RecordNotFoundException {
@@ -182,7 +180,6 @@ public class Database implements IDatabase {
 	 *                 location value).
 	 * @return Record(s) found during the search. If no record is found, an 
 	 *         empty list is returned.
-	 * @throws RemoteException If any networking error occurs.
 	 */
 	public Set<Record> find(String name, String location) {
 		
