@@ -69,19 +69,17 @@ public class RegisterDatabase {
 				
 				registry.unbind(RemoteConstants.DATABASE_BIND_NAME);
 				
+				registry = null;
+				
 			} catch (RemoteException e) {
 				
-				final String errorMessage = "Unable to unbind server due to: " 
-						+ e.getMessage();
-				
-				RemoteLogger.warning(CLASS_NAME, methodName, errorMessage);
+				RemoteLogger.warning(CLASS_NAME, methodName, 
+						"Unable to unbind server due to: " + e.getMessage());
 				
 			} catch (NotBoundException e) {
 				
-				final String errorMessage = "Unable to unbind server due to: " 
-						+ e.getMessage();
-				
-				RemoteLogger.warning(CLASS_NAME, methodName, errorMessage);
+				RemoteLogger.warning(CLASS_NAME, methodName, 
+						"Unable to unbind server due to: " + e.getMessage());
 				
 			}
 		}
