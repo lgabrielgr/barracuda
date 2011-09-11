@@ -69,8 +69,6 @@ public class RegisterDatabase {
 				
 				registry.unbind(RemoteConstants.DATABASE_BIND_NAME);
 				
-				registry = null;
-				
 			} catch (RemoteException e) {
 				
 				RemoteLogger.warning(CLASS_NAME, methodName, 

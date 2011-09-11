@@ -1,10 +1,16 @@
 package suncertify.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import suncertify.db.DatabaseProperties;
-import suncertify.remote.RemoteProperties;
+import suncertify.remote.RegisterDatabase;
 
 public class ServerWindow extends AbstractServerWindow {
 
@@ -18,49 +24,66 @@ public class ServerWindow extends AbstractServerWindow {
 	 */
 	private static final String CLASS_NAME = ServerWindow.class.getName();
 	
-	/**
-	 * Reference to the properties to access to the database.
-	 */
-	private final DatabaseProperties dbProperties = new DatabaseProperties();
-	
-	/**
-	 * Reference to the properties to start/connect to server.
-	 */
-	private final RemoteProperties remoteProperties = new RemoteProperties();
-	
 	public ServerWindow() {
-		init();
+		displayWindow();
 	}
 	
-	private void init() {
+	protected void addProperTextOnComponents() {
 		
-		final String methodName = "init";
+		final String methodName = "drawWindow";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
-		setDBServerLabelText(GUIConstants.DATABASE_LOCATION_LABEL);
+		final JLabel dbServerLocationLaber = getDbServerLocationLabel();
+		dbServerLocationLaber.setText(GUIConstants.DATABASE_LOCATION_LABEL);
 		
-		setDBServerFieldText(dbProperties.readDatabasePath());
+		final JTextField dbServerLocationField = getDbServerLocationField();
+		dbServerLocationField.setText(dbProperties.readDatabasePath());
 		
-		setPortText(remoteProperties.readRMIPort());
+		final JTextField portNumberField = getPortNumberField();
+		portNumberField.setText(remoteProperties.readRMIPort());
 		
-		setStatusLabelText(GUIConstants.INITIAL_SERVER_STATUS);
+		final JLabel statusLabel = getStatusLabel();
+		statusLabel.setText(GUIConstants.INITIAL_SERVER_STATUS);
 		
-		setPrimaryButtonText(GUIConstants.START_SERVER_TEXT);
+		final JButton startServerButton = getPrimaryServerButton();
+		startServerButton.setText(GUIConstants.START_SERVER_TEXT);
+		startServerButton.addActionListener(new StartServerListener());
 		
-		setSecondaryButtonText(GUIConstants.STOP_SERVER_TEXT);
-		
-		//enableSecondaryButton(false);
-		
-		displayServerWindow();
+		final JButton exitServerButton = getSecondaryServerButton();
+		exitServerButton.setText(GUIConstants.EXIT_TEXT);
+		exitServerButton.addActionListener(new ExitServerListener());
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
 		
 	}
 
-	private void displayServerWindow() {
+	private void displayWindow() {
 		pack();
         GUIUtils.centerOnScreen(this);
         setVisible(true);
+	}
+	
+	private class StartServerListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(final ActionEvent actionEvent) {
+			
+			try {
+				
+				RegisterDatabase.bind();
+				
+				getPrimaryServerButton().setEnabled(false);
+				
+				getStatusLabel().setText("Server is running.");
+				
+			} catch (RemoteException e) {
+				
+				System.out.println(e.getMessage());
+				
+			}
+			
+		}
+		
 	}
 	
 	public static void main(String [] args) {
@@ -78,6 +101,7 @@ public class ServerWindow extends AbstractServerWindow {
 		}
 
 		new ServerWindow();
+//		ServerWindow.getInstance().displayWindow();
 		
 	}
 }

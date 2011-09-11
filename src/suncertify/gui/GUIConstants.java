@@ -19,9 +19,9 @@ public class GUIConstants {
 	public static final String START_SERVER_TEXT = "Start server";
 	
 	/**
-	 * Stop server button text.
+	 * Exit button text.
 	 */
-	public static final String STOP_SERVER_TEXT = "Stop server";
+	public static final String EXIT_TEXT = "Exit";
 	
 	/**
 	 * Database location label text.
@@ -43,7 +43,7 @@ public class GUIConstants {
 	 */
 	public static final String EXIT_MESSAGE_TITLE = "Exit";
 	
-	// -------
+	// ------
 	
 	/**
 	 * Int representation of an exit operation.

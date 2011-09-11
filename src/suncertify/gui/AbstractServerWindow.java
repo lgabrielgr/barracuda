@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
+import suncertify.db.DatabaseProperties;
 import suncertify.remote.RemoteProperties;
 
 /**
@@ -38,6 +39,16 @@ public abstract class AbstractServerWindow extends JFrame {
 	private static final String CLASS_NAME = AbstractServerWindow.class.getName();
 	
 	/**
+	 * Reference to the properties to access to the database.
+	 */
+	protected final DatabaseProperties dbProperties = new DatabaseProperties();
+	
+	/**
+	 * Reference to the properties to start/connect to server.
+	 */
+	protected final RemoteProperties remoteProperties = new RemoteProperties();
+	
+	/**
 	 * Reference to the database location server label.
 	 */
 	private final JLabel dbServerLocationLabel = new JLabel();
@@ -45,12 +56,12 @@ public abstract class AbstractServerWindow extends JFrame {
 	/**
 	 * Reference to the database location server field.
 	 */
-	private final JTextField dbServerlocationField = new JTextField(40);
+	private final JTextField dbServerLocationField = new JTextField(40);
 	
 	/**
 	 * Reference to the port text field.
 	 */
-	private final JTextField portNumber = new JTextField(5);
+	private final JTextField portNumberField = new JTextField(5);
 	
 	/**
 	 * Reference to the status label.
@@ -89,6 +100,8 @@ public abstract class AbstractServerWindow extends JFrame {
         addButtonsSection();
         
         addStatusSection();
+        
+        addProperTextOnComponents();
         
         GUILogger.exiting(CLASS_NAME, methodName);
 	}
@@ -179,8 +192,8 @@ public abstract class AbstractServerWindow extends JFrame {
         
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         
-        gridbag.setConstraints(dbServerlocationField, constraints);
-        dbConfigPanel.add(dbServerlocationField);
+        gridbag.setConstraints(dbServerLocationField, constraints);
+        dbConfigPanel.add(dbServerLocationField);
         
         constraints.weightx = 0.0;
         
@@ -193,44 +206,47 @@ public abstract class AbstractServerWindow extends JFrame {
         
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.anchor = GridBagConstraints.WEST;
-        gridbag.setConstraints(portNumber, constraints);
-        dbConfigPanel.add(portNumber);
+        gridbag.setConstraints(portNumberField, constraints);
+        dbConfigPanel.add(portNumberField);
         
         add(dbConfigPanel, BorderLayout.NORTH);
         
         GUILogger.exiting(CLASS_NAME, methodName);
 	}
 	
-	protected void setDBServerLabelText(final String text) {
-		dbServerLocationLabel.setText(text);
-	}
-	
-	protected void setDBServerFieldText(final String text) {
-		dbServerlocationField.setText(text);
-	}
-	
-	protected void setPortText(final String text) {
-		portNumber.setText(text);
+	protected JLabel getDbServerLocationLabel() {
+		return dbServerLocationLabel;
 	}
 
-	protected void setStatusLabelText(final String text) {
-		statusLabel.setText(text);
+	protected JTextField getDbServerLocationField() {
+		return dbServerLocationField;
 	}
-	
-	protected void setPrimaryButtonText(final String text) {
-		primaryServerButton.setText(text);
+
+	protected JTextField getPortNumberField() {
+		return portNumberField;
 	}
-	
-	protected void setSecondaryButtonText(final String text) {
-		secondaryServerButton.setText(text);
+
+	protected JLabel getStatusLabel() {
+		return statusLabel;
 	}
-	
-	protected void enablePrimaryButton(final boolean enable) {
-		primaryServerButton.setEnabled(enable);
+
+	protected JButton getPrimaryServerButton() {
+		return primaryServerButton;
 	}
+
+	protected JButton getSecondaryServerButton() {
+		return secondaryServerButton;
+	}
+
+	protected abstract void addProperTextOnComponents();
 	
-	protected void enableSecondaryButton(final boolean enable) {
-		secondaryServerButton.setEnabled(enable);
+	protected class ExitServerListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			GUIUtils.windowClosing();
+		}
+		
 	}
 	
 }
