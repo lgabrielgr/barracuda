@@ -26,4 +26,12 @@ public class DatabaseProperties extends AppProperties {
 		return readPropertyValue(DatabaseConstants.DB_PATH_PROP, null);
 	}
 	
+	/**
+	 * Updates the database path.
+	 * 
+	 * @param dbPath New database path.
+	 */
+	public void updateDatabasePath(final String dbPath) {
+		savePropertyValue(DatabaseConstants.DB_PATH_PROP, dbPath);
+	}
 }

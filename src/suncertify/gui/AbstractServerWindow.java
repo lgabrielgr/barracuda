@@ -5,10 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,11 +15,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
+import suncertify.controller.BrowseDatabaseListener;
+import suncertify.controller.ExitServerListener;
 import suncertify.db.DatabaseProperties;
 import suncertify.remote.RemoteProperties;
 
 /**
- * Provides the graphical user interface to start/stop server.
+ * Provides the abstract graphical user interface for the Server window, 
+ * drawing the components and delegating to any class that extends this  
+ * to set the proper messages to the components.
  * 
  * @author Leo Gutierrez
  */
@@ -36,32 +37,33 @@ public abstract class AbstractServerWindow extends JFrame {
 	/**
 	 * Class name.
 	 */
-	private static final String CLASS_NAME = AbstractServerWindow.class.getName();
+	private static final String CLASS_NAME = 
+			AbstractServerWindow.class.getName();
 	
 	/**
 	 * Reference to the properties to access to the database.
 	 */
-	protected final DatabaseProperties dbProperties = new DatabaseProperties();
+	private final DatabaseProperties dbProperties = new DatabaseProperties();
 	
 	/**
 	 * Reference to the properties to start/connect to server.
 	 */
-	protected final RemoteProperties remoteProperties = new RemoteProperties();
+	private final RemoteProperties remoteProperties = new RemoteProperties();
 	
 	/**
 	 * Reference to the database location server label.
 	 */
-	private final JLabel dbServerLocationLabel = new JLabel();
+	private final JLabel serverLocationLabel = new JLabel();
 	
 	/**
 	 * Reference to the database location server field.
 	 */
-	private final JTextField dbServerLocationField = new JTextField(40);
+	private final JTextField serverLocationTextField = new JTextField(40);
 	
 	/**
 	 * Reference to the port text field.
 	 */
-	private final JTextField portNumberField = new JTextField(5);
+	private final JTextField portNumberTextField = new JTextField(5);
 	
 	/**
 	 * Reference to the status label.
@@ -78,6 +80,29 @@ public abstract class AbstractServerWindow extends JFrame {
 	 */
     private final JButton secondaryServerButton = new JButton();
 	
+    /**
+     * Reference to the browse button.
+     */
+    private final JButton browseDatabase = 
+    		new JButton(GUIConstants.BROWSE_BUTTON_SIMPLE_TEXT);
+    
+    /**
+     * Reference to the database/server configuration panel.
+     */
+    private final JPanel dbConfigPanel = new JPanel();
+	
+    /**
+     * Reference to the grid bag layout to use into the database/server 
+     * configuration panel.
+     */
+    private final GridBagLayout gridbag = new GridBagLayout();
+    
+    /**
+     * Reference to the grid bag constraints to use into the database/server 
+     * configuration panel. 
+     */
+    private final GridBagConstraints constraints = new GridBagConstraints();
+    
 	/**
 	 * Constructs the Server's frame to display to user.
 	 */
@@ -114,20 +139,11 @@ public abstract class AbstractServerWindow extends JFrame {
 		final String methodName = "setFrameConfiguration";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
-		setTitle(GUIConstants.SERVER_TITLE);
+		setTitle(GUIMessages.SERVER_TITLE_TEXT);
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
-		addWindowListener(new WindowAdapter() {
-			
-			/**
-			 * Invoked when a window is in the process of being closed.
-			 */
-			public void windowClosing(final WindowEvent e) {
-				GUIUtils.windowClosing();
-			}
-			
-		});
+		addWindowListener(new ExitServerListener());
         
 		setResizable(false);
         
@@ -179,26 +195,29 @@ public abstract class AbstractServerWindow extends JFrame {
 		final String methodName = "addServerConfigSection";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
-		final JPanel dbConfigPanel = new JPanel();
-		
-        final GridBagLayout gridbag = new GridBagLayout();
         dbConfigPanel.setLayout(gridbag);
-        
-        final GridBagConstraints constraints = new GridBagConstraints();
+     
         constraints.insets = new Insets(2, 2, 2, 2);
 
-        gridbag.setConstraints(dbServerLocationLabel, constraints);
-        dbConfigPanel.add(dbServerLocationLabel);
+        gridbag.setConstraints(serverLocationLabel, constraints);
+        dbConfigPanel.add(serverLocationLabel);
+        
+        constraints.gridwidth = GridBagConstraints.RELATIVE; 
+        
+        gridbag.setConstraints(serverLocationTextField, constraints);
+        dbConfigPanel.add(serverLocationTextField);
+        
+        browseDatabase.addActionListener(new BrowseDatabaseListener(this));
         
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         
-        gridbag.setConstraints(dbServerLocationField, constraints);
-        dbConfigPanel.add(dbServerLocationField);
+        gridbag.setConstraints(browseDatabase, constraints);
+        dbConfigPanel.add(browseDatabase);
         
         constraints.weightx = 0.0;
         
         final JLabel serverPortLabel = 
-        		new JLabel(GUIConstants.SERVER_PORT_LABEL);
+        		new JLabel(GUIMessages.SERVER_PORT_LABEL_TEXT);
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.EAST;
         gridbag.setConstraints(serverPortLabel, constraints);
@@ -206,48 +225,220 @@ public abstract class AbstractServerWindow extends JFrame {
         
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.anchor = GridBagConstraints.WEST;
-        gridbag.setConstraints(portNumberField, constraints);
-        dbConfigPanel.add(portNumberField);
+        gridbag.setConstraints(portNumberTextField, constraints);
+        dbConfigPanel.add(portNumberTextField);
         
         add(dbConfigPanel, BorderLayout.NORTH);
         
         GUILogger.exiting(CLASS_NAME, methodName);
 	}
 	
-	protected JLabel getDbServerLocationLabel() {
-		return dbServerLocationLabel;
+	/**
+	 * Reads the database path from properties file.
+	 * 
+	 * @return The database path.
+	 */
+	public String readDatabasePath() {
+		return dbProperties.readDatabasePath();
 	}
-
-	protected JTextField getDbServerLocationField() {
-		return dbServerLocationField;
-	}
-
-	protected JTextField getPortNumberField() {
-		return portNumberField;
-	}
-
-	protected JLabel getStatusLabel() {
-		return statusLabel;
-	}
-
-	protected JButton getPrimaryServerButton() {
-		return primaryServerButton;
-	}
-
-	protected JButton getSecondaryServerButton() {
-		return secondaryServerButton;
-	}
-
-	protected abstract void addProperTextOnComponents();
 	
-	protected class ExitServerListener implements ActionListener {
+	/**
+	 * Updates the database path in the properties file according what user 
+	 * enters as the database location.
+	 * 
+	 * @param dbPath Database path.
+	 */
+	public void updateDatabasePath(final String dbPath) {
+		dbProperties.updateDatabasePath(dbPath);
+	}
+	
+	/**
+	 * Reads the RMI port from the properties file.
+	 * 
+	 * @return The RMI port.
+	 */
+	public String readRMIPort() {
+		return remoteProperties.readRMIPort();
+	}
+	
+	/**
+	 * Updates the RMI port in the properties file according what user enters
+	 * as RMI port.
+	 * 
+	 * @param rmiPort The RMI port.
+	 */
+	public void updateRMIPort(final String rmiPort) {
+		remoteProperties.updateRMIPort(rmiPort);
+	}
+	
+	/**
+	 * Reads the RMI host from the properties file.
+	 * 
+	 * @return
+	 */
+	public String readRMIHost() {
+		return remoteProperties.readRMIHost();
+	}
+	
+	/**
+	 * Updates the RMI host in the properties file according what user enters
+	 * as RMI host.
+	 * 
+	 * @param rmiHost The RMI host.
+	 */
+	public void updateRMIHost(final String rmiHost) {
+		remoteProperties.updateRMIHost(rmiHost);
+	}
+	
+	/**
+	 * Sets the text to display in the server location label. Indicates to the 
+	 * user to points whether to the database location or the server address.
+	 * 
+	 * @param text Text to set in the server location label.
+	 */
+	public void setServerLocationLabelText(final String text) {
+		serverLocationLabel.setText(text);
+	}
+	
+	/**
+	 * Sets the text to display in the server location field.
+	 * 
+	 * @param text Text to set in the server location field.
+	 */
+	public void setServerLocationFieldText(final String text) {
+		serverLocationTextField.setText(text);
+	}
+	
+	/**
+	 * Retrieves the text introduced in the server location field.
+	 * 
+	 * @return The text introduced in the server location field.
+	 */
+	public String getServerLocationFieldText() {
+		return serverLocationTextField.getText();
+	}
+	
+	/**
+	 * Sets the text to display in the port number field.
+	 * 
+	 * @param text The text to display in the port number field.
+	 */
+	public void setPortNumberFieldText(final String text) {
+		portNumberTextField.setText(text);
+	}
+	
+	/**
+	 * Retrieves the text introduced in the port number field.
+	 * 
+	 * @return The text introduced in the port number field.
+	 */
+	public String getPortNumberFieldText() {
+		return portNumberTextField.getText();
+	}
+	
+	/**
+	 * Sets the text to display in the window's status label.
+	 * 
+	 * @param text The text to display in the window's status label.
+	 */
+	public void setStatusLabelText(final String text) {
+		statusLabel.setText(text);
+	}
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			GUIUtils.windowClosing();
-		}
+	/**
+	 * Sets the text to display in the window's primary button.
+	 * 
+	 * @param text The text to display in the window's primary button.
+	 */
+	public void setPrimaryServerButtonText(final String text) {
+		primaryServerButton.setText(text);
+	}
+	
+	/**
+	 * Sets enabled or not enabled the window's primary button.
+	 * 
+	 * @param enable True to enable; False otherwise.
+	 */
+	public void setEnabledPrimaryServerButton(final boolean enable) {
+		primaryServerButton.setEnabled(enable);
+	}
+	
+	/**
+	 * Adds the specified listener to the window's primary button.
+	 * 
+	 * @param listener Listener to add to the window's primary button.
+	 */
+	public void addListenerToPrimaryServerButton(
+			final ActionListener listener) {
+		primaryServerButton.addActionListener(listener);
+	}
+	
+	/**
+	 * Sets the text to display in the window's secondary button.
+	 * 
+	 * @param text The text to display in the window's secondary button.
+	 */
+	public void setSecondaryServerButtonText(final String text) {
+		secondaryServerButton.setText(text);
+	}
+	
+	/**
+	 * Adds the specified listener to the window's secondary button.
+	 * 
+	 * @param listener Listener to add to the window's secondary button.
+	 */
+	public void addListenerToSecondaryServerButton(
+			final ActionListener listener) {
+		secondaryServerButton.addActionListener(listener);
+	}
+
+	/**
+	 * Sets enabled or not enabled the server location field.
+	 * 
+	 * @param enable True to enable; False otherwise.
+	 */
+	public void setEnabledServerLocationField(final boolean enable) {
+		serverLocationTextField.setEnabled(enable);
+	}
+	
+	/**
+	 * Sets enabled or not enabled the port number field.
+	 * 
+	 * @param enable True to enable; False otherwise.
+	 */
+	public void setEnabledPortNumberField(final boolean enable) {
+		portNumberTextField.setEnabled(false);
+	}
+	
+
+	/**
+	 * Removes the button that browses the database file.
+	 * <br />It is called when the user only needs to specify the server IP 
+	 * address.
+	 */
+	protected void removeBrowseButton() {
+		
+		final String methodName = "removeBrowseButton";
+		GUILogger.entering(CLASS_NAME, methodName);
+		
+		dbConfigPanel.remove(browseDatabase);
+
+		final GridBagConstraints serverLocationConstraint = 
+				gridbag.getConstraints(serverLocationTextField);
+		
+		serverLocationConstraint.gridwidth = GridBagConstraints.REMAINDER;
+		
+		gridbag.setConstraints(serverLocationTextField, 
+				serverLocationConstraint);
+		
+		GUILogger.exiting(CLASS_NAME, methodName);
 		
 	}
+	
+	/**
+	 * Adds the proper text to display in the different frame's components.
+	 */
+	protected abstract void addProperTextOnComponents();
 	
 }
 

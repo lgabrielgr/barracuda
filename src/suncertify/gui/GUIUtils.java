@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import suncertify.remote.RegisterDatabase;
+
 public class GUIUtils {
 
 	/**
@@ -34,25 +36,52 @@ public class GUIUtils {
     }
     
     /**
-     * Displays a dialog message on to exit the application.
+     * Displays a dialog message to the user to exit a window.
      */
-    public static void windowClosing() {
+    public static int askUserToExit() {
     	
-    	final String methodName = "windowClosing";
+    	final String methodName = "askUserToExit";
     	GUILogger.entering(CLASS_NAME, methodName);
     	
     	final int userSelection = JOptionPane.showConfirmDialog(null, 
-    			GUIConstants.EXIT_MESSAGE_DIALOG, 
-    			GUIConstants.EXIT_MESSAGE_TITLE, 
+    			GUIMessages.EXIT_MESSAGE_DIALOG_TEXT, 
+    			GUIMessages.EXIT_MESSAGE_TITLE_TEXT, 
     			JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
+    
+    	GUILogger.exiting(CLASS_NAME, methodName, userSelection);
     	
-    	if (userSelection == GUIConstants.EXIT_OPERATION) {
-    		
-    		System.exit(0);
-    	}
-    	
-    	GUILogger.exiting(CLASS_NAME, methodName);
+    	return userSelection;
+    
     }
 	
+    /**
+     * Asks to user if really want to quit the Server window.
+     * <br />If user confirm the quit, the server is unbind and the window is
+     * closed.
+     */
+    public static void exitServerWindow() {
+    
+    	final String methodName = "exitServerWindow";
+    	GUILogger.entering(CLASS_NAME, methodName);
+    	
+    	try {
+    		
+    		final int userSelection = askUserToExit();
+
+    		if (userSelection == GUIConstants.EXIT_OPERATION) {
+
+    			RegisterDatabase.unbind();
+
+    			System.exit(0);
+
+    		}
+    		
+    	} finally{
+    		
+    		GUILogger.exiting(CLASS_NAME, methodName);
+    		
+    	}
+    	
+    }
 }

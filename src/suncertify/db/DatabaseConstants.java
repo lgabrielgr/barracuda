@@ -11,7 +11,7 @@ public class DatabaseConstants {
 	/**
 	 * database.path property name.
 	 */
-	public static final String DB_PATH_PROP = "database.path";
+	public static final String DB_PATH_PROP = "db.path";
 	
 	/**
 	 * "rw" file access mode.

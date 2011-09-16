@@ -1,5 +1,6 @@
 package suncertify.db;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -167,7 +168,11 @@ public class Data implements DB {
 
 		try {
 
-			database = new RandomAccessFile(properties.readDatabasePath(), 
+			final File databaseFile = new File(properties.readDatabasePath());
+			
+			validateDatabaseFile(properties.readDatabasePath(), databaseFile);
+			
+			database = new RandomAccessFile(databaseFile, 
 					DatabaseConstants.READ_WRITE_ACCESS_MODE);
 
 		} catch (FileNotFoundException e) {
@@ -185,6 +190,32 @@ public class Data implements DB {
 			
 		}
 		
+	}
+
+	/**
+	 * Validates the input database file if it exists and has the proper
+	 * read and write system permissions. If its not valid, a 
+	 * <code>FileNotFoundException</code> is thrown. 
+	 * 
+	 * @param databasePath Database path.
+	 * @param databaseFile Database file object.
+	 * @throws FileNotFoundException If the database does not exist or does not
+	 *                               have the read/write system permissions 
+	 *                               needed.
+	 */
+	private void validateDatabaseFile(final String databasePath,
+			final File databaseFile) throws FileNotFoundException {
+		
+		if ((!databaseFile.exists()) || (!databaseFile.isFile())) {
+			throw new FileNotFoundException("Database file " + 
+					databasePath + " does not exist");
+		}
+		
+		if ((!databaseFile.canRead()) || (!databaseFile.canExecute())) {
+			throw new FileNotFoundException("Database file " +  
+					databasePath + " does not have the " +
+							"needed read/write system's permissions");
+		}
 	}
 	
 	/**
