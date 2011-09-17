@@ -69,7 +69,7 @@ public class GUIUtils {
     		
     		final int userSelection = askUserToExit();
 
-    		if (userSelection == GUIConstants.EXIT_OPERATION) {
+    		if (userSelection == JOptionPane.OK_OPTION) {
 
     			RegisterDatabase.unbind();
 
@@ -84,4 +84,58 @@ public class GUIUtils {
     	}
     	
     }
+    
+    /**
+	 * Verifies if the port number entered by the user is valid or not. 
+	 * The port number must be a non-zero positive number.
+	 * 
+	 * @param port Port number to verify.
+	 * @return True if it is a valid port number; False otherwise.
+	 */
+	public static boolean isPortNumberValid(final String port) {
+		
+		final String methodName = "isPortNumberValid";
+		GUILogger.entering(CLASS_NAME, methodName, port);
+		
+		try {
+
+			if ((port == null) || ("".equals(port.trim()))) {
+
+				GUILogger.warning(CLASS_NAME, methodName, 
+						"Port number empty");
+				
+				return false;
+
+			}
+
+			try {
+
+				final int portNumber = Integer.valueOf(port);
+				
+				if (portNumber > 0) {
+					
+					return true;
+					
+				} else {
+					
+					GUILogger.warning(CLASS_NAME, methodName, 
+							"Port number invalid: " + portNumber);
+					
+					return false;
+				}
+
+			} catch (NumberFormatException e) {
+				
+				GUILogger.warning(CLASS_NAME, methodName, 
+						"Port number invalid: " + e.getMessage());
+				
+				return false;
+			}
+
+		} finally {
+			
+			GUILogger.exiting(CLASS_NAME, methodName);
+			
+		}
+	}
 }

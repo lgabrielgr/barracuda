@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
 import suncertify.controller.BrowseDatabaseListener;
-import suncertify.controller.ExitServerListener;
 import suncertify.db.DatabaseProperties;
 import suncertify.remote.RemoteProperties;
 
@@ -142,8 +141,6 @@ public abstract class AbstractServerWindow extends JFrame {
 		setTitle(GUIMessages.SERVER_TITLE_TEXT);
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
-		addWindowListener(new ExitServerListener());
         
 		setResizable(false);
         
@@ -407,12 +404,36 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * @param enable True to enable; False otherwise.
 	 */
 	public void setEnabledPortNumberField(final boolean enable) {
-		portNumberTextField.setEnabled(false);
+		portNumberTextField.setEnabled(enable);
 	}
 	
-
 	/**
-	 * Removes the button that browses the database file.
+	 * Sets enabled or not enabled the browse database button.
+	 * 
+	 * @param enable True to enable; False, otherwise.
+	 */
+	public void setEnabledBrowseButton(final boolean enable) {
+		browseDatabase.setEnabled(enable);
+	}
+	
+	/**
+	 * Closes the frame.
+	 */
+	public void closeWindow() {
+		
+		final String methodName = "dispose";
+		GUILogger.entering(CLASS_NAME, methodName);
+		
+		setVisible(false);
+		
+		dispose();
+		
+		GUILogger.exiting(CLASS_NAME, methodName);
+		
+	}
+	
+	/**
+	 * Removes the button that browses the database file from the frame.
 	 * <br />It is called when the user only needs to specify the server IP 
 	 * address.
 	 */

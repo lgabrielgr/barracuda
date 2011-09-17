@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import suncertify.gui.AbstractServerWindow;
 import suncertify.gui.GUIConstants;
 import suncertify.gui.GUIMessages;
+import suncertify.gui.GUIUtils;
 import suncertify.remote.RegisterDatabase;
 
 /**
@@ -65,6 +66,9 @@ public class StartServerListener implements ActionListener {
 
 				disableComponentsOnStart();
 				
+				ControllerLogger.info(CLASS_NAME, methodName, 
+						"Server is running");
+				
 			}
 			
 		} catch (RemoteException e) {
@@ -88,6 +92,8 @@ public class StartServerListener implements ActionListener {
 	/**
 	 * Verifies if the database location and port number provided by the user 
 	 * are valid or not.
+	 * <br />If either the database location or the port number is not valid, 
+	 * a warning message is shown to the user.
 	 * 
 	 * @return True if the database location and port number provided by the 
 	 * user are valid; False otherwise.
@@ -104,8 +110,8 @@ public class StartServerListener implements ActionListener {
 			if (!isValidDatabasePath(databasePath)) {
 
 				JOptionPane.showMessageDialog(serverWindow,
-						"Please, enter a valid and existing database file.",
-						"Warning",
+						GUIMessages.INVALID_DATABASE_MESSAGE,
+						GUIMessages.WARNING_TEXT,
 						JOptionPane.WARNING_MESSAGE);
 
 				return false;
@@ -114,19 +120,20 @@ public class StartServerListener implements ActionListener {
 			if (!isDatabaseFileEditable(databasePath)) {
 
 				JOptionPane.showMessageDialog(serverWindow,
-						"Please, verify that the database file has the proper read and write permissions.",
-						"Warning",
+						GUIMessages.DATABASE_NOT_EDITABLE_MESSAGE, 
+						GUIMessages.WARNING_TEXT,
 						JOptionPane.WARNING_MESSAGE);
 
 				return false;
 
 			}
 
-			if (!isPortNumberValid()) {
+			if (!GUIUtils.isPortNumberValid(
+					serverWindow.getPortNumberFieldText())) {
 
 				JOptionPane.showMessageDialog(serverWindow,
-						"Please, enter a valid port number.",
-						"Warning",
+						GUIMessages.INVALID_PORT_NUMBER_MESSAGE,
+						GUIMessages.WARNING_TEXT,
 						JOptionPane.WARNING_MESSAGE);
 
 				return false;
@@ -143,51 +150,10 @@ public class StartServerListener implements ActionListener {
 	}
 	
 	/**
-	 * Verifies if the port number entered by the user is valid or not. 
-	 * Verifies if it is a non-negative number.
-	 * 
-	 * @return True if it is a valid port number; False otherwise.
-	 */
-	private boolean isPortNumberValid() {
-		
-		final String methodName = "isPortNumberValid";
-		ControllerLogger.entering(CLASS_NAME, methodName);
-		
-		try {
-
-			final String port = serverWindow.getPortNumberFieldText();
-
-			if ((port == null) || ("".equals(port.trim()))) {
-
-				return false;
-
-			}
-
-			try {
-
-				final int portNumber = Integer.valueOf(port);
-				if (portNumber > 0) {
-					return true;
-				} else {
-					return false;
-				}
-
-			} catch (NumberFormatException e) {
-				return false;
-			}
-
-		} finally {
-			
-			ControllerLogger.exiting(CLASS_NAME, methodName);
-			
-		}
-	}
-	
-	/**
-	 * Verifies if the database file has the +rw system permissions.
+	 * Verifies if the database file is readable and writable.
 	 * 
 	 * @param databasePath Database file path to verify.
-	 * @return True if the database file has the proper permissions; 
+	 * @return True if the database file has the proper permissions (+rw); 
 	 *         False, otherwise.
 	 */
 	private boolean isDatabaseFileEditable(final String databasePath) {
@@ -199,13 +165,25 @@ public class StartServerListener implements ActionListener {
 			
 			final File databaseFile = new File(databasePath);
 
-			if ((databaseFile.canRead()) && (databaseFile.canWrite())) {
+			if (!databaseFile.canRead()) {
 
-				return true;
+				ControllerLogger.warning(CLASS_NAME, methodName, 
+						"Database file " + databasePath + " is not readable");
+				
+				return false;
 
 			}
-
-			return false;
+			
+			if (!databaseFile.canWrite()) {
+				
+				ControllerLogger.warning(CLASS_NAME, methodName, 
+						"Database file " + databasePath + " is not writable");
+				
+				return false;
+				
+			}
+			
+			return true;
 		
 		} finally {
 			
@@ -230,6 +208,9 @@ public class StartServerListener implements ActionListener {
 		
 			if ((databasePath == null) || ("".equals(databasePath.trim()))) {
 
+				ControllerLogger.warning(CLASS_NAME, methodName, 
+						"Database file path empty");
+				
 				return false;
 
 			}
@@ -243,6 +224,10 @@ public class StartServerListener implements ActionListener {
 
 			} else {
 
+				ControllerLogger.warning(CLASS_NAME, methodName, 
+						"Database file path is not a file or a non-existing file: " 
+								+ databasePath);
+				
 				return false;
 
 			}
@@ -266,8 +251,9 @@ public class StartServerListener implements ActionListener {
 		serverWindow.setEnabledPrimaryServerButton(false);
 		serverWindow.setEnabledServerLocationField(false);
 		serverWindow.setEnabledPortNumberField(false);
+		serverWindow.setEnabledBrowseButton(false);
 		serverWindow.setStatusLabelText(
-				GUIMessages.SERVER_RUNNING_STATUS_TEXT);
+				GUIMessages.SERVER_RUNNING_STATUS_MESSAGE);
 		
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}
