@@ -1,7 +1,7 @@
 package suncertify.db;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Exposes the CRUD operations to perform on the database.
@@ -44,7 +44,7 @@ public class Database implements IDatabase {
 		
 		try {
 		
-			final String [] recordData = recordToStringArray(record);
+			final String [] recordData = record.toStringArray();
 			
 			recordRow = database.create(recordData);
 			
@@ -116,7 +116,7 @@ public class Database implements IDatabase {
 				
 			}
 			
-			final String [] recordData = recordToStringArray(record);
+			final String [] recordData = record.toStringArray();
 			
 			database.update(recordRow, recordData, lockCookie);
 			
@@ -181,7 +181,7 @@ public class Database implements IDatabase {
 	 * @return Record(s) found during the search. If no record is found, an 
 	 *         empty list is returned.
 	 */
-	public Set<Record> find(String name, String location) {
+	public List<Record> find(String name, String location) {
 		
 		final String methodName = "find";
 		DatabaseLogger.entering(CLASS_NAME, methodName, name, location);
@@ -195,7 +195,7 @@ public class Database implements IDatabase {
 			
 			final int [] recordRowsFound = database.find(criteria);
 			
-			final Set<Record> records = new HashSet<Record>();
+			final List<Record> records = new ArrayList<Record>();
 			
 			for (int recordRow: recordRowsFound) {
 				
@@ -220,28 +220,6 @@ public class Database implements IDatabase {
 			
 		}
 		
-	}
-
-	/**
-	 * Converts a <code>Record</code> into a String array.
-	 * 
-	 * @param record Record to convert.
-	 * @return String array representing the <code>Record</code>
-	 */
-	private String [] recordToStringArray(final Record record) {
-		
-		final String [] recordData = 
-				new String [Record.TOTAL_RECORD_FIELDS];
-		
-		recordData[Record.NAME_FIELD_INDEX] = record.getName();
-		recordData[Record.LOCATION_FIELD_INDEX] = record.getLocation();
-		recordData[Record.SIZE_FIELD_INDEX] = record.getSize();
-		recordData[Record.SMOKING_FIELD_INDEX] = record.getSmoking();
-		recordData[Record.RATE_FIELD_INDEX] = record.getRate();
-		recordData[Record.DATE_FIELD_INDEX] = record.getDate();
-		recordData[Record.OWNER_FIELD_INDEX] = record.getOwner();
-		
-		return recordData;
 	}
 	
 	/**

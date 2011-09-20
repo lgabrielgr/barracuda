@@ -2,7 +2,7 @@ package suncertify.remote;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Set;
+import java.util.List;
 
 import suncertify.db.Database;
 import suncertify.db.DuplicateKeyException;
@@ -110,7 +110,7 @@ public class RemoteDatabase extends UnicastRemoteObject implements IDatabase {
 	 *         empty list is returned.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public Set<Record> find(final String name, final String location)
+	public List<Record> find(final String name, final String location)
 			throws RemoteException {
 		
 		return database.find(name, location);

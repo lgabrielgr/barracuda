@@ -1,7 +1,7 @@
 package suncertify.db.test;
 
 
-import java.util.Set;
+import java.util.List;
 
 import junit.framework.TestCase;
 import suncertify.db.Database;
@@ -146,7 +146,7 @@ public class DatabaseTest extends TestCase {
 	
 	public void testFind() {
 		
-		Set<Record> records = database.find("Palace", null);
+		List<Record> records = database.find("Palace", null);
 		
 		assertEquals(3, records.size());
 		

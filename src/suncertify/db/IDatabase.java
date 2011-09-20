@@ -2,7 +2,7 @@ package suncertify.db;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Models the remote and local access to the database.
@@ -73,7 +73,7 @@ public interface IDatabase extends Remote {
 	 *         empty list is returned.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public Set<Record> find(String name, String location) 
+	public List<Record> find(String name, String location) 
 			throws RemoteException;
 	
 }

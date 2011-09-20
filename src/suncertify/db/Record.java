@@ -321,6 +321,27 @@ public class Record implements Serializable {
 	}
 	
 	/**
+	 * Returns an Array of String representation for this <code>Record</code>.
+	 * 
+	 * @return An Array of String representation for this <code>Record</code>.
+	 */
+	public String[] toStringArray() {
+		
+		final String [] recordData = 
+				new String [TOTAL_RECORD_FIELDS];
+		
+		recordData[Record.NAME_FIELD_INDEX] = getName();
+		recordData[Record.LOCATION_FIELD_INDEX] = getLocation();
+		recordData[Record.SIZE_FIELD_INDEX] = getSize();
+		recordData[Record.SMOKING_FIELD_INDEX] = getSmoking();
+		recordData[Record.RATE_FIELD_INDEX] = getRate();
+		recordData[Record.DATE_FIELD_INDEX] = getDate();
+		recordData[Record.OWNER_FIELD_INDEX] = getOwner();
+		
+		return recordData;
+	}
+	
+	/**
 	 * Returns a String representation of this <code>Record</code>.
 	 * 
 	 * @see Object#toString()

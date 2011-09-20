@@ -25,7 +25,8 @@ public class ServerWindow extends AbstractServerWindow {
 	private static final String CLASS_NAME = ServerWindow.class.getName();
 	
 	/**
-	 * Constructs a <code>ServerWindow</code> and displays the Server window.
+	 * Constructs a <code>ServerWindow</code> object and displays the Server 
+	 * window.
 	 */
 	public ServerWindow() {
 		
