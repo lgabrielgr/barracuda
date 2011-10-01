@@ -110,14 +110,14 @@ public abstract class AbstractServerWindow extends JFrame {
 	}
 
 	/**
-	 * Initializes the Server GUI.
+	 * Initializes the Server GUI's components.
 	 */
 	private void init() {
 		
 		final String methodName = "init";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
-		setFrameConfiguration();
+		addFrameConfiguration();
 		
         addServerConfigSection();
         
@@ -133,7 +133,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	/**
 	 * Sets the Server GUI's frame general configuration.
 	 */
-	private void setFrameConfiguration() {
+	private void addFrameConfiguration() {
 		
 		final String methodName = "setFrameConfiguration";
 		GUILogger.entering(CLASS_NAME, methodName);

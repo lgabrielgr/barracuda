@@ -12,7 +12,7 @@ import suncertify.gui.GUIUtils;
  * by clicking the Exit button or by closing the window.
  * <br />If user confirm the exit, the server is unbind.
  * 
- * @author 
+ * @author Leo Gutierrez
  */
 public class ExitServerListener 
 	extends WindowAdapter implements ActionListener {
@@ -29,21 +29,7 @@ public class ExitServerListener
 	 * @param windowEvent The window event.
 	 */
 	public void windowClosing(final WindowEvent windowEvent) {
-		
-		final String methodName = "windowClosing";
-		ControllerLogger.entering(CLASS_NAME, methodName);
-		
-		try {
-			
-			GUIUtils.exitServerWindow();
-		
-		} finally {
-			
-			ControllerLogger.exiting(CLASS_NAME, methodName);
-			
-		}
-		
-		
+		exitServerWindow();
 	}
 	
 	/**
@@ -54,8 +40,16 @@ public class ExitServerListener
 	 * @param actionEvent The action event.
 	 */
 	public void actionPerformed(final ActionEvent actionEvent) {
+		exitServerWindow();
+	}
+	
+	/**
+	 * Asks to user if want to really quit the application. If yes, it closes
+	 * the window.
+	 */
+	private void exitServerWindow() {
 		
-		final String methodName = "actionPerformed";
+		final String methodName = "exitServerWindow";
 		ControllerLogger.entering(CLASS_NAME, methodName);
 		
 		try {
@@ -67,6 +61,7 @@ public class ExitServerListener
 			ControllerLogger.exiting(CLASS_NAME, methodName);
 			
 		}
+		
 	}
 
 }

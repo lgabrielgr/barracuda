@@ -7,11 +7,6 @@ package suncertify.gui;
  * @author Leo Gutierrez
  */
 public class GUIConstants {
-
-	/**
-	 * Int representation of an exit operation.
-	 */
-	public static final int EXIT_OPERATION = 0;
 	
 	/**
 	 * Database file extension.
@@ -22,5 +17,17 @@ public class GUIConstants {
 	 * Browse button text as '...'.
 	 */
 	public static final String BROWSE_BUTTON_SIMPLE_TEXT = "...";
+	
+	/**
+	 * Default dimension height size of the scroll pane that display data
+	 * to user.
+	 */
+	public static final int SCROLLPANE_HEIGHT_SIZE = 355;
+
+	/**
+	 * Default dimension width size of the scroll pane that display data
+	 * to user.
+	 */
+	public static final int SCROLLPANE_WIDTH_SIZE = 800;
 	
 }

@@ -38,6 +38,11 @@ public class RecordTableModel extends AbstractTableModel {
 	private static final int OWNER_COLUMN = 6; 
 	
 	/**
+	 * Minimum rows to display in the table.
+	 */
+	private static final int MIN_ROWS_COUNT = 18;
+	
+	/**
 	 * Reference to the records to model in table.
 	 */
 	private List<Record> records;
@@ -69,9 +74,17 @@ public class RecordTableModel extends AbstractTableModel {
 		
 		final String methodName = "getRowCount";
 		GUILogger.entering(CLASS_NAME, methodName);
-		GUILogger.exiting(CLASS_NAME, methodName, records.size());
 		
-		return records.size();
+		int rowCount = records.size();
+		
+		if (rowCount < MIN_ROWS_COUNT) {
+			rowCount += (MIN_ROWS_COUNT - rowCount);
+		}
+		
+		GUILogger.exiting(CLASS_NAME, methodName, rowCount);
+		
+		return rowCount;
+		
 	}
 
 	/**
@@ -103,20 +116,34 @@ public class RecordTableModel extends AbstractTableModel {
 		
 		String valueAt = "";
 		
-		final Record record = records.get(rowIndex);
-		
-		if (record != null) {
-		
-			final String[] recordData = record.toStringArray();
+		if (rowIndex < records.size()) {
 			
-			valueAt = recordData[columnIndex];
-			
+			final Record record = records.get(rowIndex);
+
+			if (record != null) {
+
+				final String[] recordData = record.toStringArray();
+
+				valueAt = recordData[columnIndex];
+
+			}
+
 		}
 		
 		GUILogger.exiting(CLASS_NAME, methodName, valueAt);
 		
 		return valueAt;
 	
+	}
+
+	/**
+	 * Retrieves the column name for the specified index.
+	 * 
+	 * @param column Column index to retrieve it's name.
+	 * @return The column name.
+	 */
+	public String getColumnName(int column) {
+		return columnNames[column];
 	}
 	
 	/**
@@ -134,23 +161,23 @@ public class RecordTableModel extends AbstractTableModel {
 		
 		boolean cellEditable = false;
 		
-		if (column == OWNER_COLUMN) {
-			
+		if ( (row < records.size()) && (column == OWNER_COLUMN)) {
+
 			final Record record = records.get(row);
-			
+
 			if (record != null) {
-				
+
 				final Object cellValue = getValueAt(row, column);
-				
+
 				if ((cellValue == null) 
 						|| ("".equals(cellValue.toString().trim()))) {
-					
+
 					cellEditable = true;
-					
+
 				} 
-				
+
 			}
-			
+
 		}
 		
 		GUILogger.exiting(CLASS_NAME, methodName, cellEditable);

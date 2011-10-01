@@ -8,6 +8,12 @@ import javax.swing.JOptionPane;
 
 import suncertify.remote.RegisterDatabase;
 
+/**
+ * Contains utilities methods for the packages <code>suncertify.gui</code> and
+ * <code>suncertify.controller</code>.
+ * 
+ * @author Leo Gutierrez
+ */
 public class GUIUtils {
 
 	/**
@@ -37,6 +43,8 @@ public class GUIUtils {
     
     /**
      * Displays a dialog message to the user to exit a window.
+     * 
+     * @return An integer indicating the option selected by the user
      */
     public static int askUserToExit() {
     	
@@ -138,4 +146,5 @@ public class GUIUtils {
 			
 		}
 	}
+	
 }

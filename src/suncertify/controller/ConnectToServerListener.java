@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 
 import javax.swing.JOptionPane;
 
+import suncertify.db.IDatabase;
 import suncertify.gui.AbstractServerWindow;
 import suncertify.gui.GUIMessages;
 import suncertify.gui.GUIUtils;
@@ -72,11 +73,12 @@ public class ConnectToServerListener implements ActionListener {
 				connectToServerWindow.setStatusLabelText(
 						GUIMessages.CONNECTING_TO_SERVER_MESSAGE);
 				
-				RemoteDatabaseConnector.getConnection(hostname, 
+				final IDatabase database = 
+						RemoteDatabaseConnector.getConnection(hostname, 
 						Integer.valueOf(port));
 				
 				ControllerLogger.info(CLASS_NAME, methodName, 
-						"Connected to server");
+						"Connected to server (" + hostname + ")");
 				
 				// TODO: Close this window and starts main appliaction
 				connectToServerWindow.closeWindow();
