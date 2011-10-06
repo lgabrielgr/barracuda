@@ -544,8 +544,9 @@ public class Data implements DB {
 
 	/**
 	 * Returns an array of record numbers that match the specified criteria. 
-	 * A null value in criteria[n] matches any field value. A non-null value in criteria[n] 
-	 * matches any field value that exactly matches with criteria[n]. 
+	 * A null or empty value in criteria[n] matches any field value. A non-null 
+	 * value in criteria[n] matches any field value that begins with criteria[n].
+	 * (For example, "Fred" matches "Fred" or "Freddy"). 
 	 * <br />The criteria content must be as the follow order:
 	 * <br />0 - Hotel name.
      * <br />1 - Location.
@@ -728,10 +729,15 @@ public class Data implements DB {
 		
 		boolean match = false;
 		
-		if (recordFieldCriteria == null) {
+		if ((recordFieldCriteria == null) || 
+				("".equals(recordFieldCriteria.trim()))) {
+			
 			match = true;
+			
 		} else {
+			
 			match = recordFieldsEqual(recordFieldSource, recordFieldCriteria);
+			
 		}
 		
 		DatabaseLogger.exiting(CLASS_NAME, methodName, match);
@@ -912,7 +918,8 @@ public class Data implements DB {
 			fieldToCompare = "";
 		}
 		
-		final boolean fieldsEqual = fieldSource.equals(fieldToCompare);
+		final boolean fieldsEqual = 
+				fieldSource.trim().startsWith(fieldToCompare.trim());
 		
 		DatabaseLogger.exiting(CLASS_NAME, methodName, fieldsEqual);
 		

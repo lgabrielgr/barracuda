@@ -10,7 +10,8 @@ import suncertify.gui.GUIUtils;
 /**
  * Provides the functionality when user wants to quit the Server window whether
  * by clicking the Exit button or by closing the window.
- * <br />If user confirm the exit, the server is unbind.
+ * <br />If user confirm the exit, the server is unbind and the window is 
+ * closed.
  * 
  * @author Leo Gutierrez
  */

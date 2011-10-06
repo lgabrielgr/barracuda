@@ -58,52 +58,77 @@ public class ConnectToServerListener implements ActionListener {
 		
 		final String methodName = "actionPerformed";
 		ControllerLogger.entering(CLASS_NAME, methodName);
-				
-		try {
 
+		if (connectToServerWindow == null) {
+
+			ControllerLogger.severe(CLASS_NAME, methodName, 
+					"User clicked on Connect To Server button but a " 
+							+ "reference to the connect to server frame " 
+							+ "does not exist");
+
+			GUIUtils.showErrorMessage(null, 
+					GUIMessages.UNABLE_TO_CONNECT_MESSAGE);
+
+			return;
+
+		}
+
+		connectToServer(); 
+
+		ControllerLogger.exiting(CLASS_NAME, methodName);
+				
+	}
+
+	/**
+	 * Starts a connection with the server. 
+	 * 
+	 * @throws RemoteException If any networking problem occurs.
+	 */
+	private void connectToServer() {
+		
+		final String methodName = "connectToServer";
+		ControllerLogger.entering(CLASS_NAME, methodName);
+		
+		try {
+			
 			final String hostname = 
 					connectToServerWindow.getServerLocationFieldText();
 			final String port = 
 					connectToServerWindow.getPortNumberFieldText();
-			
+
 			if (isValidUserInput(hostname, port)) {
-				
+
 				updatePropertiesWithUserInput(hostname, port);
 
 				connectToServerWindow.setStatusLabelText(
 						GUIMessages.CONNECTING_TO_SERVER_MESSAGE);
-				
+
 				final IDatabase database = 
 						RemoteDatabaseConnector.getConnection(hostname, 
-						Integer.valueOf(port));
-				
+								Integer.valueOf(port));
+
 				ControllerLogger.info(CLASS_NAME, methodName, 
 						"Connected to server (" + hostname + ")");
-				
+
 				// TODO: Close this window and starts main appliaction
 				connectToServerWindow.closeWindow();
-				
-			} 
+
+			}
 
 		} catch (RemoteException e) {
-			
+
 			ControllerLogger.severe(CLASS_NAME, methodName, 
 					"Can't connect to server: " + e.getMessage());
-			
-			JOptionPane.showMessageDialog(connectToServerWindow,
-                    GUIMessages.UNABLE_TO_CONNECT_MESSAGE,
-                    GUIMessages.ERROR_TEXT,
-                    JOptionPane.ERROR_MESSAGE);
-			
+
+			GUIUtils.showErrorMessage(connectToServerWindow, 
+					GUIMessages.UNABLE_TO_CONNECT_MESSAGE);
+
 			connectToServerWindow.setStatusLabelText(
-					GUIMessages.INITIAL_CONNECT_STATUS_MESSAGE);
-			
+					GUIMessages.ERROR_CONNECT_STATUS_MESSAGE);
+
 		} finally {
-
 			ControllerLogger.exiting(CLASS_NAME, methodName);
-
 		}
-				
 	}
 
 	/**
@@ -142,22 +167,18 @@ public class ConnectToServerListener implements ActionListener {
 			
 			if (!isValidHostname(hostname)) {
 
-				JOptionPane.showMessageDialog(connectToServerWindow,
-						GUIMessages.INVALID_HOSTNAME_MESSAGE,
-						GUIMessages.WARNING_TEXT,
-						JOptionPane.WARNING_MESSAGE);
-
+				GUIUtils.showWarningMessage(connectToServerWindow, 
+						GUIMessages.INVALID_HOSTNAME_MESSAGE);
+				
 				return false;
 
 			}
 
 			if (!GUIUtils.isPortNumberValid(port)) {
 
-				JOptionPane.showMessageDialog(connectToServerWindow,
-						GUIMessages.INVALID_PORT_NUMBER_MESSAGE,
-						GUIMessages.WARNING_TEXT,
-						JOptionPane.WARNING_MESSAGE);
-
+				GUIUtils.showWarningMessage(connectToServerWindow, 
+						GUIMessages.INVALID_PORT_NUMBER_MESSAGE);
+				
 				return false;
 
 			}

@@ -7,6 +7,11 @@ import javax.swing.JOptionPane;
 
 import suncertify.gui.GUIUtils;
 
+/**
+ * Provides the functionality when user wants to quit the Main window.
+ * 
+ * @author Leo Gutierrez
+ */
 public class ExitMainWindow extends WindowAdapter {
 
 	/**

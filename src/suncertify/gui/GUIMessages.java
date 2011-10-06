@@ -102,6 +102,13 @@ public class GUIMessages {
 			"Please, enter the required information and connect to server";
 	
 	/**
+	 * Text to display when can't connect to server.
+	 */
+	public static final String ERROR_CONNECT_STATUS_MESSAGE = 
+			"Unable to connect to server, please verify the information and " 
+					+ "try again.";
+	
+	/**
 	 * Text to display in the filtering when user selects the database 
 	 * file.
 	 */
@@ -112,13 +119,34 @@ public class GUIMessages {
 	 * Text to display to user when it is unable to start the server.
 	 */
 	public static final String UNABLE_TO_START_SERVER_MESSAGE = 
-			"Unable to start the server, please see logs for details";
+			"Unable to start the server, please see logs for details.";
 	
 	/**
 	 * Text to display to user when it is unable to connect to user.
 	 */
 	public static final String UNABLE_TO_CONNECT_MESSAGE = 
 			"Connection refused, please see logs for details.";
+	
+	/**
+	 * Text to display to user when it is unable to perform the search action.
+	 */
+	public static final String UNABLE_TO_SEARCH_MESSAGE = 
+			"Unable to perform the search action, please see logs for details.";
+	
+	/**
+	 * Text to display to user when it is unable to contact the database 
+	 * server.
+	 */
+	public static final String CANT_ACCESS_TO_DB_MESSAGE= 
+			"Unable to connect to the database server, please see logs for " +
+			"details.";
+	
+	/**
+	 * Text to display to user in the status when it is unable to contact
+	 * the database server.
+	 */
+	public static final String CANT_CONTACT_DB_MESSAGE = 
+			"Unable to connect to the database server.";
 	
 	/**
 	 * Text to display to user when it is attemping to connect to server.
@@ -147,13 +175,6 @@ public class GUIMessages {
 	public static final String INITIAL_STARTUP_ERROR_MESSAGE = 
 			"Unable to load all records ot display as the initial startup, " +
 			"please see log for details";
-	
-	/**
-	 * Text to display to user when the database is null and can't search for
-	 * records.
-	 */
-	public static final String NULL_DATABASE_MESSAGE = 
-			"Database object is not valid (see logs for details). 0 records found.";
 	
 	/**
 	 * Text to display to user the number of records found during the search.

@@ -1,5 +1,6 @@
 package suncertify.gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -147,4 +148,33 @@ public class GUIUtils {
 		}
 	}
 	
+	/**
+	 * Shows an error message dialog to the user over the component specified 
+	 * and displaying the specified error message.
+	 * 
+	 * @param component Component to which display the message over.
+	 * @param errorMessage Error message to print.
+	 */
+	public static void showErrorMessage(final Component component, 
+			final String errorMessage) {
+				
+		JOptionPane.showMessageDialog(component, errorMessage,
+				GUIMessages.ERROR_TEXT, JOptionPane.ERROR_MESSAGE);
+
+	}
+	
+	/**
+	 * Shows a warning message dialog to the user over the component specified 
+	 * and displaying the specified warning message.
+	 * 
+	 * @param component Component to which display the message over.
+	 * @param warningMessage Warning message to print.
+	 */
+	public static void showWarningMessage(final Component component, 
+			final String warningMessage) {
+				
+		JOptionPane.showMessageDialog(component, warningMessage,
+				GUIMessages.WARNING_TEXT, JOptionPane.WARNING_MESSAGE);
+
+	}
 }

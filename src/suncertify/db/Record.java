@@ -59,7 +59,7 @@ public class Record implements Serializable {
 	/**
 	 * The name of the hotel this vacancy record relates to.
 	 */
-	private String name;
+	private String hotelName;
 	
 	/**
 	 * The location of this hotel.
@@ -110,26 +110,26 @@ public class Record implements Serializable {
 	 * 
 	 * @return The record hotel name.
 	 */
-	public String getName() {
-		return name;
+	public String getHotelName() {
+		return hotelName;
 	}
 
 	/**
 	 * Sets the record hotel name.
 	 * 
-	 * @param name The record hotel name.
+	 * @param hotalName The record hotel name.
 	 * @throws IllegalArgumentException If the record hotel name is not valid 
 	 *                                  (null or empty).
 	 */
-	public void setName(String name) throws IllegalArgumentException {
+	public void setHotelName(String hotalName) throws IllegalArgumentException {
 		
 		final RecordValidator validator = new RecordValidator();
 		
-		if (!validator.isValidHotelName(name)) {
-			throw new IllegalArgumentException("Hotel name not valid: " + name);
+		if (!validator.isValidHotelName(hotalName)) {
+			throw new IllegalArgumentException("Hotel name not valid: " + hotalName);
 		}
 		
-		this.name = name;
+		this.hotelName = hotalName;
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class Record implements Serializable {
 		
 		if (!validator.isValidLocation(location)) {
 			throw new IllegalArgumentException("Hotel location not " +
-					"valid: " + name);
+					"valid: " + hotelName);
 		}
 		
 		this.location = location;
@@ -330,7 +330,7 @@ public class Record implements Serializable {
 		final String [] recordData = 
 				new String [TOTAL_RECORD_FIELDS];
 		
-		recordData[Record.NAME_FIELD_INDEX] = getName();
+		recordData[Record.NAME_FIELD_INDEX] = getHotelName();
 		recordData[Record.LOCATION_FIELD_INDEX] = getLocation();
 		recordData[Record.SIZE_FIELD_INDEX] = getSize();
 		recordData[Record.SMOKING_FIELD_INDEX] = getSmoking();
@@ -352,7 +352,7 @@ public class Record implements Serializable {
 		
 		final StringBuilder recordString = new StringBuilder();
 		
-		recordString.append(getName()).append("/");
+		recordString.append(getHotelName()).append("/");
 		recordString.append(getLocation()).append("/");
 		recordString.append(getSize()).append("/");
 		recordString.append(getSmoking()).append("/");
@@ -372,10 +372,10 @@ public class Record implements Serializable {
 	 */
 	public int hashCode() {
 		
-		if (getName() == null) {
+		if (getHotelName() == null) {
 			return 0;
 		} else {
-			return getName().hashCode();
+			return getHotelName().hashCode();
 		}
 		
 	}
@@ -396,7 +396,7 @@ public class Record implements Serializable {
 		
 		final Record recordToCompare = (Record)object;
 		
-		if (!recordToCompare.getName().equals(getName())) {
+		if (!recordToCompare.getHotelName().equals(getHotelName())) {
 			return false;
 		}
 		

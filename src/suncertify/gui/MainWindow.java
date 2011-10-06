@@ -25,6 +25,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.table.AbstractTableModel;
 
 import suncertify.controller.ExitMainWindow;
+import suncertify.controller.SearchRecordsListener;
 import suncertify.db.Database;
 import suncertify.db.IDatabase;
 import suncertify.db.Record;
@@ -181,6 +182,9 @@ public class MainWindow extends JFrame {
 		final String methodName = "addSearchSection";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
+		final SearchRecordsListener searchRecordListener = 
+				new SearchRecordsListener(this);
+		
 		final GridBagLayout gridbag = new GridBagLayout();
 		final GridBagConstraints constraints = new GridBagConstraints();
 		
@@ -198,6 +202,7 @@ public class MainWindow extends JFrame {
 		constraints.gridwidth = GridBagConstraints.REMAINDER;
 		gridbag.setConstraints(nameField, constraints);
 		searchPanel.add(nameField);
+		nameField.addActionListener(searchRecordListener);
 		
 		constraints.weightx = 0.0;
 		
@@ -210,8 +215,10 @@ public class MainWindow extends JFrame {
 		constraints.gridwidth = GridBagConstraints.RELATIVE;
 		gridbag.setConstraints(locationField, constraints);
 		searchPanel.add(locationField);
+		locationField.addActionListener(searchRecordListener);
 		
 		JButton searchButton = new JButton(GUIMessages.SEARCH_BUTTON_NAME);
+		searchButton.addActionListener(searchRecordListener);
 		
 		constraints.gridwidth = GridBagConstraints.REMAINDER;
 		gridbag.setConstraints(searchButton, constraints);
@@ -266,7 +273,7 @@ public class MainWindow extends JFrame {
 				GUILogger.warning(CLASS_NAME, methodName, 
 						"Database object is null");
 				
-				setStatusLabelText(GUIMessages.NULL_DATABASE_MESSAGE);
+				setStatusLabelText(GUIMessages.CANT_CONTACT_DB_MESSAGE);
 				
 			} else {
 			
@@ -337,6 +344,7 @@ public class MainWindow extends JFrame {
 	 */
 	public void addDataToTableModel(final List<Record> records) {
 		tableModel = new RecordTableModel(records);
+		mainTable.setModel(tableModel);
 	}
 	
 	/**
@@ -346,6 +354,51 @@ public class MainWindow extends JFrame {
 	 */
 	public void setStatusLabelText(final String text) {
 		statusLabel.setText(text);
+	}
+	
+	/**
+	 * Retrieves the name field text specified by the user.
+	 * 
+	 * @return The name field text specified by the user.
+	 */
+	public String getHotelnameFieldText() {
+		return nameField.getText();
+	}
+	
+	/**
+	 * Sets the name field text.
+	 * 
+	 * @param text The name field text to set.
+	 */
+	public void setHotelnameFieldText(final String text) {
+		nameField.setText(text);
+	}
+	
+	/**
+	 * Retrieves the location field text specified by the user.
+	 * 
+	 * @return The location field text specified by the user.
+	 */
+	public String getLocationFieldText() {
+		return locationField.getText();
+	}
+	
+	/**
+	 * Sets the location field text.
+	 * 
+	 * @param text The location field text.
+	 */
+	public void setLocationFieldText(final String text) {
+		locationField.setText(text);
+	}
+	
+	/**
+	 * Retrieves the database to work with.
+	 * 
+	 * @return The database object.
+	 */
+	public IDatabase getDatabase() {
+		return database;
 	}
 	
 	public static void main(String [] args) {

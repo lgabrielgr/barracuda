@@ -48,7 +48,7 @@ public class DatabaseTest extends TestCase {
 	public void testCreate() {
 		
 		final Record record = new Record();
-		record.setName("Riu");
+		record.setHotelName("Riu");
 		record.setLocation("Mazatlan");
 		record.setSize("2");
 		record.setSmoking("Y");

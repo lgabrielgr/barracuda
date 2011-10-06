@@ -10,7 +10,7 @@ public class RecordValidatorTest extends TestCase {
 		try {
 			
 			final Record record = new Record();
-			record.setName("Motel Perron");
+			record.setHotelName("Motel Perron");
 			record.setLocation("Mazatlan");
 			record.setDate("2011/08/24");
 			record.setSize("3");
@@ -30,8 +30,8 @@ public class RecordValidatorTest extends TestCase {
 		try {
 			
 			final Record record = new Record();
-			record.setName("");
-			record.setName(null);
+			record.setHotelName("");
+			record.setHotelName(null);
 			
 			fail("Can set a invalid hotel name");
 			

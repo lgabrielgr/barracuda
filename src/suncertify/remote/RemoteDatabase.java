@@ -96,15 +96,18 @@ public class RemoteDatabase extends UnicastRemoteObject implements IDatabase {
 	}
 
 	/**
-	 * Locates and retrieves record(s) in the database that exactly match with
+	 * Locates and retrieves record(s) in the database that start with
 	 * the given name and location values. 
-	 * <br />The values can be null:
-	 * <br />- If name is null, all name values in database will match.
-	 * <br />- If location is null, all location values in database will match.
-	 * <br />- If both are null, all records are retrieved.
+	 * <br />The values can be null or empty:
+	 * <br />- If name is null or empty, all name values in database will 
+	 * match.
+	 * <br />- If location is null or empty, all location values in database 
+	 * will match.
+	 * <br />- If both are null or empty, all records are retrieved.
 	 * 
-	 * @param name Name to search. Can be null (will match any name value).
-	 * @param location Location to search. Can be null (will match any 
+	 * @param name Name to search. Can be null or empty (will match any name 
+	 *             value).
+	 * @param location Location to search. Can be null or empty (will match any 
 	 *                 location value).
 	 * @return Record(s) found during the search. If no record is found, an 
 	 *         empty list is returned.
