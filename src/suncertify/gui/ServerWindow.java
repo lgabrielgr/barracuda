@@ -1,8 +1,5 @@
 package suncertify.gui;
 
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 import suncertify.controller.ExitServerListener;
 import suncertify.controller.StartServerListener;
 
@@ -51,17 +48,23 @@ public class ServerWindow extends AbstractServerWindow {
 		setStatusLabelText(GUIMessages.INITIAL_SERVER_STATUS_MESSAGE);
 		
 		setPrimaryServerButtonText(GUIMessages.START_SERVER_TEXT);
-		addListenerToPrimaryServerButton(new StartServerListener(this));
+		addListenerToPrimaryServerButton();
+		
+		final ExitServerListener exitServerListener = new ExitServerListener();
 		
 		setSecondaryServerButtonText(GUIMessages.EXIT_TEXT);
-		addListenerToSecondaryServerButton(new ExitServerListener());
+		addListenerToSecondaryServerButton(exitServerListener);
 		
-		addWindowListener(new ExitServerListener());
+		addWindowListener(exitServerListener);
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
 		
 	}
 
+	protected void addListenerToPrimaryServerButton() {
+		addListenerToPrimaryServerButton(new StartServerListener(this));
+	}
+	
 	/**
 	 * Displays the server window.
 	 */
@@ -78,22 +81,4 @@ public class ServerWindow extends AbstractServerWindow {
         
 	}
 	
-	public static void main(String [] args) {
-
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (UnsupportedLookAndFeelException uex) {
-			System.out.println("Unsupported look and feel specified");
-		} catch (ClassNotFoundException cex) {
-			System.out.println("Look and feel could not be located");
-		} catch (InstantiationException iex) {
-			System.out.println("Look and feel could not be instanciated");
-		} catch (IllegalAccessException iaex) {
-			System.out.println("Look and feel cannot be used on this platform");
-		}
-
-		new ServerWindow();
-//		ServerWindow.getInstance().displayWindow();
-		
-	}
 }

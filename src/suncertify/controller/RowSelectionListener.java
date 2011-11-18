@@ -24,17 +24,17 @@ public class RowSelectionListener implements ListSelectionListener {
 			RowSelectionListener.class.getName();
 	
 	/**
-	 * Reference to the main window frame.
+	 * Reference to the stand alone window frame.
 	 */
-	private StandAloneWindow mainWindow = null;
+	private StandAloneWindow standAloneWindow = null;
 	
 	/**
 	 * Constructs a <code>RowSelectionListener</code> object.
 	 * 
-	 * @param mainWindow Reference to the main window frame.
+	 * @param standAloneWindow Reference to the stand alone window frame.
 	 */
-	public RowSelectionListener(final StandAloneWindow mainWindow) {
-		this.mainWindow = mainWindow;
+	public RowSelectionListener(final StandAloneWindow standAloneWindow) {
+		this.standAloneWindow = standAloneWindow;
 	}
 	
 	/**
@@ -54,25 +54,25 @@ public class RowSelectionListener implements ListSelectionListener {
 		// Execute the functionality whenever the selection has finalized.
 		if (!event.getValueIsAdjusting()) {
 
-			if (mainWindow == null) {
+			if (standAloneWindow == null) {
 
 				ControllerLogger.warning(CLASS_NAME, methodName, 
 						"User has selected a main table's row but a reference " +
-						"to the main window does not exist");
+						"to the stand alone window does not exist");
 
 				return;
 			}
 
-			final JTable recordTable = mainWindow.getRecordTable();
+			final JTable recordTable = standAloneWindow.getRecordTable();
 
 			final String ownerValue = 
 					(String) recordTable.getValueAt(recordTable.getSelectedRow(), 
 					Record.OWNER_FIELD_INDEX);
 			
 			if ((ownerValue == null) || ("".equals(ownerValue.trim()))) {
-				mainWindow.enableBookRoomButton(true);
+				standAloneWindow.enableBookRoomButton(true);
 			} else {
-				mainWindow.enableBookRoomButton(false);
+				standAloneWindow.enableBookRoomButton(false);
 			}
 
 		}

@@ -16,9 +16,15 @@ public class GUIMessages {
 	public static final String SERVER_TITLE_TEXT = "Server";
 	
 	/**
-	 * Text to display as the Client window title.
+	 * Text to display as the Client (StandAlone) window title.
 	 */
 	public static final String CLIENT_TITLE_TEXT =  "Client";
+	
+	/**
+	 * Text to display as the Connect to Server window title.
+	 */
+	public static final String CONNECT_TO_SERVER_TITLE_TEXT = 
+			"Connect to Server";
 	
 	/**
 	 * Text to display in the primary button to start the server.

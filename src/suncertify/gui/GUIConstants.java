@@ -30,4 +30,14 @@ public class GUIConstants {
 	 */
 	public static final int SCROLLPANE_WIDTH_SIZE = 800;
 	
+	/**
+	 * Application server mode initialization parameter.
+	 */
+	public static final String SERVER_MODE_PARAMETER = "server"; 
+	
+	/**
+	 * Application stand alone mode initialization parameter.
+	 */
+	public static final String STAND_ALONE_MODE_PARAMETER = "alone";
+	
 }

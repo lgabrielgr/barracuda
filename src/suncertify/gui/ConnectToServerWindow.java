@@ -1,8 +1,5 @@
 package suncertify.gui;
 
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 import suncertify.controller.ConnectToServerListener;
 import suncertify.controller.ExitConnectToServerListener;
 
@@ -42,6 +39,8 @@ public class ConnectToServerWindow extends AbstractServerWindow {
 		final String methodName = "addProperTextOnComponents";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
+		setTitle(GUIMessages.CONNECT_TO_SERVER_TITLE_TEXT);
+		
 		setServerLocationLabelText(GUIMessages.HOSTNAME_LABEL_TEXT);
 
 		setServerLocationFieldText(readRMIHost());
@@ -80,22 +79,4 @@ public class ConnectToServerWindow extends AbstractServerWindow {
         
 	}
 	
-	public static void main(String [] args) {
-
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (UnsupportedLookAndFeelException uex) {
-			System.out.println("Unsupported look and feel specified");
-		} catch (ClassNotFoundException cex) {
-			System.out.println("Look and feel could not be located");
-		} catch (InstantiationException iex) {
-			System.out.println("Look and feel could not be instanciated");
-		} catch (IllegalAccessException iaex) {
-			System.out.println("Look and feel cannot be used on this platform");
-		}
-
-		new ConnectToServerWindow();
-//		ServerWindow.getInstance().displayWindow();
-		
-	}
 }

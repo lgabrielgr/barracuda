@@ -20,15 +20,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.BevelBorder;
 
-import suncertify.controller.ExitMainWindow;
+import suncertify.controller.ExitStandAloneWindow;
 import suncertify.controller.RowSelectionListener;
 import suncertify.controller.SearchRecordsListener;
 import suncertify.controller.BookRoomListener;
-import suncertify.db.Database;
 import suncertify.db.IDatabase;
 import suncertify.db.Record;
 
@@ -327,7 +324,7 @@ public class StandAloneWindow extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
-		addWindowListener(new ExitMainWindow());
+		addWindowListener(new ExitStandAloneWindow());
 		
 		setResizable(false);
 		
@@ -476,27 +473,6 @@ public class StandAloneWindow extends JFrame {
 	 */
 	public void enableBookRoomButton(final boolean enable) {
 		bookRoomButton.setEnabled(enable);
-	}
-	
-	public static void main(String [] args) {
-
-		try {
-			
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			
-		} catch (UnsupportedLookAndFeelException uex) {
-			System.out.println("Unsupported look and feel specified");
-		} catch (ClassNotFoundException cex) {
-			System.out.println("Look and feel could not be located");
-		} catch (InstantiationException iex) {
-			System.out.println("Look and feel could not be instanciated");
-		} catch (IllegalAccessException iaex) {
-			System.out.println("Look and feel cannot be used on this platform");
-		}
-
-		new StandAloneWindow(new Database());
-//		ServerWindow.getInstance().displayWindow();
-		
 	}
 	
 }

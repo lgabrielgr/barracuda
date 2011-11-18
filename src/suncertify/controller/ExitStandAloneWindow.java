@@ -12,12 +12,12 @@ import suncertify.gui.GUIUtils;
  * 
  * @author Leo Gutierrez
  */
-public class ExitMainWindow extends WindowAdapter {
+public class ExitStandAloneWindow extends WindowAdapter {
 
 	/**
 	 * Class name.
 	 */
-	static final private String CLASS_NAME = ExitMainWindow.class.getName();
+	static final private String CLASS_NAME = ExitStandAloneWindow.class.getName();
 	
 	/**
 	 * Invoked when a window is in the process of being closed.

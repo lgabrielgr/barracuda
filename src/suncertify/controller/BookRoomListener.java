@@ -28,17 +28,17 @@ public class BookRoomListener implements ActionListener {
 	private static final String CLASS_NAME = BookRoomListener.class.getName();
 	
 	/**
-	 * Reference to the main window frame.
+	 * Reference to the stand alone window frame.
 	 */
-	private StandAloneWindow mainWindow = null;
+	private StandAloneWindow standAloneWindow = null;
 	
 	/**
 	 * Constructs a <code>BookRoomListener</object> object.
 	 * 
-	 * @param mainWindow Reference to the main window frame.
+	 * @param standAloneWindow Reference to the stand alone window frame.
 	 */
-	public BookRoomListener(final StandAloneWindow mainWindow) {
-		this.mainWindow = mainWindow;
+	public BookRoomListener(final StandAloneWindow standAloneWindow) {
+		this.standAloneWindow = standAloneWindow;
 	}
 	
 	/**
@@ -53,12 +53,12 @@ public class BookRoomListener implements ActionListener {
 		
 		try {
 		
-			if ((mainWindow == null) 
-					|| (mainWindow.getDatabase() == null)) {
+			if ((standAloneWindow == null) 
+					|| (standAloneWindow.getDatabase() == null)) {
 
 				ControllerLogger.severe(CLASS_NAME, methodName, 
-						"The user booked a room, but a reference to the main " +
-						"window or database does not exist");
+						"The user booked a room, but a reference to the stand " +
+						"alone window or database does not exist");
 
 				GUIUtils.showErrorMessageDialog(null, 
 						GUIMessages.BOOK_ROOM_FAILED_MESSAGE);
@@ -88,7 +88,7 @@ public class BookRoomListener implements ActionListener {
 	 * Books a room with the specified Owner Id value. A message is displayed 
 	 * to the user indicating if the room was booked successfully or not.
 	 * <br/ >The <code>Record</code> object is extracted from the selected row 
-	 * by the user from the main window's records table.
+	 * by the user from the stand alone window's records table.
 	 * 
 	 * @param ownerId Owner Id value to use to book room.
 	 */
@@ -97,12 +97,12 @@ public class BookRoomListener implements ActionListener {
 		final String methodName = "bookRoom";
 		ControllerLogger.entering(CLASS_NAME, methodName, ownerId);
 		
-		final JTable recordTable = mainWindow.getRecordTable();
+		final JTable recordTable = standAloneWindow.getRecordTable();
 
 		final int selectedRow = recordTable.getSelectedRow();
 		
 		final Record recordToUpdate = 
-				mainWindow.getRecordFromTable(selectedRow);
+				standAloneWindow.getRecordFromTable(selectedRow);
 
 		if (recordToUpdate == null) {
 
@@ -122,7 +122,7 @@ public class BookRoomListener implements ActionListener {
 
 			if (updateDatabase(recordToUpdate)) {
 				
-				mainWindow.getRecordTable().setValueAt(ownerId, selectedRow, 
+				standAloneWindow.getRecordTable().setValueAt(ownerId, selectedRow, 
 						Record.OWNER_FIELD_INDEX);
 				
 				final StringBuilder statusMessage = new StringBuilder();
@@ -130,7 +130,7 @@ public class BookRoomListener implements ActionListener {
 				statusMessage.append(recordToUpdate.getHotelName()).append(", ");
 				statusMessage.append(recordToUpdate.getLocation());
 				
-				mainWindow.setStatusLabelText(statusMessage.toString());
+				standAloneWindow.setStatusLabelText(statusMessage.toString());
 				
 				recordTable.getSelectionModel().setSelectionInterval(selectedRow, 
 						selectedRow);
@@ -142,7 +142,7 @@ public class BookRoomListener implements ActionListener {
 			ControllerLogger.warning(CLASS_NAME, methodName, 
 					"Invalid owner id value: " + ownerId);
 			
-			GUIUtils.showWarningMessage(mainWindow, 
+			GUIUtils.showWarningMessage(standAloneWindow, 
 					GUIMessages.INVALID_VALUE_TO_SET_MESSAGE);
 			
 		}
@@ -166,7 +166,7 @@ public class BookRoomListener implements ActionListener {
 		
 		boolean recordUpdated = true;
 		
-		final IDatabase database = mainWindow.getDatabase();
+		final IDatabase database = standAloneWindow.getDatabase();
 		
 		try {
 
@@ -207,9 +207,9 @@ public class BookRoomListener implements ActionListener {
 	 */
 	private void displayError(final String errorMessage) {
 		
-		mainWindow.setStatusLabelText(errorMessage);
+		standAloneWindow.setStatusLabelText(errorMessage);
 		
-		GUIUtils.showErrorMessageDialog(mainWindow, errorMessage);
+		GUIUtils.showErrorMessageDialog(standAloneWindow, errorMessage);
 		
 	}
 
@@ -222,7 +222,7 @@ public class BookRoomListener implements ActionListener {
 	 */
 	private String askOwnerIdToUser() {
 		
-		return JOptionPane.showInputDialog(mainWindow, 
+		return JOptionPane.showInputDialog(standAloneWindow, 
 				GUIMessages.ENTER_OWNER_ID_MESSAGE, 
 				GUIMessages.BOOK_ROOM_TITLE, JOptionPane.PLAIN_MESSAGE);
 		

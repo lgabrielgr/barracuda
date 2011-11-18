@@ -27,17 +27,17 @@ public class SearchRecordsListener implements ActionListener {
 			SearchRecordsListener.class.getName();
 	
 	/**
-	 * Reference to the main window frame.
+	 * Reference to the stand alone window frame.
 	 */
-	private StandAloneWindow mainWindow = null;
+	private StandAloneWindow standAloneWindow = null;
 	
 	/**
 	 * Constructs a <code>SearchRecordsListener</code> object.
 	 * 
-	 * @param mainWindow Reference of the main window frame.
+	 * @param standAloneWindow Reference of the stand alone window frame.
 	 */
-	public SearchRecordsListener(final StandAloneWindow mainWindow) {
-		this.mainWindow = mainWindow;
+	public SearchRecordsListener(final StandAloneWindow standAloneWindow) {
+		this.standAloneWindow = standAloneWindow;
 	}
 	
 	/**
@@ -52,11 +52,11 @@ public class SearchRecordsListener implements ActionListener {
 		
 		try {
 			
-			if (mainWindow == null) {
+			if (standAloneWindow == null) {
 
 				ControllerLogger.severe(CLASS_NAME, methodName, 
 						"User clicked on Search button but a reference to the " 
-								+ "Main window does not exist");
+								+ "stand alone window does not exist");
 
 				GUIUtils.showErrorMessageDialog(null, 
 						GUIMessages.UNABLE_TO_SEARCH_MESSAGE);
@@ -64,7 +64,7 @@ public class SearchRecordsListener implements ActionListener {
 				return;
 			}
 
-			final IDatabase database = mainWindow.getDatabase();
+			final IDatabase database = standAloneWindow.getDatabase();
 			if (database == null) {
 
 				ControllerLogger.severe(CLASS_NAME, methodName, 
@@ -78,7 +78,7 @@ public class SearchRecordsListener implements ActionListener {
 			}
 
 			final List<Record> records = searchRecords(database);
-			mainWindow.addDataToTableModel(records);
+			standAloneWindow.addDataToTableModel(records);
 
 		} finally {
 			ControllerLogger.exiting(CLASS_NAME, methodName);
@@ -125,7 +125,7 @@ public class SearchRecordsListener implements ActionListener {
 			ControllerLogger.info(CLASS_NAME, methodName, 
 					"Records found: " + records.size());
 			
-			mainWindow.setStatusLabelText(records.size() 
+			standAloneWindow.setStatusLabelText(records.size() 
 					+ GUIMessages.RECORDS_FOUND_MESSAGE);
 			
 		} catch (RemoteException e) {
@@ -136,7 +136,7 @@ public class SearchRecordsListener implements ActionListener {
 			GUIUtils.showErrorMessageDialog(null, 
 					GUIMessages.CANT_ACCESS_TO_DB_MESSAGE);
 			
-			mainWindow.setStatusLabelText(GUIMessages.CANT_CONTACT_DB_MESSAGE);
+			standAloneWindow.setStatusLabelText(GUIMessages.CANT_CONTACT_DB_MESSAGE);
 			
 			records = new ArrayList<Record>();
 			
@@ -204,7 +204,7 @@ public class SearchRecordsListener implements ActionListener {
 		
 		try {
 			
-			final IDatabase database = mainWindow.getDatabase();
+			final IDatabase database = standAloneWindow.getDatabase();
 			return database.find(null, null);
 			
 		} finally {
@@ -277,8 +277,8 @@ public class SearchRecordsListener implements ActionListener {
 		
 		final String[] userInputData = new String[2];
 		
-		String hotelName = mainWindow.getHotelnameFieldText();
-		String location = mainWindow.getLocationFieldText();
+		String hotelName = standAloneWindow.getHotelnameFieldText();
+		String location = standAloneWindow.getLocationFieldText();
 		
 		if (hotelName != null) {
 			userInputData[0] = hotelName.trim();
