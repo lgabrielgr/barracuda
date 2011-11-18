@@ -229,7 +229,8 @@ public class RecordValidator {
 	
 	/**
 	 * Validates a record owner value. It is considered invalid if the value
-	 * is null or not a number (empty string is valid).
+	 * is null, not a number (empty string is valid) or is not in the range
+	 * between 1 and 99999999.
 	 * 
 	 * @param owner Owner value to validate.
 	 * @return True is the record owner value is valid; otherwise, false.
@@ -249,7 +250,11 @@ public class RecordValidator {
 			
 			try {
 				
-				Long.parseLong(owner);
+				final long ownerId = Long.parseLong(owner);
+				
+				if ((ownerId <= 0) || (ownerId > 99999999)) {
+					validOwner = false;
+				}
 			
 			} catch (NumberFormatException e) {
 				validOwner = false;

@@ -11,7 +11,7 @@ import suncertify.db.IDatabase;
 import suncertify.db.Record;
 import suncertify.gui.GUIMessages;
 import suncertify.gui.GUIUtils;
-import suncertify.gui.MainWindow;
+import suncertify.gui.StandAloneWindow;
 
 /**
  * Provides the functionality when user clicks on Search button.
@@ -29,14 +29,14 @@ public class SearchRecordsListener implements ActionListener {
 	/**
 	 * Reference to the main window frame.
 	 */
-	private MainWindow mainWindow = null;
+	private StandAloneWindow mainWindow = null;
 	
 	/**
 	 * Constructs a <code>SearchRecordsListener</code> object.
 	 * 
 	 * @param mainWindow Reference of the main window frame.
 	 */
-	public SearchRecordsListener(final MainWindow mainWindow) {
+	public SearchRecordsListener(final StandAloneWindow mainWindow) {
 		this.mainWindow = mainWindow;
 	}
 	
@@ -50,35 +50,39 @@ public class SearchRecordsListener implements ActionListener {
 		final String methodName = "actionPerformed";
 		ControllerLogger.entering(CLASS_NAME, methodName);
 		
-		if (mainWindow == null) {
+		try {
 			
-			ControllerLogger.severe(CLASS_NAME, methodName, 
-					"User clicked on Search button but a reference to the " 
-							+ "Main window does not exist");
-			
-			GUIUtils.showErrorMessage(null, 
-					GUIMessages.UNABLE_TO_SEARCH_MESSAGE);
-			
-			return;
+			if (mainWindow == null) {
+
+				ControllerLogger.severe(CLASS_NAME, methodName, 
+						"User clicked on Search button but a reference to the " 
+								+ "Main window does not exist");
+
+				GUIUtils.showErrorMessageDialog(null, 
+						GUIMessages.UNABLE_TO_SEARCH_MESSAGE);
+
+				return;
+			}
+
+			final IDatabase database = mainWindow.getDatabase();
+			if (database == null) {
+
+				ControllerLogger.severe(CLASS_NAME, methodName, 
+						"User clicked on Search button but a reference to the " 
+								+ "database does not exist");
+
+				GUIUtils.showErrorMessageDialog(null, 
+						GUIMessages.CANT_ACCESS_TO_DB_MESSAGE);
+
+				return;
+			}
+
+			final List<Record> records = searchRecords(database);
+			mainWindow.addDataToTableModel(records);
+
+		} finally {
+			ControllerLogger.exiting(CLASS_NAME, methodName);
 		}
-		
-		final IDatabase database = mainWindow.getDatabase();
-		if (database == null) {
-			
-			ControllerLogger.severe(CLASS_NAME, methodName, 
-					"User clicked on Search button but a reference to the " 
-							+ "database does not exist");
-			
-			GUIUtils.showErrorMessage(null, 
-					GUIMessages.CANT_ACCESS_TO_DB_MESSAGE);
-			
-			return;
-		}
-		
-		final List<Record> records = searchRecords(database);
-		mainWindow.addDataToTableModel(records);
-		
-		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}
 
 	/**
@@ -129,7 +133,7 @@ public class SearchRecordsListener implements ActionListener {
 			ControllerLogger.severe(CLASS_NAME, methodName, 
 					"Unable to contact the database server: " + e.getMessage());
 			
-			GUIUtils.showErrorMessage(null, 
+			GUIUtils.showErrorMessageDialog(null, 
 					GUIMessages.CANT_ACCESS_TO_DB_MESSAGE);
 			
 			mainWindow.setStatusLabelText(GUIMessages.CANT_CONTACT_DB_MESSAGE);
@@ -242,7 +246,7 @@ public class SearchRecordsListener implements ActionListener {
 		return match;
 	}
 	
-	/*
+	/**
 	 * Verifies if the given value is null or empty.
 	 * 
 	 * @param value Value to verify.

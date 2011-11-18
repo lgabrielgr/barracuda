@@ -4,12 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
-import javax.swing.JOptionPane;
-
 import suncertify.db.IDatabase;
 import suncertify.gui.AbstractServerWindow;
 import suncertify.gui.GUIMessages;
 import suncertify.gui.GUIUtils;
+import suncertify.gui.StandAloneWindow;
 import suncertify.remote.RemoteDatabaseConnector;
 
 /**
@@ -66,7 +65,7 @@ public class ConnectToServerListener implements ActionListener {
 							+ "reference to the connect to server frame " 
 							+ "does not exist");
 
-			GUIUtils.showErrorMessage(null, 
+			GUIUtils.showErrorMessageDialog(null, 
 					GUIMessages.UNABLE_TO_CONNECT_MESSAGE);
 
 			return;
@@ -110,9 +109,10 @@ public class ConnectToServerListener implements ActionListener {
 				ControllerLogger.info(CLASS_NAME, methodName, 
 						"Connected to server (" + hostname + ")");
 
-				// TODO: Close this window and starts main appliaction
 				connectToServerWindow.closeWindow();
 
+				new StandAloneWindow(database);
+				
 			}
 
 		} catch (RemoteException e) {
@@ -120,7 +120,7 @@ public class ConnectToServerListener implements ActionListener {
 			ControllerLogger.severe(CLASS_NAME, methodName, 
 					"Can't connect to server: " + e.getMessage());
 
-			GUIUtils.showErrorMessage(connectToServerWindow, 
+			GUIUtils.showErrorMessageDialog(connectToServerWindow, 
 					GUIMessages.UNABLE_TO_CONNECT_MESSAGE);
 
 			connectToServerWindow.setStatusLabelText(
@@ -132,9 +132,10 @@ public class ConnectToServerListener implements ActionListener {
 	}
 
 	/**
+	 * Updates the suncertify.properties file with user inputs.
 	 * 
-	 * @param hostname
-	 * @param port
+	 * @param hostname Hostname value entered by user.
+	 * @param port Port value entered by user.
 	 */
 	private void updatePropertiesWithUserInput(final String hostname,
 			final String port) {

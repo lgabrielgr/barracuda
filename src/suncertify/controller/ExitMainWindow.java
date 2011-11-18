@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import suncertify.gui.GUIUtils;
 
 /**
- * Provides the functionality when user wants to quit the Main window.
+ * Provides the functionality when user wants to quit the StandAlone window.
  * 
  * @author Leo Gutierrez
  */

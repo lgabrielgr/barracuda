@@ -82,6 +82,10 @@ public class GUIMessages {
 	 */
 	public static final String EXIT_MESSAGE_TITLE_TEXT = "Exit";
 	
+	/**
+	 * Test to display as title for a question dialog with the user. 
+	 */
+	public static final String CONFIRM_MESSAGE_TITLE_TEXT = "Confirm";
 	
 	/**
 	 * Text to display when the server is running.  
@@ -137,9 +141,56 @@ public class GUIMessages {
 	 * Text to display to user when it is unable to contact the database 
 	 * server.
 	 */
-	public static final String CANT_ACCESS_TO_DB_MESSAGE= 
+	public static final String CANT_ACCESS_TO_DB_MESSAGE = 
 			"Unable to connect to the database server, please see logs for " +
 			"details.";
+	
+	/**
+	 * Text to display to user when it is tried to update a row with an 
+	 * invalid value.
+	 */
+	public static final String INVALID_VALUE_TO_SET_MESSAGE = 
+			"The specified value is not valid";
+	
+	/**
+	 * Text to display to user when the application failed to book the room
+	 * in the database.
+	 */
+	public static final String BOOK_ROOM_FAILED_MESSAGE = 
+			"Unable to book the room. Please logs for details.";
+	
+	/**
+	 * Text to display to user when the application failed to update a record
+	 * because the record was not found in the database.
+	 */
+	public static final String FAILED_BOOK_ROOM_RECORD_NOT_FOUND_MESSAGE = 
+			"Unable to update the record, the record selected was not found " +
+			"in the database.";
+	
+	/**
+	 * Text to display in the status bar, when it is unable to update a record
+	 * because the server is not responding.
+	 */
+	public static final String FAILED_BOOK_ROOM_DB_MESSAGE = 
+			"Failed to update the record, database server is not responding.";
+	
+	/**
+	 * Text to display when it is asked to user to enter the owner id.
+	 */
+	public static final String ENTER_OWNER_ID_MESSAGE = 
+			"Please, enter the owner ID.";
+	
+	/**
+	 * Title to set when it is asked to user to enter the owner id.
+	 */
+	public static final String BOOK_ROOM_TITLE = "Book Room";
+	
+	/**
+	 * Text to display in the status bar, when a room was booked 
+	 * successfully.
+	 */
+	public static final String ROOM_BOOKED_MESSAGE = 
+			"Room booked successfully: ";
 	
 	/**
 	 * Text to display to user in the status when it is unable to contact

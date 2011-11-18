@@ -12,6 +12,10 @@ public class ShowFileContent {
 	 */
 	public static void main(String[] args) throws IOException {
 
+		final String name = "IBM System Storage DS5020 Midrange Disk System (all models) with IBM Flex System C4240 M4 Compute Node";
+		System.out.println(name.length());
+		
+		/*
 		File f = new File("/home/leo/dbd/db-1x111.db");
 		System.out.println(f.exists());
 		
@@ -38,7 +42,7 @@ public class ShowFileContent {
 		
 		System.out.println(totalRecordRows);
 		
-		database.close();
+		database.close();*/
 	}
 
 }

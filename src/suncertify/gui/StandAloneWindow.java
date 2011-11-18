@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +23,21 @@ import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.BevelBorder;
-import javax.swing.table.AbstractTableModel;
 
 import suncertify.controller.ExitMainWindow;
+import suncertify.controller.RowSelectionListener;
 import suncertify.controller.SearchRecordsListener;
+import suncertify.controller.BookRoomListener;
 import suncertify.db.Database;
 import suncertify.db.IDatabase;
 import suncertify.db.Record;
 
 /**
- * Provides the graphical user interface for the Client window.
+ * Provides the graphical user interface for the StandAlone window.
  * 
  * @author Leo Gutierrez
  */
-public class MainWindow extends JFrame {
+public class StandAloneWindow extends JFrame {
 
 	/**
 	 * Serial version UID
@@ -45,7 +47,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Class name.
 	 */
-	private static final String CLASS_NAME = MainWindow.class.getName();
+	private static final String CLASS_NAME = StandAloneWindow.class.getName();
 	
 	/**
 	 * Reference to the frame's main panel.
@@ -60,8 +62,14 @@ public class MainWindow extends JFrame {
 	/**
 	 * Reference to the table that displays the records.
 	 */
-	private final JTable mainTable = new JTable();
-	
+	private final JTable recordTable = new JTable();
+
+	/**
+	 * Reference to the Book Room button.
+	 */
+	private final JButton bookRoomButton = 
+    		new JButton(GUIMessages.BOOK_ROOM_BUTTON_NAME);
+
 	/**
 	 * Reference to the search's name field.
 	 */
@@ -80,20 +88,20 @@ public class MainWindow extends JFrame {
 	/**
 	 * Reference to the table model which will display data to user.
 	 */
-	private AbstractTableModel tableModel;
+	private RecordTableModel tableModel;
 	
 	/**
 	 * Reference to the database.
 	 */
 	private IDatabase database;
-
+	
 	/**
-	 * Constructs a <code>MainWindow</code> object and displays the Main
+	 * Constructs a <code>StandAlone</code> object and displays the Main
 	 * window.
 	 * 
 	 * @param database Database from where perform the operations.
 	 */
-	public MainWindow(final IDatabase database) throws RuntimeException {
+	public StandAloneWindow(final IDatabase database) throws RuntimeException {
 		
 		this.database = database;
 		
@@ -162,8 +170,11 @@ public class MainWindow extends JFrame {
 		final String methodName = "addBookRoomSection";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
-		final JButton bookRoomButton = 
-        		new JButton(GUIMessages.BOOK_ROOM_BUTTON_NAME);
+		// Disable button until user selects a row.
+		bookRoomButton.setEnabled(false);
+		bookRoomButton.setMnemonic(KeyEvent.VK_B);
+		
+		bookRoomButton.addActionListener(new BookRoomListener(this));
         
         final JPanel bookRoomPanel = new JPanel(
         		new FlowLayout(FlowLayout.RIGHT));
@@ -201,8 +212,10 @@ public class MainWindow extends JFrame {
 		
 		constraints.gridwidth = GridBagConstraints.REMAINDER;
 		gridbag.setConstraints(nameField, constraints);
-		searchPanel.add(nameField);
+		
 		nameField.addActionListener(searchRecordListener);
+		searchPanel.add(nameField);
+		
 		
 		constraints.weightx = 0.0;
 		
@@ -218,6 +231,7 @@ public class MainWindow extends JFrame {
 		locationField.addActionListener(searchRecordListener);
 		
 		JButton searchButton = new JButton(GUIMessages.SEARCH_BUTTON_NAME);
+		searchButton.setMnemonic(KeyEvent.VK_S);
 		searchButton.addActionListener(searchRecordListener);
 		
 		constraints.gridwidth = GridBagConstraints.REMAINDER;
@@ -239,15 +253,16 @@ public class MainWindow extends JFrame {
 		final String methodName = "addDisplayDataSection";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
-		final JScrollPane scrollPane = new JScrollPane(mainTable);
+		final JScrollPane scrollPane = new JScrollPane(recordTable);
 		scrollPane.setPreferredSize(new Dimension(GUIConstants.SCROLLPANE_WIDTH_SIZE, 
 				GUIConstants.SCROLLPANE_HEIGHT_SIZE));
 		
 		addAllDataAsInitialStartup();
-		
-		mainTable.setModel(tableModel);
-		mainTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		mainTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+				
+		recordTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		recordTable.getSelectionModel().addListSelectionListener(
+				new RowSelectionListener(this));
+		recordTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		
@@ -264,7 +279,7 @@ public class MainWindow extends JFrame {
 		final String methodName = "addAllRecordsToDisplay";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
-		List<Record> allRecords = new ArrayList<Record>();
+		List<Record> currentRecordsInTable = new ArrayList<Record>();
 		
 		try {
 			
@@ -277,10 +292,11 @@ public class MainWindow extends JFrame {
 				
 			} else {
 			
-				allRecords = database.find(null, null);
+				currentRecordsInTable = database.find(null, null);
 				
-				setStatusLabelText(allRecords.size() 
+				setStatusLabelText(currentRecordsInTable.size() 
 						+ GUIMessages.RECORDS_FOUND_MESSAGE);
+				
 			}
 			
 		} catch (RemoteException e) {
@@ -293,7 +309,7 @@ public class MainWindow extends JFrame {
 			
 		}
 		
-		addDataToTableModel(allRecords);
+		addDataToTableModel(currentRecordsInTable);
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
 		
@@ -342,9 +358,40 @@ public class MainWindow extends JFrame {
 	 * 
 	 * @param records List of <code>Record</code> objects to display.
 	 */
-	public void addDataToTableModel(final List<Record> records) {
+	public void addDataToTableModel(List<Record> records) {
+		
 		tableModel = new RecordTableModel(records);
-		mainTable.setModel(tableModel);
+		recordTable.setModel(tableModel);
+	}
+	
+	/**
+	 * Retrieves the <code>Record</code> object that represents the selected 
+	 * row by the user.
+	 * <br />If selected row is out of bounds, a null <code>Record</code>
+	 * object is returned.
+	 * 
+	 * @param row Row index to retrieve the <code>Record</code> object.
+	 * @return A <code>Record</code> object that represents the selected 
+	 *         row by the user, or null of user selects an out of bounds row.
+	 */
+	public Record getRecordFromTable(final int row) {
+		
+		final String methodName = "getRecordFromData";
+		GUILogger.entering(CLASS_NAME, methodName, row);
+		
+		final List<Record> currentRecordsInTable = tableModel.getRecords();
+		
+		Record record = null;
+		
+		if ((row >= 0) && (row < currentRecordsInTable.size())) {
+			
+			record = currentRecordsInTable.get(row);
+			
+		}
+		
+		GUILogger.exiting(CLASS_NAME, methodName, record);
+		
+		return record;
 	}
 	
 	/**
@@ -401,6 +448,36 @@ public class MainWindow extends JFrame {
 		return database;
 	}
 	
+	/**
+	 * Retrieves the main table that displays the records.
+	 * 
+	 * @return The main table that displays the records.
+	 */
+	public JTable getRecordTable() {
+		return recordTable;
+	}
+	
+	/**
+	 * Retrieves the <code>RecordTableModel</object> that is added to the
+	 * <code>JTable</code> as the model.
+	 * 
+	 * @return The <code>RecordTableModel</object> that is added to the
+	 * <code>JTable</code> as the model.
+	 */
+	public RecordTableModel getRecordTableModel() {
+		return tableModel;
+	}
+	
+	/**
+	 * Enables or disables the Book Room button.
+	 * 
+	 * @param enable <code>True</code> if want to enable the button; 
+	 *               <code>False</code> otherwise.
+	 */
+	public void enableBookRoomButton(final boolean enable) {
+		bookRoomButton.setEnabled(enable);
+	}
+	
 	public static void main(String [] args) {
 
 		try {
@@ -417,7 +494,7 @@ public class MainWindow extends JFrame {
 			System.out.println("Look and feel cannot be used on this platform");
 		}
 
-		new MainWindow(new Database());
+		new StandAloneWindow(new Database());
 //		ServerWindow.getInstance().displayWindow();
 		
 	}

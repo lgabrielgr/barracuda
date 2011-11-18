@@ -19,7 +19,7 @@ public class Record implements Serializable {
 	/**
 	 * Record's name field index.
 	 */
-	public static final int NAME_FIELD_INDEX = 0;
+	public static final int HOTEL_NAME_FIELD_INDEX = 0;
 	
 	/**
 	 * Record's location field index.
@@ -288,7 +288,7 @@ public class Record implements Serializable {
 	 * 
 	 * @param owner The record owner.
 	 * @throws IllegalArgumentException If the record owner value is not valid
-	 *                                  (null, empty or not a positive number).
+	 *                                  (null, or not a positive number).
 	 */
 	public void setOwner(String owner) throws IllegalArgumentException {
 		
@@ -330,7 +330,7 @@ public class Record implements Serializable {
 		final String [] recordData = 
 				new String [TOTAL_RECORD_FIELDS];
 		
-		recordData[Record.NAME_FIELD_INDEX] = getHotelName();
+		recordData[Record.HOTEL_NAME_FIELD_INDEX] = getHotelName();
 		recordData[Record.LOCATION_FIELD_INDEX] = getLocation();
 		recordData[Record.SIZE_FIELD_INDEX] = getSize();
 		recordData[Record.SMOKING_FIELD_INDEX] = getSmoking();

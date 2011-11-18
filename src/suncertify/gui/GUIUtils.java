@@ -3,6 +3,7 @@ package suncertify.gui;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.text.MessageFormat;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -52,11 +53,9 @@ public class GUIUtils {
     	final String methodName = "askUserToExit";
     	GUILogger.entering(CLASS_NAME, methodName);
     	
-    	final int userSelection = JOptionPane.showConfirmDialog(null, 
+    	final int userSelection = showConfirmDialog( 
     			GUIMessages.EXIT_MESSAGE_DIALOG_TEXT, 
-    			GUIMessages.EXIT_MESSAGE_TITLE_TEXT, 
-    			JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
+    			GUIMessages.EXIT_MESSAGE_TITLE_TEXT); 
     
     	GUILogger.exiting(CLASS_NAME, methodName, userSelection);
     	
@@ -64,6 +63,26 @@ public class GUIUtils {
     
     }
 	
+    /**
+     * Shows to user a "Yes or No" question, displaying the specified title 
+     * and question.
+     * 
+     * @param title Title to display in dialog.
+     * @param question Question to display in dialog.
+     * @return User's response. If user selects 'Yes', returns 
+     *         {@link JOptionPane.OK_OPTION}; Otherwise,
+     *         if user selects 'No', returns {@link JOptionPane.OK_CANCEL_OPTION}.
+     */
+    public static int showConfirmDialog(final String question, 
+    		final String title) {
+    	
+    	final int userSelection = JOptionPane.showConfirmDialog(null, question, 
+    			title, JOptionPane.YES_NO_OPTION, 
+    			JOptionPane.QUESTION_MESSAGE);
+    	
+    	return userSelection;
+    }
+    
     /**
      * Asks to user if really want to quit the Server window.
      * <br />If user confirm the quit, the server is unbind and the window is
@@ -155,7 +174,7 @@ public class GUIUtils {
 	 * @param component Component to which display the message over.
 	 * @param errorMessage Error message to print.
 	 */
-	public static void showErrorMessage(final Component component, 
+	public static void showErrorMessageDialog(final Component component, 
 			final String errorMessage) {
 				
 		JOptionPane.showMessageDialog(component, errorMessage,
@@ -176,5 +195,16 @@ public class GUIUtils {
 		JOptionPane.showMessageDialog(component, warningMessage,
 				GUIMessages.WARNING_TEXT, JOptionPane.WARNING_MESSAGE);
 
+	}
+	
+	/**
+	 * Formats the given message with the given arguments.
+	 * 
+	 * @param message Message to format.
+	 * @param arguments Argument to use in message.
+	 * @return Message formatted with arguments specified.
+	 */
+	public static String formatMessage(final String message, final Object ... arguments) {
+		return MessageFormat.format(message, arguments);
 	}
 }

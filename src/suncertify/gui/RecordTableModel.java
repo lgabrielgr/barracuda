@@ -33,11 +33,6 @@ public class RecordTableModel extends AbstractTableModel {
 			"Smoking", "Rate", "Date Available", "Owner"};
 	
 	/**
-	 * Reference to the owner column number.
-	 */
-	private static final int OWNER_COLUMN = 6; 
-	
-	/**
 	 * Minimum rows to display in the table.
 	 */
 	private static final int MIN_ROWS_COUNT = 18;
@@ -116,7 +111,7 @@ public class RecordTableModel extends AbstractTableModel {
 		
 		String valueAt = "";
 		
-		if (rowIndex < records.size()) {
+		if (isValidRow(rowIndex)) {
 			
 			final Record record = records.get(rowIndex);
 
@@ -137,6 +132,108 @@ public class RecordTableModel extends AbstractTableModel {
 	}
 
 	/**
+	 * Sets the specified value at the specified coordinates.
+	 * 
+	 * @param value Value to set.
+	 * @param rowIndex Row in which to set the value.
+	 * @param updateIndex Column in which to set the value.
+	 */
+	public void setValueAt(final Object value, final int rowIndex, 
+			final int columnIndex) {
+		
+		final String methodName = "setValueAt";
+		GUILogger.entering(CLASS_NAME, methodName, value, rowIndex, 
+				columnIndex);
+		
+		if (isValidRow(rowIndex)) {
+			
+			try {
+				
+				updateRowToDisplay(value, rowIndex, columnIndex);
+				
+				fireTableDataChanged();
+				
+			} catch (IllegalArgumentException e) {
+				
+				GUILogger.warning(CLASS_NAME, methodName, 
+						"Invalid value to set: " + e.getMessage());
+				
+				GUIUtils.showWarningMessage(null, 
+						GUIMessages.INVALID_VALUE_TO_SET_MESSAGE);
+				
+			}
+			
+		}
+		
+		GUILogger.exiting(CLASS_NAME, methodName);
+		
+	}
+
+	/**
+	 * Updates a record value to display in the main window. 
+	 * 
+	 * @param value Value to update in the <code>Record</code> object.
+	 * @param rowIndex Row index to extract the <code>Record</code> object.
+	 * @param columnIndex Column index where the value must be updated.
+	 * @throws IllegalArgumentException If the value to be updated is not 
+	 *                                  valid.
+	 */
+	private void updateRowToDisplay(final Object value, final int rowIndex,
+			final int columnIndex) throws IllegalArgumentException {
+		
+		final String methodName = "updateRowToDisplay";
+		GUILogger.entering(CLASS_NAME, methodName, value, rowIndex, 
+				columnIndex);
+		
+		final Record record = records.get(rowIndex);
+		final String stringValue = (String) value;
+
+		try {
+			
+			switch(columnIndex) {
+
+			case Record.HOTEL_NAME_FIELD_INDEX:
+				record.setHotelName(stringValue);
+				break;
+
+			case Record.LOCATION_FIELD_INDEX:
+				record.setLocation(stringValue);
+				break;
+
+			case Record.DATE_FIELD_INDEX:
+				record.setDate(stringValue);
+				break;
+
+			case Record.RATE_FIELD_INDEX:
+				record.setRate(stringValue);
+				break;
+
+			case Record.SIZE_FIELD_INDEX:
+				record.setSize(stringValue);
+				break;
+
+			case Record.SMOKING_FIELD_INDEX:
+				record.setSmoking(stringValue);
+				break;
+
+			case Record.OWNER_FIELD_INDEX:
+				record.setOwner(stringValue);
+				break;
+
+			default:
+
+				GUILogger.warning(CLASS_NAME, methodName, 
+						"Can't update a record with the value: " + stringValue +
+						"at row: " + rowIndex + " and column: " + columnIndex);
+
+			}
+
+		} finally {
+			GUILogger.exiting(CLASS_NAME, methodName);
+		}
+	}
+	
+	/**
 	 * Retrieves the column name for the specified index.
 	 * 
 	 * @param column Column index to retrieve it's name.
@@ -146,43 +243,38 @@ public class RecordTableModel extends AbstractTableModel {
 		return columnNames[column];
 	}
 	
+	
 	/**
-	 * Verifies if a cell with the given coordinates.
+	 * Verifies if the given row in the table model is valid to work with
+	 * (between the range of the data displayed).
 	 * 
-	 * @param row The row being queried.
-	 * @param column the column being queried.
-	 * @return True if the cell is in the Owner column and does not contain a
-	 *         value.
+	 * @param row Row to verify.
+	 * @return <code>True</code> if the given row is valid to work with; 
+	 *         <code>False</code> otherwise.
 	 */
-	public boolean isCellEditable(final int row, final int column) {
+	private boolean isValidRow(final int row) {
 		
-		final String methodName = "isCellEditable";
-		GUILogger.entering(CLASS_NAME, methodName, row, column);
+		final String methodName = "isValidRow";
+		GUILogger.entering(CLASS_NAME, methodName, row);
 		
-		boolean cellEditable = false;
+		boolean validRow = true;
 		
-		if ( (row < records.size()) && (column == OWNER_COLUMN)) {
-
-			final Record record = records.get(row);
-
-			if (record != null) {
-
-				final Object cellValue = getValueAt(row, column);
-
-				if ((cellValue == null) 
-						|| ("".equals(cellValue.toString().trim()))) {
-
-					cellEditable = true;
-
-				} 
-
-			}
-
+		if ((row < 0) || (row >= records.size())) {
+			validRow = false;
 		}
+			
+		GUILogger.exiting(CLASS_NAME, methodName, validRow);
 		
-		GUILogger.exiting(CLASS_NAME, methodName, cellEditable);
-		
-		return cellEditable;
+		return validRow;
+	}
+
+	/**
+	 * Retrieves the current list of records displayed in the main window.
+	 * 
+	 * @return Current list of records displayed in the main window.
+	 */
+	public List<Record> getRecords() {
+		return records;
 	}
 	
 }

@@ -149,7 +149,7 @@ public class Database implements IDatabase {
 			
 			final String [] recordData = database.read(recordRow);
 
-			record.setHotelName(recordData[Record.NAME_FIELD_INDEX]);
+			record.setHotelName(recordData[Record.HOTEL_NAME_FIELD_INDEX]);
 			record.setLocation(recordData[Record.LOCATION_FIELD_INDEX]);
 			record.setSize(recordData[Record.SIZE_FIELD_INDEX]);
 			record.setSmoking(recordData[Record.SMOKING_FIELD_INDEX]);
@@ -193,7 +193,7 @@ public class Database implements IDatabase {
 			
 			final String [] criteria = new String [Record.TOTAL_RECORD_FIELDS];
 			
-			criteria[Record.NAME_FIELD_INDEX] = name;
+			criteria[Record.HOTEL_NAME_FIELD_INDEX] = name;
 			criteria[Record.LOCATION_FIELD_INDEX] = location;
 			
 			final int [] recordRowsFound = database.find(criteria);
