@@ -99,58 +99,140 @@ public class BookRoomListener implements ActionListener {
 		
 		final JTable recordTable = standAloneWindow.getRecordTable();
 
+		if (!isRoomAlreadyBooked(recordTable)) {
+
+			try { 
+
+				final int selectedRow = recordTable.getSelectedRow();
+
+				final Record recordToUpdate = 
+						standAloneWindow.getRecordFromTable(selectedRow);
+
+				recordToUpdate.setOwner(ownerId);
+
+				if (updateDatabase(recordToUpdate)) {
+
+					recordTable.setValueAt(ownerId, selectedRow, 
+							Record.OWNER_FIELD_INDEX);
+
+					final StringBuilder statusMessage = new StringBuilder();
+					statusMessage.append(GUIMessages.ROOM_BOOKED_MESSAGE);
+					statusMessage.append(recordToUpdate.getHotelName()).append(", ");
+					statusMessage.append(recordToUpdate.getLocation());
+
+					standAloneWindow.setStatusLabelText(statusMessage.toString());
+
+					recordTable.getSelectionModel().setSelectionInterval(selectedRow, 
+							selectedRow);
+
+				}
+
+			} catch (IllegalArgumentException e) {
+
+				ControllerLogger.warning(CLASS_NAME, methodName, 
+						"Invalid owner id value: " + ownerId);
+
+				GUIUtils.showWarningMessage(standAloneWindow, 
+						GUIMessages.INVALID_VALUE_TO_SET_MESSAGE);
+
+			}
+
+		}
+
+		ControllerLogger.exiting(CLASS_NAME, methodName);
+		
+	}
+
+	/**
+	 * Verifies if the given <code>Record</code> is already booked.
+	 * <br />Reads the given record from the database to get a fresh data, and
+	 * verify if the record was or was not booked previously by another 
+	 * instance.
+	 * 
+	 * @param record Record to verify.
+	 * @return True if it is booked; False otherwise.
+	 */
+	private boolean isRoomAlreadyBooked(final JTable recordTable) {
+		
+		final String methodName = "isRoomAlreadyBooked";
+		ControllerLogger.entering(CLASS_NAME, methodName);
+		
+		boolean roomBooked = false;
+		
 		final int selectedRow = recordTable.getSelectedRow();
 		
-		final Record recordToUpdate = 
+		final Record recordSelected = 
 				standAloneWindow.getRecordFromTable(selectedRow);
-
-		if (recordToUpdate == null) {
-
-			ControllerLogger.severe(CLASS_NAME, methodName, 
-					"Unable to book the room, the record was not found in db");
-
-			displayError(
-					GUIMessages.FAILED_BOOK_ROOM_RECORD_NOT_FOUND_MESSAGE);
-
-			return;
-			
-		} 
 		
-		try { 
-
-			recordToUpdate.setOwner(ownerId);
-
-			if (updateDatabase(recordToUpdate)) {
+		final Record freshRecord = readRecordFromDatabase(
+				recordSelected.getDatabaseRow());
+		
+		if (freshRecord != null) {
+			
+			final String ownerId = freshRecord.getOwner();
+			
+			if ((ownerId != null) && (!"".equals(ownerId))) {
 				
-				standAloneWindow.getRecordTable().setValueAt(ownerId, selectedRow, 
+				roomBooked = true;
+				
+				recordTable.setValueAt(ownerId, selectedRow, 
 						Record.OWNER_FIELD_INDEX);
 				
-				final StringBuilder statusMessage = new StringBuilder();
-				statusMessage.append(GUIMessages.ROOM_BOOKED_MESSAGE);
-				statusMessage.append(recordToUpdate.getHotelName()).append(", ");
-				statusMessage.append(recordToUpdate.getLocation());
-				
-				standAloneWindow.setStatusLabelText(statusMessage.toString());
-				
 				recordTable.getSelectionModel().setSelectionInterval(selectedRow, 
-						selectedRow);
+						selectedRow); 
+				
+				ControllerLogger.severe(CLASS_NAME, methodName, 
+						"Unable to book the room, it is already booked");
+
+				displayError(
+						GUIMessages.ROOM_ALREADY_BOOKED_MESSAGE);
 				
 			}
 			
-		} catch (IllegalArgumentException e) {
+		}
+		
+		ControllerLogger.exiting(CLASS_NAME, methodName, roomBooked);
+		
+		return roomBooked;
+	}
+	
+	/**
+	 * Reads a record in the given position form the database.
+	 * 
+	 * @param recordRow Record row position where to read the <code>Record</code>
+	 * @return <code>Record</code> object if found; Null otherwise.
+	 */
+	private Record readRecordFromDatabase(final int recordRow) {
+		
+		final String methodName = "readRecordFromDatabase";
+		ControllerLogger.entering(CLASS_NAME, methodName);
+		
+		Record record = null;
+		
+		final IDatabase database = standAloneWindow.getDatabase();
+		
+		try {
 			
-			ControllerLogger.warning(CLASS_NAME, methodName, 
-					"Invalid owner id value: " + ownerId);
+			record = database.read(recordRow);
 			
-			GUIUtils.showWarningMessage(standAloneWindow, 
-					GUIMessages.INVALID_VALUE_TO_SET_MESSAGE);
+		} catch (RemoteException e) {
+			
+			ControllerLogger.warning(CLASS_NAME, methodName, "Unable to read " +
+					"the record from database: " + e.getMessage());
+			
+		} catch (RecordNotFoundException e) {
+			
+			ControllerLogger.warning(CLASS_NAME, methodName, "Unable to read " +
+					"the record, it wasnt found int the database");
 			
 		}
 		
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 		
+		return record;
+		
 	}
-
+	
 	/**
 	 * Updates the database with the given <code>Record</code> that contains
 	 * the owner id value specified by user.

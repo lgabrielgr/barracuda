@@ -154,6 +154,8 @@ public class StandAloneWindow extends JFrame {
         final JPanel statusPanel = new JPanel(new BorderLayout());
         statusPanel.add(statusLabel, BorderLayout.CENTER);
         
+        setStatusLabelText(GUIMessages.WELCOME_TEXT);
+        
         bottomPanel.add(statusPanel, BorderLayout.SOUTH);
         
         GUILogger.exiting(CLASS_NAME, method);
@@ -291,9 +293,6 @@ public class StandAloneWindow extends JFrame {
 			
 				currentRecordsInTable = database.find(null, null);
 				
-				setStatusLabelText(currentRecordsInTable.size() 
-						+ GUIMessages.RECORDS_FOUND_MESSAGE);
-				
 			}
 			
 		} catch (RemoteException e) {
@@ -311,7 +310,7 @@ public class StandAloneWindow extends JFrame {
 		GUILogger.exiting(CLASS_NAME, methodName);
 		
 	}
-
+	
 	/**
 	 * Adds the Client GUI's frame general configuration.
 	 */

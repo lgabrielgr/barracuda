@@ -1,5 +1,13 @@
 package suncertify.gui;
 
+import suncertify.controller.ServerStandAloneListener;
+
+/**
+ * Provides the graphical user interface for the ServerStandAlone window to start/stop 
+ * the server and start the Client window.
+ * 
+ * @author Leo Gutierrez
+ */
 public class ServerStandAloneWindow extends ServerWindow {
 
 	/**
@@ -7,12 +15,19 @@ public class ServerStandAloneWindow extends ServerWindow {
 	 */
 	private static final long serialVersionUID = 448302L;
 
+	/**
+	 * Constructs a <code>ServerStandAloneWindow</code> object.
+	 */
 	public ServerStandAloneWindow() {
 		
 	}
 	
+	/**
+	 * Adds the proper listener to the primary button on Server StandAlone 
+	 * window frame.
+	 */
 	protected void addListenerToPrimaryServerButton() {
-		System.out.println("serverstandalone");
+		addListenerToPrimaryServerButton(new ServerStandAloneListener(this));
 	}
 	
 }

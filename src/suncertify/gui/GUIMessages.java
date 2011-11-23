@@ -21,6 +21,11 @@ public class GUIMessages {
 	public static final String CLIENT_TITLE_TEXT =  "Client";
 	
 	/**
+	 * Test to display to user as a welcome message in the Client window.
+	 */
+	public static final String WELCOME_TEXT = "Welcome.";
+	
+	/**
 	 * Text to display as the Connect to Server window title.
 	 */
 	public static final String CONNECT_TO_SERVER_TITLE_TEXT = 
@@ -172,6 +177,13 @@ public class GUIMessages {
 	public static final String FAILED_BOOK_ROOM_RECORD_NOT_FOUND_MESSAGE = 
 			"Unable to update the record, the record selected was not found " +
 			"in the database.";
+	
+	/**
+	 * Text to display to user when He/She tries to book a room already booked.
+	 */
+	public static final String ROOM_ALREADY_BOOKED_MESSAGE = 
+			"Unable to book the selected room, it was previously booked by " +
+			"another instance.";
 	
 	/**
 	 * Text to display in the status bar, when it is unable to update a record

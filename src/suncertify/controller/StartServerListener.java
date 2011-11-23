@@ -43,11 +43,7 @@ public class StartServerListener implements ActionListener {
 	}
 	
 	/**
-	 * Invoked when user clicks on Start Server button, and does:
-	 * <br />- Validates user inputs.
-	 * <br />- Updates the properties file with the user input.
-	 * <br />- Starts the server.
-	 * <br />- Disable any editable option in the server window.
+	 * Invoked when user clicks on Start Server button.
 	 * 
 	 * @param actionEvent The action event. 
 	 */
@@ -58,18 +54,14 @@ public class StartServerListener implements ActionListener {
 		
 		try {
 			
-			if (isValidUserInput()) {
-			
-				updatePropertiesWithUserInput();
-
-				RegisterDatabase.bind();
-
-				disableComponentsOnStart();
+			if (serverWindow == null) {
 				
-				ControllerLogger.info(CLASS_NAME, methodName, 
-						"Server is running");
+				throw new RemoteException("A reference to the Server window " +
+						"does not exist");
 				
 			}
+			
+			startServer();
 			
 		} catch (RemoteException e) {
 			
@@ -81,12 +73,46 @@ public class StartServerListener implements ActionListener {
                     GUIMessages.ERROR_TEXT,
                     JOptionPane.ERROR_MESSAGE);
 			
+		} 
+		
+		ControllerLogger.exiting(CLASS_NAME, methodName);
+	}
+
+	/**
+	 * Starts the server doing the following:
+	 * <br />- Validates user inputs.
+	 * <br />- Updates the properties file with the user input.
+	 * <br />- Starts the server.
+	 * <br />- Disable any editable option in the server window.
+	 * 
+	 * @throws RemoteException If any networking problem occurs.
+	 */
+	protected void startServer() throws RemoteException {
+		
+		final String methodName = "startServer";
+		ControllerLogger.entering(CLASS_NAME, methodName);
+		
+		try {
+			
+		
+			if (isValidUserInput()) {
+
+				updatePropertiesWithUserInput();
+
+				RegisterDatabase.bind();
+
+				disableComponentsOnStart();
+
+				ControllerLogger.info(CLASS_NAME, methodName, 
+						"Server is running");
+
+			}
+
 		} finally {
 			
 			ControllerLogger.exiting(CLASS_NAME, methodName);
 			
 		}
-		
 	}
 
 	/**
