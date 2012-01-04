@@ -35,13 +35,14 @@ public class ServerStandAloneListener extends StartServerListener {
 	/**
 	 * Constructs a <code>ServerStandAloneListener</code> object.
 	 * 
-	 * @param serverWindow A reference to the Server window frame.
+	 * @param abstractServerWindow A reference to the Server window frame.
 	 */
-	public ServerStandAloneListener(final AbstractServerWindow serverWindow) {
+	public ServerStandAloneListener(
+			final AbstractServerWindow abstractServerWindow) {
 		
-		super(serverWindow);
+		super(abstractServerWindow);
 		
-		this.serverWindow = serverWindow;
+		serverWindow = abstractServerWindow;
 		
 	}
 	
@@ -60,8 +61,8 @@ public class ServerStandAloneListener extends StartServerListener {
 			
 			if (serverWindow == null) {
 				
-				throw new RemoteException("A reference to the Server window " +
-						"does not exist");
+				throw new RemoteException("A reference to the Server window "
+						+ "does not exist");
 				
 			}
 			

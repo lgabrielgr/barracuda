@@ -12,7 +12,7 @@ import suncertify.db.IDatabase;
  * 
  * @author Leo Gutierrez
  */
-public class RemoteDatabaseConnector {
+final public class RemoteDatabaseConnector {
 
 	/**
 	 * Class name.
@@ -53,8 +53,8 @@ public class RemoteDatabaseConnector {
 			
 		} catch (MalformedURLException e) {
 			
-			final String errorMessage = "Unable to connect to the database " +
-					"server: " + e.getMessage();
+			final String errorMessage = "Unable to connect to the database "
+					+ "server: " + e.getMessage();
 			
 			RemoteLogger.severe(CLASS_NAME, methodName, errorMessage);
 			
@@ -62,8 +62,8 @@ public class RemoteDatabaseConnector {
 			
 		} catch (NotBoundException e) {
 			
-			final String errorMessage = "Unable to connect to the database " +
-					"server: " + e.getMessage();
+			final String errorMessage = "Unable to connect to the database "
+					+ "server: " + e.getMessage();
 			
 			RemoteLogger.severe(CLASS_NAME, methodName, errorMessage);
 			

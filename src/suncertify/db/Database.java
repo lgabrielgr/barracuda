@@ -13,12 +13,12 @@ public class Database implements IDatabase {
 	/**
 	 * Class name.
 	 */
-	final static private String CLASS_NAME = Database.class.getName();
+	private static final String CLASS_NAME = Database.class.getName();
 	
 	/**
 	 * Reference to the database object.
 	 */
-	final private DB database = new Data(); 
+	private final DB database = new Data(); 
 	
 	/**
 	 * Constructs a <code>Database</code> object.
@@ -107,8 +107,8 @@ public class Database implements IDatabase {
 			
 			if (isRoomBooked(recordRow)) {
 				
-				final String errorMessage = "Unable to update the record, " +
-						"the room is already booked";
+				final String errorMessage = "Unable to update the record, "
+						+ "the room is already booked";
 				
 				DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 				

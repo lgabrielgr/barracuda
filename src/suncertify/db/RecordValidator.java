@@ -8,7 +8,7 @@ public class RecordValidator {
 	/**
 	 * Class name.
 	 */
-	final static private String CLASS_NAME = RecordValidator.class.getName();
+	private static final String CLASS_NAME = RecordValidator.class.getName();
 	
 	/**
 	 * Verifies if the given string value is null or empty.
@@ -175,7 +175,8 @@ public class RecordValidator {
 				
 				double rateDouble = Double.parseDouble(rateAmount);
 			
-				if ((rateDouble <= 0) || (rateDouble > 9999.99)) {
+				if ((rateDouble <= 0) 
+						|| (rateDouble > DatabaseConstants.MAX_RATE_VALUE)) {
 					validRate = false;
 				}
 				
@@ -252,7 +253,8 @@ public class RecordValidator {
 				
 				final long ownerId = Long.parseLong(owner);
 				
-				if ((ownerId <= 0) || (ownerId > 99999999)) {
+				if ((ownerId <= 0) 
+						|| (ownerId > DatabaseConstants.MAX_OWNER_ID_VALUE)) {
 					validOwner = false;
 				}
 			

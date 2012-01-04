@@ -40,10 +40,10 @@ public class RecordField {
 	/**
 	 * Sets the record field name.
 	 * 
-	 * @param fieldName Record field name.
+	 * @param fieldNameValue Record field name value.
 	 */
-	public void setFieldName(String fieldName) {
-		this.fieldName = fieldName;
+	public void setFieldName(String fieldNameValue) {
+		fieldName = fieldNameValue;
 	}
 
 	/**
@@ -58,10 +58,10 @@ public class RecordField {
 	/**
 	 * Sets the record field name length.
 	 * 
-	 * @param fieldNameLength Record field name length.
+	 * @param fieldNameLengthValue Record field name length value.
 	 */
-	public void setFieldNameLength(int fieldNameLength) {
-		this.fieldNameLength = fieldNameLength;
+	public void setFieldNameLength(int fieldNameLengthValue) {
+		fieldNameLength = fieldNameLengthValue;
 	}
 
 	/**
@@ -76,10 +76,10 @@ public class RecordField {
 	/**
 	 * Sets the record field value length.
 	 * 
-	 * @param fieldValueLength Record field value length.
+	 * @param valueLength Record field value length.
 	 */
-	public void setFieldValueLength(int fieldValueLength) {
-		this.fieldValueLength = fieldValueLength;
+	public void setFieldValueLength(int valueLength) {
+		fieldValueLength = valueLength;
 	}
 	
 	/**
@@ -94,10 +94,10 @@ public class RecordField {
 	/**
 	 * Sets the field position in record.
 	 * 
-	 * @param fieldPosition Field position in record.
+	 * @param fieldPositionValue Field position in record.
 	 */
-	public void setFieldPosition(int fieldPosition) {
-		this.fieldPosition = fieldPosition;
+	public void setFieldPosition(int fieldPositionValue) {
+		fieldPosition = fieldPositionValue;
 	}
 
 	/**

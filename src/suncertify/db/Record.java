@@ -144,20 +144,21 @@ public class Record implements Serializable {
 	/**
 	 * Sets the record hotel location.
 	 * 
-	 * @param location The record hotel location.
+	 * @param locationValue The record hotel location.
 	 * @throws IllegalArgumentException If the record hotel location is not
 	 *                                  valid (null or empty).
 	 */
-	public void setLocation(String location) throws IllegalArgumentException {
+	public void setLocation(String locationValue) 
+			throws IllegalArgumentException {
 		
 		final RecordValidator validator = new RecordValidator();
 		
-		if (!validator.isValidLocation(location)) {
-			throw new IllegalArgumentException("Hotel location not " +
-					"valid: " + hotelName);
+		if (!validator.isValidLocation(locationValue)) {
+			throw new IllegalArgumentException("Hotel location not "
+					+ "valid: " + hotelName);
 		}
 		
-		this.location = location;
+		location = locationValue;
 	}
 
 	/**
@@ -172,20 +173,20 @@ public class Record implements Serializable {
 	/**
 	 * Sets the record room size.
 	 * 
-	 * @param size The record room size.
+	 * @param sizeValue The record room size value.
 	 * @throws IllegalArgumentException If the record room size is not valid
 	 *                                  (null, empty or not a positive number).
 	 */
-	public void setSize(String size) throws IllegalArgumentException {
+	public void setSize(String sizeValue) throws IllegalArgumentException {
 		
 		final RecordValidator validator = new RecordValidator();
 		
-		if (!validator.isValidRoomSize(size)) {
-			throw new IllegalArgumentException("The room size is not " +
-					"valid: " + size);
+		if (!validator.isValidRoomSize(sizeValue)) {
+			throw new IllegalArgumentException("The room size is not "
+					+ "valid: " + sizeValue);
 		}
 		
-		this.size = size;
+		size = sizeValue;
 	}
 
 	/**
@@ -200,20 +201,20 @@ public class Record implements Serializable {
 	/**
 	 * Sets the record room smoking value.
 	 * 
-	 * @param smoking The record room smoking value.
+	 * @param smokingValue The record room smoking value.
 	 * @throws IllegalArgumentException If the record room smoking value is not
 	 *                                  value (not 'Y' and 'N').
 	 */
-	public void setSmoking(String smoking) throws IllegalArgumentException {
+	public void setSmoking(String smokingValue) throws IllegalArgumentException {
 		
 		final RecordValidator validator = new RecordValidator();
 		
-		if (!validator.isValidSmoking(smoking)) {
-			throw new IllegalArgumentException("Room smoking value not " +
-					"valid: " + smoking);
+		if (!validator.isValidSmoking(smokingValue)) {
+			throw new IllegalArgumentException("Room smoking value not "
+					+ "valid: " + smokingValue);
 		}
 		
-		this.smoking = smoking;
+		smoking = smokingValue;
 	}
 
 	/**
@@ -228,21 +229,21 @@ public class Record implements Serializable {
 	/**
 	 * Sets the record room rate.
 	 * 
-	 * @param rate The record room rate.
+	 * @param rateValue The record room rate value.
 	 * @throws IllegalArgumentException If the record room rate value is not
 	 *                                  valid (does not start with the currency 
 	 *                                  symbol '$', or is not a valid number 
 	 *                                  between 0 and 9999.99).
 	 */
-	public void setRate(String rate) throws IllegalArgumentException {
+	public void setRate(String rateValue) throws IllegalArgumentException {
 		
 		final RecordValidator validator = new RecordValidator();
 		
-		if (!validator.isValidRate(rate)) {
-			throw new IllegalArgumentException("Room rate not valid: " + rate);
+		if (!validator.isValidRate(rateValue)) {
+			throw new IllegalArgumentException("Room rate not valid: " + rateValue);
 		}
 		
-		this.rate = rate;
+		rate = rateValue;
 	}
 
 	/**
@@ -257,21 +258,21 @@ public class Record implements Serializable {
 	/**
 	 * Sets the record date available.
 	 * 
-	 * @param date The record date available.
+	 * @param dateValue The record date available.
 	 * @throws IllegalArgumentException If the record date available value is 
 	 *                                  not valid (null, empty or not in format
 	 *                                  'yyyy/MM/dd').
 	 */
-	public void setDate(String date) throws IllegalArgumentException {
+	public void setDate(String dateValue) throws IllegalArgumentException {
 		
 		final RecordValidator validator = new RecordValidator();
 		
-		if (!validator.isValidDate(date)) {
-			throw new IllegalArgumentException("Date available not " +
-					"valid: " + date);
+		if (!validator.isValidDate(dateValue)) {
+			throw new IllegalArgumentException("Date available not "
+					+ "valid: " + dateValue);
 		}
 		
-		this.date = date;
+		date = dateValue;
 	}
 
 	/**
@@ -286,20 +287,20 @@ public class Record implements Serializable {
 	/**
 	 * Sets the record owner.
 	 * 
-	 * @param owner The record owner.
+	 * @param ownerIdValue The record owner id value.
 	 * @throws IllegalArgumentException If the record owner value is not valid
 	 *                                  (null, or not a positive number).
 	 */
-	public void setOwner(String owner) throws IllegalArgumentException {
+	public void setOwner(String ownerIdValue) throws IllegalArgumentException {
 		
 		final RecordValidator validator = new RecordValidator();
 		
-		if (!validator.isValidOwner(owner)) {
-			throw new IllegalArgumentException("Owner value not " +
-					"valid: " + owner);
+		if (!validator.isValidOwner(ownerIdValue)) {
+			throw new IllegalArgumentException("Owner value not "
+					+ "valid: " + ownerIdValue);
 		}
 		
-		this.owner = owner;
+		owner = ownerIdValue;
 	}
 
 	/**
@@ -314,10 +315,10 @@ public class Record implements Serializable {
 	/**
 	 * Sets the database row where this record is saved.
 	 * 
-	 * @param databaseRow The database row where this record is saved.
+	 * @param value The database row where this record is saved.
 	 */
-	public void setDatabaseRow(int databaseRow) {
-		this.databaseRow = databaseRow;
+	public void setDatabaseRow(int value) {
+		databaseRow = value;
 	}
 	
 	/**
@@ -394,7 +395,7 @@ public class Record implements Serializable {
 			return false;
 		}
 		
-		final Record recordToCompare = (Record)object;
+		final Record recordToCompare = (Record) object;
 		
 		if (!recordToCompare.getHotelName().equals(getHotelName())) {
 			return false;

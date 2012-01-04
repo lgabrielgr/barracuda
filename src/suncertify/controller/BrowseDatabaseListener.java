@@ -29,10 +29,11 @@ public class BrowseDatabaseListener implements ActionListener {
 	/**
 	 * Constructs a <code>BrowseDatabaseListener</code> object.
 	 * 
-	 * @param serverWindow The Server window frame.
+	 * @param abstractServerWindow The Server window frame.
 	 */
-	public BrowseDatabaseListener(final AbstractServerWindow serverWindow) {
-		this.serverWindow = serverWindow;
+	public BrowseDatabaseListener(
+			final AbstractServerWindow abstractServerWindow) {
+		serverWindow = abstractServerWindow;
 	}
 	
 	/**

@@ -35,10 +35,12 @@ public class BookRoomListener implements ActionListener {
 	/**
 	 * Constructs a <code>BookRoomListener</object> object.
 	 * 
-	 * @param standAloneWindow Reference to the stand alone window frame.
+	 * @param standAloneWindowFrame Reference to the stand alone window frame.
 	 */
-	public BookRoomListener(final StandAloneWindow standAloneWindow) {
-		this.standAloneWindow = standAloneWindow;
+	public BookRoomListener(final StandAloneWindow standAloneWindowFrame) {
+
+		standAloneWindow = standAloneWindowFrame;
+
 	}
 	
 	/**
@@ -57,8 +59,8 @@ public class BookRoomListener implements ActionListener {
 					|| (standAloneWindow.getDatabase() == null)) {
 
 				ControllerLogger.severe(CLASS_NAME, methodName, 
-						"The user booked a room, but a reference to the stand " +
-						"alone window or database does not exist");
+						"The user booked a room, but a reference to the stand "
+						+ "alone window or database does not exist");
 
 				GUIUtils.showErrorMessageDialog(null, 
 						GUIMessages.BOOK_ROOM_FAILED_MESSAGE);
@@ -217,13 +219,13 @@ public class BookRoomListener implements ActionListener {
 			
 		} catch (RemoteException e) {
 			
-			ControllerLogger.warning(CLASS_NAME, methodName, "Unable to read " +
-					"the record from database: " + e.getMessage());
+			ControllerLogger.warning(CLASS_NAME, methodName, "Unable to read "
+					+ "the record from database: " + e.getMessage());
 			
 		} catch (RecordNotFoundException e) {
 			
-			ControllerLogger.warning(CLASS_NAME, methodName, "Unable to read " +
-					"the record, it wasnt found int the database");
+			ControllerLogger.warning(CLASS_NAME, methodName, "Unable to read "
+					+ "the record, it wasnt found int the database");
 			
 		}
 		

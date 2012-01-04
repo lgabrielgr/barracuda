@@ -96,18 +96,19 @@ public class StandAloneWindow extends JFrame {
 	 * Constructs a <code>StandAlone</code> object and displays the Main
 	 * window.
 	 * 
-	 * @param database Database from where perform the operations.
+	 * @param databaseConnection Database from where perform the operations.
 	 */
-	public StandAloneWindow(final IDatabase database) throws RuntimeException {
-		
-		this.database = database;
-		
+	public StandAloneWindow(final IDatabase databaseConnection) 
+			throws RuntimeException {
+
+		database = databaseConnection;
+
 		init();
-		
+
 		displayWindow();
-		
+
 	}
-	
+
 	/**
 	 * Initializes the Client GUI's components.
 	 */
@@ -297,8 +298,8 @@ public class StandAloneWindow extends JFrame {
 			
 		} catch (RemoteException e) {
 			
-			GUILogger.warning(CLASS_NAME, methodName, "Unable to load all " +
-					"records to display in the initial startup: " 
+			GUILogger.warning(CLASS_NAME, methodName, "Unable to load all "
+					+ "records to display in the initial startup: " 
 					+ e.getMessage());
 			
 			setStatusLabelText(GUIMessages.INITIAL_STARTUP_ERROR_MESSAGE);

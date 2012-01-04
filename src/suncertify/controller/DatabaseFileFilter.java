@@ -18,7 +18,7 @@ public class DatabaseFileFilter extends FileFilter {
 	/**
 	 * Class name.
 	 */
-	private final static String CLASS_NAME = 
+	private static final String CLASS_NAME = 
 			DatabaseFileFilter.class.getName();
 	
 	/**

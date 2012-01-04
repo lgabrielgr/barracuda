@@ -34,13 +34,13 @@ public class ConnectToServerListener implements ActionListener {
 	/**
 	 * Constructs a <code>ConnectToServerListener</code> object.
 	 * 
-	 * @param connectToServerWindow Reference to the connect to server window
+	 * @param abstractServerWindow Reference to 'Connect to Server' window
 	 *                              frame.
 	 */
 	public ConnectToServerListener(
-			final AbstractServerWindow connectToServerWindow) {
+			final AbstractServerWindow abstractServerWindow) {
 		
-		this.connectToServerWindow = connectToServerWindow;
+		connectToServerWindow = abstractServerWindow;
 		
 	}
 	

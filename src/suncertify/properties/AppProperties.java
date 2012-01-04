@@ -57,21 +57,21 @@ public class AppProperties {
 			
 		} catch (FileNotFoundException e) {
 
-			System.out.println("Unable to load the properties file due to: " +
-					e.getMessage());
+			System.out.println("Unable to load the properties file due to: "
+					+ e.getMessage());
 			
 		} catch (IOException e) {
 			
-			System.out.println("Unable to load the properties file due to: " +
-					e.getMessage());
+			System.out.println("Unable to load the properties file due to: "
+					+ e.getMessage());
 			
 		} finally {
 			if (propertiesFIS != null) {
 				try {
 					propertiesFIS.close();
 				} catch (IOException e) {
-					System.out.println("Unable to close the stream where " +
-							"properties file were loaded: " + e.getMessage());
+					System.out.println("Unable to close the stream where "
+							+ "properties file were loaded: " + e.getMessage());
 				}
 			}
 		}
@@ -95,14 +95,14 @@ public class AppProperties {
 		} catch (FileNotFoundException e) {
 			
 			AppPropertiesLogger.warning(CLASS_NAME, methodName, 
-					"Unable to load the properties file due to: " +
-							e.getMessage());
+					"Unable to load the properties file due to: "
+							+ e.getMessage());
 			
 		} catch (IOException e) {
 
 			AppPropertiesLogger.warning(CLASS_NAME, methodName, 
-					"Unable to load the properties file due to: " +
-							e.getMessage());
+					"Unable to load the properties file due to: "
+							+ e.getMessage());
 			
 		} finally {
 			
@@ -112,8 +112,8 @@ public class AppProperties {
 				} catch (IOException e) {
 
 					AppPropertiesLogger.warning(CLASS_NAME, methodName, 
-							"Unable to close stream used to refresh the " +
-							"properties file: " + e.getMessage());
+							"Unable to close stream used to refresh the "
+							+ "properties file: " + e.getMessage());
 				}
 			}
 			

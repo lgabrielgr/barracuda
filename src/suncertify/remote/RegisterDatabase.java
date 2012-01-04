@@ -10,7 +10,7 @@ import java.rmi.registry.Registry;
  * 
  * @author Leo Gutierrez
  */
-public class RegisterDatabase {
+final public class RegisterDatabase {
 
 	/**
 	 * Class name.
@@ -45,7 +45,7 @@ public class RegisterDatabase {
 			final int rmiPort = retrieveRMIPort();
 
 			registry = LocateRegistry.createRegistry(rmiPort);
-			registry.rebind(RemoteConstants.DATABASE_BIND_NAME, 
+			registry.rebind(RemoteConstants.DATABASE_BIND_NAME,
 					new RemoteDatabase());
 			
 		} finally {
@@ -110,9 +110,9 @@ public class RegisterDatabase {
 
 			} catch (NumberFormatException e) {
 
-				RemoteLogger.severe(CLASS_NAME, methodName, "Invalid rmi port " +
-						"defined in properties file: " + definedRMIPort + ", " +
-						"setting the default rmi port : " + rmiPort);
+				RemoteLogger.severe(CLASS_NAME, methodName, "Invalid rmi port "
+						+ "defined in properties file: " + definedRMIPort + ", "
+						+ "setting the default rmi port : " + rmiPort);
 
 			}
 

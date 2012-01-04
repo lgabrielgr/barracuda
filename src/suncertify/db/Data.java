@@ -141,8 +141,8 @@ public class Data implements DB {
 			
 		} catch (IOException e) {
 			
-			final String errorMessage = "Unable to load to cache all the " +
-					"records from the database: " + e.getMessage();
+			final String errorMessage = "Unable to load to cache all the "
+					+ "records from the database: " + e.getMessage();
 			
 			DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 			
@@ -177,8 +177,8 @@ public class Data implements DB {
 
 		} catch (FileNotFoundException e) {
 
-			final String errorMessage = "Unable to open the database " +
-					"connection: " + e.getMessage();
+			final String errorMessage = "Unable to open the database "
+					+ "connection: " + e.getMessage();
 
 			DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 
@@ -207,14 +207,14 @@ public class Data implements DB {
 			final File databaseFile) throws FileNotFoundException {
 		
 		if ((!databaseFile.exists()) || (!databaseFile.isFile())) {
-			throw new FileNotFoundException("Database file " + 
-					databasePath + " does not exist");
+			throw new FileNotFoundException("Database file "
+					+ databasePath + " does not exist");
 		}
 		
 		if ((!databaseFile.canRead()) || (!databaseFile.canExecute())) {
-			throw new FileNotFoundException("Database file " +  
-					databasePath + " does not have the " +
-							"needed read/write system's permissions");
+			throw new FileNotFoundException("Database file "
+					+ databasePath + " does not have the "
+							+ "needed read/write system's permissions");
 		}
 	}
 	
@@ -276,7 +276,7 @@ public class Data implements DB {
 		readLock.lock();
 		try {
 			
-			final String record[] = validRecords.get(recNo);
+			final String [] record = validRecords.get(recNo);
 			
 			if (record == null) {
 				
@@ -346,8 +346,8 @@ public class Data implements DB {
 			
 		} catch (IOException e) {
 			
-			final String errorMessage = "Unable to read record " + recNo + 
-					"due to an I/O error: " + e.getMessage();
+			final String errorMessage = "Unable to read record " + recNo
+					+ "due to an I/O error: " + e.getMessage();
 			
 			DatabaseLogger.warning(CLASS_NAME, methodName, errorMessage);
 			
@@ -401,8 +401,8 @@ public class Data implements DB {
 			
 			if (!isRecordLocked(recNo, lockCookie)) {
 				
-				final String errorMessage = "The given lock cookie does not " +
-						"own the lock on record";
+				final String errorMessage = "The given lock cookie does not " 
+						+ "own the lock on record";
 
 				DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 
@@ -418,8 +418,8 @@ public class Data implements DB {
 			
 		} catch (IOException e) {
 			
-			final String errorMessage = "Unable to update record due to " +
-					"an I/O error: " + e.getMessage();
+			final String errorMessage = "Unable to update record due to "
+					+ "an I/O error: " + e.getMessage();
 			
 			DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 			
@@ -444,7 +444,7 @@ public class Data implements DB {
 	 * @param data Array of string that contains the record data.
 	 * @return A byte representation of the given record data.
 	 */
-	private byte[] dataToByteArray(final String data[]) {
+	private byte[] dataToByteArray(final String [] data) {
 		
 		final String methodName = "dataToByteArray";
 		DatabaseLogger.entering(CLASS_NAME, methodName);
@@ -510,8 +510,8 @@ public class Data implements DB {
 			
 			if (!isRecordLocked(recNo, lockCookie)) {
 				
-				final String errorMessage = "The given lock cookie does not " +
-						"own the lock on record";
+				final String errorMessage = "The given lock cookie does not "
+						+ "own the lock on record";
 				
 				DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 				
@@ -519,15 +519,15 @@ public class Data implements DB {
 			}
 			
 			database.seek(recNo);
-			database.write((byte)DatabaseConstants.DELETED_RECORD);
+			database.write((byte) DatabaseConstants.DELETED_RECORD);
 			
 			deletedRecordRows.add(recNo);
 			validRecords.remove(recNo);
 			
 		} catch (IOException e) {
 
-			final String errorMessage = "Unable to delete record due to an I/O " +
-					"error: " + e.getMessage();
+			final String errorMessage = "Unable to delete record due to an I/O "
+					+ "error: " + e.getMessage();
 			
 			DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 			
@@ -617,8 +617,8 @@ public class Data implements DB {
 			
 			filteredRowsFound = validRecords.keySet();
 			
-		} else if (criteria.length < 
-				dataFileFormat.getNumberOfFieldsPerRecord() ) {
+		} else if (criteria.length 
+				< dataFileFormat.getNumberOfFieldsPerRecord()) {
 			
 			filteredRowsFound = new TreeSet<Integer>();
 			
@@ -669,8 +669,8 @@ public class Data implements DB {
 			
 			final Set<Integer> filteredRowsFound = new TreeSet<Integer>();
 
-			if (criteria.length < 
-					dataFileFormat.getNumberOfFieldsPerRecord()) {
+			if (criteria.length 
+					< dataFileFormat.getNumberOfFieldsPerRecord()) {
 				return filteredRowsFound;
 			}
 			
@@ -729,8 +729,8 @@ public class Data implements DB {
 		
 		boolean match = false;
 		
-		if ((recordFieldCriteria == null) || 
-				("".equals(recordFieldCriteria.trim()))) {
+		if ((recordFieldCriteria == null) 
+				|| ("".equals(recordFieldCriteria.trim()))) {
 			
 			match = true;
 			
@@ -776,8 +776,8 @@ public class Data implements DB {
 			
 			if (isRecordDuplicated(data)) {
 				
-				final String errorMessage = "Record already exists in " +
-						"database";
+				final String errorMessage = "Record already exists in "
+						+ "database";
 				
 				DatabaseLogger.severe(CLASS_NAME, errorMessage, errorMessage);
 				
@@ -824,7 +824,7 @@ public class Data implements DB {
 		
 		if (deletedRecordRows.isEmpty()) {
 			
-			newRecordRow = (int)database.length();
+			newRecordRow = (int) database.length();
 			
 		} else {
 			
@@ -847,7 +847,7 @@ public class Data implements DB {
 	 * @param dataToCompare Record data to verify.
 	 * @return True if already exists; otherwise, false.
 	 */
-	private boolean isRecordDuplicated(final String dataToCompare[]) {
+	private boolean isRecordDuplicated(final String [] dataToCompare) {
 
 		final String methodName = "isRecordDuplicated";
 		DatabaseLogger.entering(CLASS_NAME, methodName);
@@ -954,9 +954,9 @@ public class Data implements DB {
 					lockNotReleased.await();
 				} catch (InterruptedException e) {
 
-					final String errorMessage = "Unexpected interrumption has " +
-							"occurs during the waiting for the lock release for " +
-							"the record: " + recNo;
+					final String errorMessage = "Unexpected interrumption has "
+							+ "occurs during the waiting for the lock release for "
+							+ "the record: " + recNo;
 					
 					DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 					
@@ -1010,8 +1010,8 @@ public class Data implements DB {
 			
 			if (!isRecordLocked(recNo, cookie)) {
 
-				final String errorMessage = "Cookie value " + cookie + " does not " +
-						"own the lock on record " + recNo;
+				final String errorMessage = "Cookie value " + cookie + " does not "
+						+ "own the lock on record " + recNo;
 
 				DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 

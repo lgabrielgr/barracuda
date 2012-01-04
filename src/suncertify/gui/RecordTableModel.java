@@ -45,17 +45,17 @@ public class RecordTableModel extends AbstractTableModel {
 	/**
 	 * Constructs a <code>RecordTableModel</code> object.
 	 * 
-	 * @param records Records to model in table.
+	 * @param recordsList List of Records to model in table.
 	 */
-	public RecordTableModel(final List<Record> records) {
+	public RecordTableModel(final List<Record> recordsList) {
 		
-		if (records == null) {
+		if (recordsList == null) {
 			
-			this.records = new ArrayList<Record>();
+			records = new ArrayList<Record>();
 			
 		} else {
 			
-			this.records = records;
+			records = recordsList;
 			
 		}
 	}
@@ -223,8 +223,8 @@ public class RecordTableModel extends AbstractTableModel {
 			default:
 
 				GUILogger.warning(CLASS_NAME, methodName, 
-						"Can't update a record with the value: " + stringValue +
-						"at row: " + rowIndex + " and column: " + columnIndex);
+						"Can't update a record with the value: " + stringValue
+						+ " at row: " + rowIndex + " and column: " + columnIndex);
 
 			}
 

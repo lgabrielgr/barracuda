@@ -82,8 +82,8 @@ public class DataFileFormat {
 			
 		} catch (IOException e) {
 
-			DatabaseLogger.severe(CLASS_NAME, methodName, "Unable to load the " +
-					"data file format due to an error: " + e.getMessage());
+			DatabaseLogger.severe(CLASS_NAME, methodName, "Unable to load the "
+					+ "data file format due to an error: " + e.getMessage());
 			
 		} finally {
 			DatabaseLogger.exiting(CLASS_NAME, methodName);
@@ -116,7 +116,7 @@ public class DataFileFormat {
 				final int currentRecordPosition = totalRecordRows * getRecordLength();
 				currentRecordRow = initialDataPosition + currentRecordPosition;
 
-				recordRows.add((int)currentRecordRow);
+				recordRows.add((int) currentRecordRow);
 
 				totalRecordRows++;
 			}
@@ -206,10 +206,10 @@ public class DataFileFormat {
 	/**
 	 * Sets the magic number.
 	 * 
-	 * @param magicNumber Magic number.
+	 * @param magicNumberValue Magic number value.
 	 */
-	private void setMagicNumber(int magicNumber) {
-		this.magicNumber = magicNumber;
+	private void setMagicNumber(int magicNumberValue) {
+		magicNumber = magicNumberValue;
 	}
 
 	/**
@@ -224,10 +224,10 @@ public class DataFileFormat {
 	/**
 	 * Sets the record length.
 	 * 
-	 * @param recordLength Record length.
+	 * @param recordLengthValue Record length value.
 	 */
-	private void setRecordLength(int recordLength) {
-		this.recordLength = recordLength;
+	private void setRecordLength(int recordLengthValue) {
+		recordLength = recordLengthValue;
 	}
 
 	/**
@@ -242,10 +242,10 @@ public class DataFileFormat {
 	/**
 	 * Sets the number of fields per record.
 	 * 
-	 * @param numberOfFieldsPerRecord Number of fields per record.
+	 * @param fieldsPerRecord Number of fields per record.
 	 */
-	private void setNumberOfFieldsPerRecord(int numberOfFieldsPerRecord) {
-		this.numberOfFieldsPerRecord = numberOfFieldsPerRecord;
+	private void setNumberOfFieldsPerRecord(int fieldsPerRecord) {
+		numberOfFieldsPerRecord = fieldsPerRecord;
 	}
 
 	/**

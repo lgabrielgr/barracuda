@@ -91,23 +91,23 @@ public class ApplicationRunner {
             
         } catch (UnsupportedLookAndFeelException uex) {
             
-        	GUILogger.warning(CLASS_NAME, methodName, "Unable to set look and " +
-        			"feel to UI Manager: " + uex.getMessage());
+        	GUILogger.warning(CLASS_NAME, methodName, "Unable to set look and "
+        			+ "feel to UI Manager: " + uex.getMessage());
         	
         } catch (ClassNotFoundException cex) {
             
-        	GUILogger.warning(CLASS_NAME, methodName, "Unable to set look and " +
-        			"feel to UI Manager: " + cex.getMessage());
+        	GUILogger.warning(CLASS_NAME, methodName, "Unable to set look and "
+        			+ "feel to UI Manager: " + cex.getMessage());
         	
         } catch (InstantiationException iex) {
             
-        	GUILogger.warning(CLASS_NAME, methodName, "Unable to set look and " +
-        			"feel to UI Manager: " + iex.getMessage());
+        	GUILogger.warning(CLASS_NAME, methodName, "Unable to set look and "
+        			+ "feel to UI Manager: " + iex.getMessage());
         	
         } catch (IllegalAccessException iaex) {
 
-        	GUILogger.warning(CLASS_NAME, methodName, "Unable to set look and " +
-        			"feel to UI Manager: " + iaex.getMessage());
+        	GUILogger.warning(CLASS_NAME, methodName, "Unable to set look and "
+        			+ "feel to UI Manager: " + iaex.getMessage());
         	
         }
 		

@@ -21,7 +21,7 @@ public class ExitServerListener
 	/**
 	 * Class name.
 	 */
-	static final private String CLASS_NAME = 
+	private static final String CLASS_NAME = 
 			ExitServerListener.class.getName();
 	
 	/**

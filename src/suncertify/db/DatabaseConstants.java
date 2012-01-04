@@ -48,4 +48,14 @@ public class DatabaseConstants {
 	 */
 	public static final String OWNER_FIELD = "owner";
 	
+	/**
+	 * Maximum rate's value accepted by database.
+	 */
+	public static final double MAX_RATE_VALUE = 9999.99;
+	
+	/**
+	 * Maximum owner id value accepted by database.
+	 */
+	public static final int MAX_OWNER_ID_VALUE = 99999999;
+	
 }

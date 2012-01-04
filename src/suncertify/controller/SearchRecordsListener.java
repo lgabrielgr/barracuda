@@ -34,10 +34,12 @@ public class SearchRecordsListener implements ActionListener {
 	/**
 	 * Constructs a <code>SearchRecordsListener</code> object.
 	 * 
-	 * @param standAloneWindow Reference of the stand alone window frame.
+	 * @param standAloneWindowFrame Reference of the stand alone window frame.
 	 */
-	public SearchRecordsListener(final StandAloneWindow standAloneWindow) {
-		this.standAloneWindow = standAloneWindow;
+	public SearchRecordsListener(final StandAloneWindow standAloneWindowFrame) {
+
+		this.standAloneWindow = standAloneWindowFrame;
+
 	}
 	
 	/**
@@ -253,13 +255,9 @@ public class SearchRecordsListener implements ActionListener {
 	 * @return True if it is null or empty; False otherwise.
 	 */
 	private boolean isEmptyString(final String value) {
-		
-		if ((value == null) || ("".equals(value.trim()))) {
-			return true;
-		} else {
-			return false;
-		}
-		
+
+		return ((value == null) || ("".equals(value.trim())));
+
 	}
 	
 	/**

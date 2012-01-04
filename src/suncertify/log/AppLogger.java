@@ -27,8 +27,8 @@ public class AppLogger {
 	/**
 	 * Log file path.
 	 */
-	private static final String LOG_FILE_PATH = LOG_DIRECTORY + 
-			File.separator + LOG_FILE;
+	private static final String LOG_FILE_PATH = LOG_DIRECTORY
+			+ File.separator + LOG_FILE;
 	
 	/**
 	 * Reference to the <code>FileHandler</code> to add
@@ -53,8 +53,8 @@ public class AppLogger {
 			
 		} catch (SecurityException e) {
 			
-			System.out.println("Unable to create the file handler for logger " +
-					"due to a security violation: " + e.getMessage());
+			System.out.println("Unable to create the file handler for logger "
+					+ "due to a security violation: " + e.getMessage());
 			
 		} catch (IOException e) {
 			
@@ -82,20 +82,20 @@ public class AppLogger {
 					
 				} else {
 					
-					System.out.println("Unable to create the log file, check " +
-							"directory permissions");
+					System.out.println("Unable to create the log file, check "
+							+ "directory permissions");
 					
 				}
 			} else {
 
-				System.out.println("Unable to create the log file, check " +
-						"directory permissions");
+				System.out.println("Unable to create the log file, check "
+						+ "directory permissions");
 				
 			}
 		} catch (IOException e) {
 			
-			System.out.println("Unable to create the file handler for the " +
-					"logger due to an I/O error: " + e.getMessage());
+			System.out.println("Unable to create the file handler for the "
+					+ "logger due to an I/O error: " + e.getMessage());
 			
 		}
 	}

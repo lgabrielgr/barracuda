@@ -21,7 +21,7 @@ public class GUIUtils {
 	/**
 	 * Class name.
 	 */
-	private final static String CLASS_NAME = GUIUtils.class.getName();
+	private static final String CLASS_NAME = GUIUtils.class.getName();
 	
 	/**
      * Centers on screen the specified frame.
@@ -53,7 +53,7 @@ public class GUIUtils {
     	final String methodName = "askUserToExit";
     	GUILogger.entering(CLASS_NAME, methodName);
     	
-    	final int userSelection = showConfirmDialog( 
+    	final int userSelection = showConfirmDialog(
     			GUIMessages.EXIT_MESSAGE_DIALOG_TEXT, 
     			GUIMessages.EXIT_MESSAGE_TITLE_TEXT); 
     
@@ -105,7 +105,7 @@ public class GUIUtils {
 
     		}
     		
-    	} finally{
+    	} finally {
     		
     		GUILogger.exiting(CLASS_NAME, methodName);
     		

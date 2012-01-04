@@ -31,10 +31,12 @@ public class RowSelectionListener implements ListSelectionListener {
 	/**
 	 * Constructs a <code>RowSelectionListener</code> object.
 	 * 
-	 * @param standAloneWindow Reference to the stand alone window frame.
+	 * @param standAloneWindowFrame Reference to the stand alone window frame.
 	 */
-	public RowSelectionListener(final StandAloneWindow standAloneWindow) {
-		this.standAloneWindow = standAloneWindow;
+	public RowSelectionListener(final StandAloneWindow standAloneWindowFrame) {
+
+		standAloneWindow = standAloneWindowFrame;
+
 	}
 	
 	/**
@@ -57,8 +59,8 @@ public class RowSelectionListener implements ListSelectionListener {
 			if (standAloneWindow == null) {
 
 				ControllerLogger.warning(CLASS_NAME, methodName, 
-						"User has selected a main table's row but a reference " +
-						"to the stand alone window does not exist");
+						"User has selected a main table's row but a reference "
+						+ "to the stand alone window does not exist");
 
 				return;
 			}

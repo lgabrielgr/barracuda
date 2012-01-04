@@ -153,8 +153,8 @@ public class GUIMessages {
 	 * server.
 	 */
 	public static final String CANT_ACCESS_TO_DB_MESSAGE = 
-			"Unable to connect to the database server, please see logs for " +
-			"details.";
+			"Unable to connect to the database server, please see logs for "
+			+ "details.";
 	
 	/**
 	 * Text to display to user when it is tried to update a row with an 
@@ -167,23 +167,23 @@ public class GUIMessages {
 	 * Text to display to user when the application failed to book the room
 	 * in the database.
 	 */
-	public static final String BOOK_ROOM_FAILED_MESSAGE = 
+	public static final String BOOK_ROOM_FAILED_MESSAGE =
 			"Unable to book the room. Please logs for details.";
 	
 	/**
 	 * Text to display to user when the application failed to update a record
 	 * because the record was not found in the database.
 	 */
-	public static final String FAILED_BOOK_ROOM_RECORD_NOT_FOUND_MESSAGE = 
-			"Unable to update the record, the record selected was not found " +
-			"in the database.";
+	public static final String FAILED_BOOK_ROOM_RECORD_NOT_FOUND_MESSAGE =
+			"Unable to update the record, the record selected was not found "
+			+ "in the database.";
 	
 	/**
 	 * Text to display to user when He/She tries to book a room already booked.
 	 */
 	public static final String ROOM_ALREADY_BOOKED_MESSAGE = 
-			"Unable to book the selected room, it was previously booked by " +
-			"another instance.";
+			"Unable to book the selected room, it was previously booked by "
+			+ "another instance.";
 	
 	/**
 	 * Text to display in the status bar, when it is unable to update a record
@@ -227,23 +227,23 @@ public class GUIMessages {
 	 * Text to display to user when an invalid database file path is entered.
 	 */
 	public static final String INVALID_DATABASE_MESSAGE = 
-			"The database file is not a valid file (*.db) or a non-existing " +
-			"file. Please, enter a valid database file.";
+			"The database file is not a valid file (*.db) or a non-existing "
+			+ "file. Please, enter a valid database file.";
 	
 	/**
 	 * Text to display to user when the database file path is not readable and 
 	 * not writable. 
 	 */
 	public static final String DATABASE_NOT_EDITABLE_MESSAGE = 
-			"The database file is not readable and/or writable. Please, verify " +
-			"the file's permissions.";
+			"The database file is not readable and/or writable. Please, verify "
+			+ "the file's permissions.";
 
 	/**
 	 * Text to display to user when it was an error during the initial startup.
 	 */
 	public static final String INITIAL_STARTUP_ERROR_MESSAGE = 
-			"Unable to load all records ot display as the initial startup, " +
-			"please see log for details";
+			"Unable to load all records ot display as the initial startup, "
+			+ "please see log for details";
 	
 	/**
 	 * Text to display to user the number of records found during the search.

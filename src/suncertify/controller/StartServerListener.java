@@ -25,7 +25,7 @@ public class StartServerListener implements ActionListener {
 	/**
 	 * Class name.
 	 */
-	static final private String CLASS_NAME = 
+	private static final String CLASS_NAME = 
 			StartServerListener.class.getName();
 	
 	/**
@@ -36,10 +36,13 @@ public class StartServerListener implements ActionListener {
 	/**
 	 * Constructs a <code>StartServerListener</code> object.
 	 * 
-	 * @param serverWindow Reference of the Server window frame.
+	 * @param abstractServerWindow Reference of the Server window frame.
 	 */
-	public StartServerListener(final AbstractServerWindow serverWindow) {
-		this.serverWindow = serverWindow;
+	public StartServerListener(
+			final AbstractServerWindow abstractServerWindow) {
+
+		serverWindow = abstractServerWindow;
+
 	}
 	
 	/**
@@ -56,8 +59,8 @@ public class StartServerListener implements ActionListener {
 			
 			if (serverWindow == null) {
 				
-				throw new RemoteException("A reference to the Server window " +
-						"does not exist");
+				throw new RemoteException("A reference to the Server window "
+						+ "does not exist");
 				
 			}
 			
