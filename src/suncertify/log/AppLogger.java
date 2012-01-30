@@ -36,8 +36,18 @@ public class AppLogger {
 	 */
 	private static FileHandler handler;
 	
+	/**
+	 * Creates the log file when the class is loaded.
+	 */
 	static {
 		createFileHandler();	
+	}
+	
+	/**
+	 * Constructor.
+	 */
+	protected AppLogger() {
+		
 	}
 
 	/**
@@ -124,7 +134,7 @@ public class AppLogger {
 
 	/**
 	 * Reads the log level defined in the suncertify.properties file.
-	 * @return
+	 * @return Log level.
 	 */
 	private static Level readLogLevel() {
 		

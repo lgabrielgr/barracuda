@@ -52,19 +52,19 @@ public class Data implements DB {
     /**
      * Contains all the record numbers that are locked.
      */
-    private static final Map<Integer, Long> lock =
+    private static final Map<Integer, Long> RECORDS_LOCKED =
 			new HashMap<Integer, Long>();
     
 	/**
      * Cache that contains all the deleted record rows in the database.
      */
-    private static final Queue<Integer> deletedRecordRows = 
+    private static final Queue<Integer> DELETED_RECORD_ROWS = 
     		new PriorityQueue<Integer>();
     
     /**
      * Cache that contains all valid records (not deleted) in the database.
      */
-    private static final Map<Integer, String []> validRecords = 
+    private static final Map<Integer, String []> VALID_RECORDS = 
     		new LinkedHashMap<Integer, String[]>();
   		
     /**
@@ -120,19 +120,20 @@ public class Data implements DB {
 				final int deletedRecord = database.readByte();
 				if (deletedRecord == DatabaseConstants.DELETED_RECORD) {
 					
-					deletedRecordRows.add(currentRecordRow);
+					DELETED_RECORD_ROWS.add(currentRecordRow);
 					
 				} else {
 					
 					try {
 						
-						validRecords.put(currentRecordRow, 
+						VALID_RECORDS.put(currentRecordRow, 
 								readFromFile(currentRecordRow));
 						
 					} catch (RecordNotFoundException e) {
 						
 						DatabaseLogger.warning(CLASS_NAME, methodName, 
-								"Unable to load to cache a record: " + e.getMessage());
+								"Unable to load to cache a record: " 
+										+ e.getMessage());
 					}
 					
 				}
@@ -268,7 +269,7 @@ public class Data implements DB {
 	 * @throws RecordNotFoundException If the record is not found in the
 	 *                                 database.
 	 */
-	public String[] read(final int recNo) throws RecordNotFoundException {
+	public final String [] read(final int recNo) throws RecordNotFoundException {
 		
 		final String methodName = "read";
 		DatabaseLogger.entering(CLASS_NAME, methodName, recNo);
@@ -276,7 +277,7 @@ public class Data implements DB {
 		readLock.lock();
 		try {
 			
-			final String [] record = validRecords.get(recNo);
+			final String [] record = VALID_RECORDS.get(recNo);
 			
 			if (record == null) {
 				
@@ -306,7 +307,8 @@ public class Data implements DB {
 	 * @throws RecordNotFoundException If the record is deleted or any I/O
 	 *                                 error occurs.
 	 */
-	private String[] readFromFile(final int recNo) throws RecordNotFoundException {
+	private String[] readFromFile(final int recNo) 
+			throws RecordNotFoundException {
 		
 		final String methodName = "readFromFile";
 		DatabaseLogger.entering(CLASS_NAME, methodName, recNo);
@@ -336,7 +338,8 @@ public class Data implements DB {
 			for (RecordField field: dataFileFormat.getRecordFields()) {
 				
 				final String recordFieldValue = 
-						new String(buffer, offset, field.getFieldValueLength());
+						new String(buffer, offset, 
+								field.getFieldValueLength());
 				
 				record[field.getFieldPosition()] = recordFieldValue.trim();
 				
@@ -381,7 +384,8 @@ public class Data implements DB {
 	 * @throws SecurityException If the record is locked with a 
 	 *                           cookie other than lockCookie.
 	 */
-	public void update(int recNo, String[] data, long lockCookie)
+	public final void update(final int recNo, final String[] data, 
+			final long lockCookie)
 			throws RecordNotFoundException, SecurityException {
 		
 		final String methodName = "update";
@@ -390,7 +394,7 @@ public class Data implements DB {
 		writeLock.lock();
 		try {
 			
-			if (deletedRecordRows.contains(recNo)) {
+			if (DELETED_RECORD_ROWS.contains(recNo)) {
 				
 				final String errorMessage = "The record is deleted";
 				
@@ -414,7 +418,7 @@ public class Data implements DB {
 			database.seek(recNo);
 			database.write(record);
 			
-			validRecords.put(recNo, data);
+			VALID_RECORDS.put(recNo, data);
 			
 		} catch (IOException e) {
 			
@@ -460,7 +464,8 @@ public class Data implements DB {
 			
 			if (fieldDataValue.length() > field.getFieldValueLength()) {
 				currentFieldValue = new StringBuilder(
-						fieldDataValue.substring(0, field.getFieldValueLength()));
+						fieldDataValue.substring(0, 
+								field.getFieldValueLength()));
 			} else {
 				currentFieldValue = new StringBuilder(fieldDataValue);
 			}
@@ -490,7 +495,7 @@ public class Data implements DB {
 	 * @throws SecurityException If the record is locked with a cookie other 
 	 *                           than lockCookie.
 	 */
-	public void delete(final int recNo, final long lockCookie)
+	public final void delete(final int recNo, final long lockCookie)
 			throws RecordNotFoundException, SecurityException {
 		
 		final String methodName = "delete";
@@ -499,7 +504,7 @@ public class Data implements DB {
 		writeLock.lock();
 		try {
 			
-			if (deletedRecordRows.contains(recNo)) {
+			if (DELETED_RECORD_ROWS.contains(recNo)) {
 				
 				final String errorMessage = "Record is already deleted";
 				
@@ -521,13 +526,13 @@ public class Data implements DB {
 			database.seek(recNo);
 			database.write((byte) DatabaseConstants.DELETED_RECORD);
 			
-			deletedRecordRows.add(recNo);
-			validRecords.remove(recNo);
+			DELETED_RECORD_ROWS.add(recNo);
+			VALID_RECORDS.remove(recNo);
 			
 		} catch (IOException e) {
 
-			final String errorMessage = "Unable to delete record due to an I/O "
-					+ "error: " + e.getMessage();
+			final String errorMessage = "Unable to delete record due to an "
+					+ "I/O error: " + e.getMessage();
 			
 			DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 			
@@ -543,10 +548,10 @@ public class Data implements DB {
 	}
 
 	/**
-	 * Returns an array of record numbers that match the specified criteria. 
-	 * A null or empty value in criteria[n] matches any field value. A non-null 
-	 * value in criteria[n] matches any field value that begins with criteria[n].
-	 * (For example, "Fred" matches "Fred" or "Freddy"). 
+	 * Returns an array of record numbers that match the specified criteria.
+	 * A null or empty value in criteria[n] matches any field value. A 
+	 * non-null value in criteria[n] matches any field value that begins with
+	 * criteria[n]. (For example, "Fred" matches "Fred" or "Freddy"). 
 	 * <br />The criteria content must be as the follow order:
 	 * <br />0 - Hotel name.
      * <br />1 - Location.
@@ -555,17 +560,17 @@ public class Data implements DB {
      * <br />4 - Rate per night.
      * <br />5 - Date available.
      * <br />6 - Owner ID.
-	 * <br /><br />If the given criteria does not match as above, an empty array is 
-	 * returned.
-	 * <br /><br />If a given field value length in the criteria is bigger than 
-	 * the field length defined in the database, it gets a substring from the 
-	 * beginning of the value to the field value length permitted.
+	 * <br /><br />If the given criteria does not match as above, an empty 
+	 * array is returned.
+	 * <br /><br />If a given field value length in the criteria is bigger 
+	 * than the field length defined in the database, it gets a substring 
+	 * from the beginning of the value to the field value length permitted.
 	 * 
 	 * @param criteria Array containing the search criteria, or null if 
 	 *                 want all records numbers in the database.
 	 * @return An array containing all the records numbers found.
 	 */
-	public int[] find(final String[] criteria) {
+	public final int [] find(final String[] criteria) {
 		
 		final String methodName = "find";
 		DatabaseLogger.entering(CLASS_NAME, methodName);
@@ -596,11 +601,11 @@ public class Data implements DB {
      * <br />4 - Rate per night.
      * <br />5 - Date available.
      * <br />6 - Owner ID.
-	 * <br /><br />If the given criteria does not match as above, an empty array is 
-	 * returned.
-	 * <br /><br />If a given field value length in the criteria is bigger than 
-	 * the field length defined in the database, it gets a substring from the 
-	 * beginning of the value to the field value length permitted.
+	 * <br /><br />If the given criteria does not match as above, an empty 
+	 * array is returned.
+	 * <br /><br />If a given field value length in the criteria is bigger 
+	 * than the field length defined in the database, it gets a substring 
+	 * from the beginning of the value to the field value length permitted.
 	 * 
 	 * @param criteria Criteria to apply in the search. Can be null.
 	 * @return An array that contains all the record rows found during the 
@@ -615,7 +620,7 @@ public class Data implements DB {
 		
 		if (criteria == null) {
 			
-			filteredRowsFound = validRecords.keySet();
+			filteredRowsFound = VALID_RECORDS.keySet();
 			
 		} else if (criteria.length 
 				< dataFileFormat.getNumberOfFieldsPerRecord()) {
@@ -650,11 +655,11 @@ public class Data implements DB {
      * <br />4 - Rate per night.
      * <br />5 - Date available.
      * <br />6 - Owner ID.
-	 * <br /><br />If the given criteria does not match as above, an empty list is 
-	 * returned.
-	 * <br /><br />If a given field value length in the criteria is bigger than 
-	 * the field length defined in the database, it gets a substring from the 
-	 * beginning of the value to the field value length permitted.
+	 * <br /><br />If the given criteria does not match as above, an empty 
+	 * list is returned.
+	 * <br /><br />If a given field value length in the criteria is bigger 
+	 * than the field length defined in the database, it gets a substring 
+	 * from the beginning of the value to the field value length permitted.
 	 * 
 	 * @param criteria Criteria to apply in the search filter.
 	 * @return A list that contains all the record rows found during the 
@@ -675,7 +680,7 @@ public class Data implements DB {
 			}
 			
 			final Set<Entry<Integer, String[]>> allRecords = 
-					validRecords.entrySet();
+					VALID_RECORDS.entrySet();
 
 			for (Entry<Integer, String[]> currentRecord: allRecords) {
 
@@ -690,7 +695,8 @@ public class Data implements DB {
 					
 					String fieldInCriteria = criteria[fieldIndex];
 					
-					if (!matchCriteria(recordData[fieldIndex], fieldInCriteria)) {
+					if (!matchCriteria(recordData[fieldIndex], 
+							fieldInCriteria)) {
 						match = false;
 						break;
 					}
@@ -746,9 +752,9 @@ public class Data implements DB {
 	}
 	
 	/**
-	 * Creates a new record in the database (possibly reusing a deleted entry). 
-	 * Inserts the given data, and returns the record number of the new record
-	 * if created successfully, otherwise return -1.
+	 * Creates a new record in the database (possibly reusing a deleted 
+	 * entry). Inserts the given data, and returns the record number of 
+	 * the new record if created successfully, otherwise return -1.
 	 * <br /> The fields of a record to insert must be as follow:
 	 * <br />0 - Hotel name.
      * <br />1 - Location.
@@ -764,7 +770,7 @@ public class Data implements DB {
 	 * @throws DuplicateKeyException If the record already exists in the 
 	 *                               database.
 	 */
-	public int create(final String[] data) throws DuplicateKeyException {
+	public final int create(final String[] data) throws DuplicateKeyException {
 		
 		final String methodName = "create";
 		DatabaseLogger.entering(CLASS_NAME, methodName);
@@ -790,14 +796,15 @@ public class Data implements DB {
 			database.seek(newRecordRow);
 			database.write(newRecord);
 			
-			validRecords.put(newRecordRow, data);
+			VALID_RECORDS.put(newRecordRow, data);
 			
 		} catch (IOException e) {
 			
 			newRecordRow = -1;
 			
 			DatabaseLogger.severe(CLASS_NAME, methodName, 
-					"Unable to create record due to an I/O error: " + e.getMessage());
+					"Unable to create record due to an I/O error: " 
+							+ e.getMessage());
 			
 		} finally {
 			
@@ -822,13 +829,13 @@ public class Data implements DB {
 		
 		int newRecordRow = 0;
 		
-		if (deletedRecordRows.isEmpty()) {
+		if (DELETED_RECORD_ROWS.isEmpty()) {
 			
 			newRecordRow = (int) database.length();
 			
 		} else {
 			
-			newRecordRow = deletedRecordRows.poll();
+			newRecordRow = DELETED_RECORD_ROWS.poll();
 			
 		}
 		
@@ -854,17 +861,18 @@ public class Data implements DB {
 		
 		boolean recordDuplicated = false;
 		
-		final Set<Integer> recordRows = validRecords.keySet();
+		final Set<Integer> recordRows = VALID_RECORDS.keySet();
 		
 		for (int currentRecordRow: recordRows) {
 			
 			recordDuplicated = true;
 			
-			final String [] record = validRecords.get(currentRecordRow);
+			final String [] record = VALID_RECORDS.get(currentRecordRow);
 			
 			for (RecordField field: dataFileFormat.getRecordFields()) {
 				
-				if (DatabaseConstants.OWNER_FIELD.equals(field.getFieldName())) {
+				if (DatabaseConstants.OWNER_FIELD.equals(
+						field.getFieldName())) {
 					continue;
 				}
 				
@@ -872,7 +880,8 @@ public class Data implements DB {
 				
 				String fieldToCompare = dataToCompare[fieldIndex];
 				if ((fieldToCompare != null) 
-						&& (fieldToCompare.length() > field.getFieldValueLength())) {
+						&& (fieldToCompare.length() 
+								> field.getFieldValueLength())) {
 					fieldToCompare = fieldToCompare.substring(0, 
 							field.getFieldNameLength());
 				}
@@ -929,16 +938,17 @@ public class Data implements DB {
 	
 	/**
 	 * Locks a record so that it can only be updated or deleted by this client.
-	 * Returned value is a cookie that must be used when the record is unlocked,
-	 * updated, or deleted. If the specified record is already locked by a different
-	 * client, the current thread gives up the CPU and consumes no CPU cycles until
-	 * the record is unlocked.
+	 * Returned value is a cookie that must be used when the record is 
+	 * unlocked, updated, or deleted. If the specified record is already 
+	 * locked by a different client, the current thread gives up the CPU and 
+	 * consumes no CPU cycles until the record is unlocked.
 	 * 
 	 * @param recNo Record number to be locked.
 	 * @return Cookie value that owns the lock on the record.
-	 * @throws RecordNotFoundException If the record is not found in the database.
+	 * @throws RecordNotFoundException If the record is not found in the 
+	 *                                 database.
 	 */
-	public long lock(int recNo) throws RecordNotFoundException {
+	public final long lock(final int recNo) throws RecordNotFoundException {
 		
 		final String methodName = "lock";
 		DatabaseLogger.entering(CLASS_NAME, methodName, recNo);
@@ -949,16 +959,17 @@ public class Data implements DB {
 		writeLock.lock();
 		try {
 			
-			while (lock.containsKey(recNo)) {
+			while (RECORDS_LOCKED.containsKey(recNo)) {
 				try {
 					lockNotReleased.await();
 				} catch (InterruptedException e) {
 
 					final String errorMessage = "Unexpected interrumption has "
-							+ "occurs during the waiting for the lock release for "
-							+ "the record: " + recNo;
+							+ "occurs during the waiting for the lock release "
+							+ "for the record: " + recNo;
 					
-					DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
+					DatabaseLogger.severe(CLASS_NAME, methodName, 
+							errorMessage);
 					
 					throw new RecordNotFoundException(errorMessage);
 					
@@ -966,9 +977,10 @@ public class Data implements DB {
 			}
 			
 			
-			if (!validRecords.containsKey(recNo)) {
+			if (!VALID_RECORDS.containsKey(recNo)) {
 				
-				final String errorMessage = "Unable to locate record: " + recNo;
+				final String errorMessage = "Unable to locate record: " 
+						+ recNo;
 				
 				DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 				
@@ -976,7 +988,7 @@ public class Data implements DB {
 				
 			}
 			
-			lock.put(recNo, lockNumber);
+			RECORDS_LOCKED.put(recNo, lockNumber);
 			
 		} finally {
 			
@@ -999,8 +1011,9 @@ public class Data implements DB {
 	 * @throws SecurityException If cookie value does not own the lock on the
 	 *                           record.
 	 */
-	public void unlock(final int recNo, 
-			final long cookie) throws RecordNotFoundException, SecurityException {
+	public final void unlock(final int recNo, 
+			final long cookie) throws RecordNotFoundException, 
+			SecurityException {
 		
 		final String methodName = "unlock";
 		DatabaseLogger.entering(CLASS_NAME, methodName, recNo, cookie);
@@ -1010,8 +1023,8 @@ public class Data implements DB {
 			
 			if (!isRecordLocked(recNo, cookie)) {
 
-				final String errorMessage = "Cookie value " + cookie + " does not "
-						+ "own the lock on record " + recNo;
+				final String errorMessage = "Cookie value " + cookie + " does "
+						+ "not own the lock on record " + recNo;
 
 				DatabaseLogger.severe(CLASS_NAME, methodName, errorMessage);
 
@@ -1019,7 +1032,7 @@ public class Data implements DB {
 
 			}
 
-			lock.remove(recNo);
+			RECORDS_LOCKED.remove(recNo);
 			lockNotReleased.signalAll();
 			
 		} finally {
@@ -1047,7 +1060,7 @@ public class Data implements DB {
 		
 		try {
 			
-			final Long lockValue = lock.get(recNo);
+			final Long lockValue = RECORDS_LOCKED.get(recNo);
 
 			if (lockValue == null) {
 
@@ -1065,4 +1078,5 @@ public class Data implements DB {
 		
 		return recordLocked;
 	}
+	
 }

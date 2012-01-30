@@ -29,7 +29,7 @@ public class RecordTableModel extends AbstractTableModel {
 	/**
 	 * Reference to the column names that is defined in the database.
 	 */
-	private static final String[] columnNames = {"Hotel Name", "Location", "Size", 
+	private static final String[] COLUMN_NAME = {"Hotel Name", "Location", "Size", 
 			"Smoking", "Rate", "Date Available", "Owner"};
 	
 	/**
@@ -65,7 +65,7 @@ public class RecordTableModel extends AbstractTableModel {
 	 * 
 	 * @return The number of rows in the model.
 	 */
-	public int getRowCount() {
+	public final int getRowCount() {
 		
 		final String methodName = "getRowCount";
 		GUILogger.entering(CLASS_NAME, methodName);
@@ -87,13 +87,13 @@ public class RecordTableModel extends AbstractTableModel {
 	 * 
 	 * @return The number of columns in the model.
 	 */
-	public int getColumnCount() {
+	public final int getColumnCount() {
 		
 		final String methodName = "getColumnCount";
 		GUILogger.entering(CLASS_NAME, methodName);
-		GUILogger.exiting(CLASS_NAME, methodName, columnNames.length);
+		GUILogger.exiting(CLASS_NAME, methodName, COLUMN_NAME.length);
 		
-		return columnNames.length;
+		return COLUMN_NAME.length;
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class RecordTableModel extends AbstractTableModel {
 	 * 
 	 * @return The value Object at the specified cell.
 	 */
-	public Object getValueAt(final int rowIndex, final int columnIndex) {
+	public final Object getValueAt(final int rowIndex, final int columnIndex) {
 		
 		final String methodName = "getValueAt";
 		GUILogger.entering(CLASS_NAME, methodName, rowIndex, columnIndex);
@@ -136,9 +136,9 @@ public class RecordTableModel extends AbstractTableModel {
 	 * 
 	 * @param value Value to set.
 	 * @param rowIndex Row in which to set the value.
-	 * @param updateIndex Column in which to set the value.
+	 * @param columnIndex Column in which to set the value.
 	 */
-	public void setValueAt(final Object value, final int rowIndex, 
+	public final void setValueAt(final Object value, final int rowIndex, 
 			final int columnIndex) {
 		
 		final String methodName = "setValueAt";
@@ -239,8 +239,8 @@ public class RecordTableModel extends AbstractTableModel {
 	 * @param column Column index to retrieve it's name.
 	 * @return The column name.
 	 */
-	public String getColumnName(int column) {
-		return columnNames[column];
+	public final String getColumnName(final int column) {
+		return COLUMN_NAME[column];
 	}
 	
 	
@@ -273,7 +273,7 @@ public class RecordTableModel extends AbstractTableModel {
 	 * 
 	 * @return Current list of records displayed in the main window.
 	 */
-	public List<Record> getRecords() {
+	public final List<Record> getRecords() {
 		return records;
 	}
 	

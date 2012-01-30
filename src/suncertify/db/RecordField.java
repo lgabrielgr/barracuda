@@ -33,7 +33,7 @@ public class RecordField {
 	 * 
 	 * @return Record field name.
 	 */
-	public String getFieldName() {
+	public final String getFieldName() {
 		return fieldName;
 	}
 
@@ -42,7 +42,7 @@ public class RecordField {
 	 * 
 	 * @param fieldNameValue Record field name value.
 	 */
-	public void setFieldName(String fieldNameValue) {
+	public final void setFieldName(final String fieldNameValue) {
 		fieldName = fieldNameValue;
 	}
 
@@ -51,7 +51,7 @@ public class RecordField {
 	 * 
 	 * @return Record field name length.
 	 */
-	public int getFieldNameLength() {
+	public final int getFieldNameLength() {
 		return fieldNameLength;
 	}
 
@@ -60,7 +60,7 @@ public class RecordField {
 	 * 
 	 * @param fieldNameLengthValue Record field name length value.
 	 */
-	public void setFieldNameLength(int fieldNameLengthValue) {
+	public final void setFieldNameLength(final int fieldNameLengthValue) {
 		fieldNameLength = fieldNameLengthValue;
 	}
 
@@ -69,7 +69,7 @@ public class RecordField {
 	 * 
 	 * @return Record field value length.
 	 */
-	public int getFieldValueLength() {
+	public final int getFieldValueLength() {
 		return fieldValueLength;
 	}
 
@@ -78,7 +78,7 @@ public class RecordField {
 	 * 
 	 * @param valueLength Record field value length.
 	 */
-	public void setFieldValueLength(int valueLength) {
+	public final void setFieldValueLength(final int valueLength) {
 		fieldValueLength = valueLength;
 	}
 	
@@ -87,7 +87,7 @@ public class RecordField {
 	 * 
 	 * @return Field position in record.
 	 */
-	public int getFieldPosition() {
+	public final int getFieldPosition() {
 		return fieldPosition;
 	}
 
@@ -96,7 +96,7 @@ public class RecordField {
 	 * 
 	 * @param fieldPositionValue Field position in record.
 	 */
-	public void setFieldPosition(int fieldPositionValue) {
+	public final void setFieldPosition(final int fieldPositionValue) {
 		fieldPosition = fieldPositionValue;
 	}
 
@@ -105,7 +105,7 @@ public class RecordField {
 	 * 
 	 * @return A hash code value for this object
 	 */
-	public int hashCode() {
+	public final int hashCode() {
 		
 		if (getFieldName() == null) {
 			return 0;
@@ -122,7 +122,7 @@ public class RecordField {
 	 * @return True if this object is the same as the object argument; 
 	 *         false otherwise.
 	 */
-	public boolean equals(final Object object) {
+	public final boolean equals(final Object object) {
 		
 		if (!(object instanceof RecordField)) {
 			return false;
@@ -155,13 +155,15 @@ public class RecordField {
 	 * 
 	 * @return A string representation of the object.
 	 */
-	public String toString() {
+	public final String toString() {
 		
 		final StringBuilder recordFieldString = new StringBuilder();
 		
 		recordFieldString.append("Field name: ").append(getFieldName());
-		recordFieldString.append("\nField name length: ").append(getFieldNameLength());
-		recordFieldString.append("\nField value length: ").append(getFieldValueLength());
+		recordFieldString.append("\nField name length: ").append(
+				getFieldNameLength());
+		recordFieldString.append("\nField value length: ").append(
+				getFieldValueLength());
 		
 		return recordFieldString.toString();
 	}

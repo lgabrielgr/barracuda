@@ -11,11 +11,18 @@ import suncertify.log.AppLogger;
  * @author Leo Gutierrez
  */
 public class DatabaseLogger {
-
+	
 	/**
 	 * Logger.
 	 */
 	private static final Logger LOGGER = AppLogger.getLogger("suncertify.db");
+	
+	/**
+	 * Constructor.
+	 */
+	protected DatabaseLogger() {
+		
+	}
 	
 	/**
 	 * Logs a method entry. 

@@ -41,7 +41,7 @@ public class DataFileFormat {
 	private Set<Integer> recordRows = new TreeSet<Integer>();
 	
 	/**
-	 * Database schema
+	 * Database schema.
 	 */
 	private Set<RecordField> recordFields = new LinkedHashSet<RecordField>();
 
@@ -56,8 +56,8 @@ public class DataFileFormat {
 	
 	/**
 	 * Loads the data file format in the following order:
-	 * <br />- Reads the start of the file that is: Magic number, Record length 
-	 *         and Number of fields per record.
+	 * <br />- Reads the start of the file that is: Magic number, Record 
+	 *         length and Number of fields per record.
 	 * <br />- Reads the database schema.
 	 * <br />- Reads the data section.
 	 * 
@@ -113,7 +113,8 @@ public class DataFileFormat {
 			int totalRecordRows = 0;
 			while (currentRecordRow < lastRecordRow) {
 
-				final int currentRecordPosition = totalRecordRows * getRecordLength();
+				final int currentRecordPosition = 
+						totalRecordRows * getRecordLength();
 				currentRecordRow = initialDataPosition + currentRecordPosition;
 
 				recordRows.add((int) currentRecordRow);
@@ -199,7 +200,7 @@ public class DataFileFormat {
 	 * 
 	 * @return Magic number.
 	 */
-	public int getMagicNumber() {
+	public final int getMagicNumber() {
 		return magicNumber;
 	}
 
@@ -208,7 +209,7 @@ public class DataFileFormat {
 	 * 
 	 * @param magicNumberValue Magic number value.
 	 */
-	private void setMagicNumber(int magicNumberValue) {
+	private void setMagicNumber(final int magicNumberValue) {
 		magicNumber = magicNumberValue;
 	}
 
@@ -217,7 +218,7 @@ public class DataFileFormat {
 	 * 
 	 * @return Record length.
 	 */
-	public int getRecordLength() {
+	public final int getRecordLength() {
 		return recordLength;
 	}
 
@@ -226,7 +227,7 @@ public class DataFileFormat {
 	 * 
 	 * @param recordLengthValue Record length value.
 	 */
-	private void setRecordLength(int recordLengthValue) {
+	private void setRecordLength(final int recordLengthValue) {
 		recordLength = recordLengthValue;
 	}
 
@@ -235,7 +236,7 @@ public class DataFileFormat {
 	 * 
 	 * @return Number of fields per record.
 	 */
-	public int getNumberOfFieldsPerRecord() {
+	public final int getNumberOfFieldsPerRecord() {
 		return numberOfFieldsPerRecord;
 	}
 
@@ -244,7 +245,7 @@ public class DataFileFormat {
 	 * 
 	 * @param fieldsPerRecord Number of fields per record.
 	 */
-	private void setNumberOfFieldsPerRecord(int fieldsPerRecord) {
+	private void setNumberOfFieldsPerRecord(final int fieldsPerRecord) {
 		numberOfFieldsPerRecord = fieldsPerRecord;
 	}
 
@@ -253,7 +254,7 @@ public class DataFileFormat {
 	 * 
 	 * @return A set of rows where all records are stored in database.
 	 */
-	public Set<Integer> getRecordRows() {
+	public final Set<Integer> getRecordRows() {
 		return recordRows;
 	}
 	
@@ -262,7 +263,7 @@ public class DataFileFormat {
 	 * 
 	 * @return Database schema.
 	 */
-	public Set<RecordField> getRecordFields() {
+	public final Set<RecordField> getRecordFields() {
 		return recordFields;
 	}
 	

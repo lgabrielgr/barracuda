@@ -10,7 +10,7 @@ import java.rmi.registry.Registry;
  * 
  * @author Leo Gutierrez
  */
-final public class RegisterDatabase {
+public class RegisterDatabase {
 
 	/**
 	 * Class name.
@@ -23,10 +23,9 @@ final public class RegisterDatabase {
 	private static Registry registry = null;
 	
 	/**
-	 * Prevents <code>RegisterDatabase</code> instantiations, all
-	 * methods are static.
+	 * Constructor.
 	 */
-	private RegisterDatabase() {
+	protected RegisterDatabase() {
 		
 	}
 	

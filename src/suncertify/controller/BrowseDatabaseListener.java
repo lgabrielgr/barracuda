@@ -38,26 +38,27 @@ public class BrowseDatabaseListener implements ActionListener {
 	
 	/**
 	 * Invoked when the user clicks on the browse button.
-	 * <br />Shows a file choose dialog that lets to user to select the 
+	 * <br />Shows a file choose dialog that lets to user to select the
 	 * database file.
+	 * @param actionEvent Listener's action event reference.
 	 */
-	public void actionPerformed(ActionEvent actionEvent) {
-		
+	public final void actionPerformed(final ActionEvent actionEvent) {
+
 		final String methodName = "BrowseDatabaseListener";
 		ControllerLogger.entering(CLASS_NAME, methodName);
-		
+
 		final JFileChooser fileChooser = new JFileChooser();
 		fileChooser.addChoosableFileFilter(new DatabaseFileFilter());
-		
-		final int userSelection = fileChooser.showOpenDialog(serverWindow); 
-		
+
+		final int userSelection = fileChooser.showOpenDialog(serverWindow);
+
 		if (JFileChooser.APPROVE_OPTION == userSelection) {
-			
+
 			serverWindow.setServerLocationFieldText(
 					fileChooser.getSelectedFile().getAbsolutePath());
-			
+
 		}
-		
+
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}
 

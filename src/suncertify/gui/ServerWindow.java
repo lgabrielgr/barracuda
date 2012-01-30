@@ -34,7 +34,7 @@ public class ServerWindow extends AbstractServerWindow {
 	/**
 	 * Adds the proper text to display in the different frame's components.
 	 */
-	protected void addProperTextOnComponents() {
+	protected final void addProperTextOnComponents() {
 		
 		final String methodName = "addProperTextOnComponents";
 		GUILogger.entering(CLASS_NAME, methodName);
@@ -64,7 +64,7 @@ public class ServerWindow extends AbstractServerWindow {
 	/**
 	 * Adds the proper listener to the primary button on Server window frame.
 	 */
-	protected void addListenerToPrimaryServerButton() {
+	protected final void addListenerToPrimaryServerButton() {
 		addListenerToPrimaryServerButton(new StartServerListener(this));
 	}
 	

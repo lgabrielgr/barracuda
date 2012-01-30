@@ -10,6 +10,12 @@ import suncertify.db.IDatabase;
 import suncertify.db.Record;
 import suncertify.db.RecordNotFoundException;
 
+/**
+ * Provides the functionality for remote access to the database.
+ * 
+ * @author Leo Gutierrez
+ *
+ */
 public class RemoteDatabase extends UnicastRemoteObject implements IDatabase {
 
 	/**
@@ -40,7 +46,7 @@ public class RemoteDatabase extends UnicastRemoteObject implements IDatabase {
 	 *                               database.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public int create(final Record record) throws DuplicateKeyException,
+	public final int create(final Record record) throws DuplicateKeyException,
 			RemoteException {
 		
 		return database.create(record);
@@ -55,7 +61,7 @@ public class RemoteDatabase extends UnicastRemoteObject implements IDatabase {
 	 *                                 deleted.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public void delete(final int recordRow) throws RecordNotFoundException,
+	public final void delete(final int recordRow) throws RecordNotFoundException,
 			RemoteException {
 
 		database.delete(recordRow);
@@ -71,7 +77,7 @@ public class RemoteDatabase extends UnicastRemoteObject implements IDatabase {
 	 *                                 deleted.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public void update(final int recordRow, final Record record)
+	public final void update(final int recordRow, final Record record)
 			throws RecordNotFoundException, RemoteException {
 		
 		database.update(recordRow, record);
@@ -88,7 +94,7 @@ public class RemoteDatabase extends UnicastRemoteObject implements IDatabase {
 	 * 								   deleted.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public Record read(final int recordRow) throws RecordNotFoundException,
+	public final Record read(final int recordRow) throws RecordNotFoundException,
 			RemoteException {
 		
 		return database.read(recordRow);
@@ -113,7 +119,7 @@ public class RemoteDatabase extends UnicastRemoteObject implements IDatabase {
 	 *         empty list is returned.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public List<Record> find(final String name, final String location)
+	public final List<Record> find(final String name, final String location)
 			throws RemoteException {
 		
 		return database.find(name, location);

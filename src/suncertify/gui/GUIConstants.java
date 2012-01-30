@@ -39,5 +39,12 @@ public class GUIConstants {
 	 * Application stand alone mode initialization parameter.
 	 */
 	public static final String STAND_ALONE_MODE_PARAMETER = "alone";
+
+	/**
+	 * Constructor.
+	 */
+	protected GUIConstants() {
+		
+	}
 	
 }

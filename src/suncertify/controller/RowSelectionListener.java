@@ -27,7 +27,7 @@ public class RowSelectionListener implements ListSelectionListener {
 	 * Reference to the stand alone window frame.
 	 */
 	private StandAloneWindow standAloneWindow = null;
-	
+
 	/**
 	 * Constructs a <code>RowSelectionListener</code> object.
 	 * 
@@ -38,29 +38,29 @@ public class RowSelectionListener implements ListSelectionListener {
 		standAloneWindow = standAloneWindowFrame;
 
 	}
-	
+
 	/**
 	 * Invoked when user selects a single row in the main table.
 	 * <br />Verifies if the row selected is valid to be booked:
 	 * <br />- Owner column is empty.
-	 * <br />If it is valid, the 'Book Room' button is enabled to perform the 
-	 * book operation. 
+	 * <br />If it is valid, the 'Book Room' button is enabled to perform the
+	 * book operation.
 	 * 
 	 * @param event Reference to the event.
 	 */
-	public void valueChanged(final ListSelectionEvent event) {
-		
+	public final void valueChanged(final ListSelectionEvent event) {
+
 		final String methodName = "valueChanged";
 		ControllerLogger.entering(CLASS_NAME, methodName);
-		
+
 		// Execute the functionality whenever the selection has finalized.
 		if (!event.getValueIsAdjusting()) {
 
 			if (standAloneWindow == null) {
 
-				ControllerLogger.warning(CLASS_NAME, methodName, 
+				ControllerLogger.warning(CLASS_NAME, methodName,
 						"User has selected a main table's row but a reference "
-						+ "to the stand alone window does not exist");
+								+ "to the stand alone window does not exist");
 
 				return;
 			}
@@ -68,8 +68,9 @@ public class RowSelectionListener implements ListSelectionListener {
 			final JTable recordTable = standAloneWindow.getRecordTable();
 
 			final String ownerValue = 
-					(String) recordTable.getValueAt(recordTable.getSelectedRow(), 
-					Record.OWNER_FIELD_INDEX);
+					(String) recordTable.getValueAt(
+							recordTable.getSelectedRow(),
+							Record.OWNER_FIELD_INDEX);
 			
 			if ((ownerValue == null) || ("".equals(ownerValue.trim()))) {
 				standAloneWindow.enableBookRoomButton(true);

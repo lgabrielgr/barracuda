@@ -17,6 +17,13 @@ public class ControllerLogger {
 	 */
 	private static final Logger LOGGER = 
 			AppLogger.getLogger("suncertify.controller");
+
+	/**
+	 * Constructor.
+	 */
+	protected ControllerLogger() {
+		
+	}
 	
 	/**
 	 * Logs a method entry. 

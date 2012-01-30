@@ -47,37 +47,37 @@ public class StartServerListener implements ActionListener {
 	
 	/**
 	 * Invoked when user clicks on Start Server button.
-	 * 
-	 * @param actionEvent The action event. 
+	 *
+	 * @param actionEvent The action event.
 	 */
-	public void actionPerformed(ActionEvent actionEvent) {
-		
+	public void actionPerformed(final ActionEvent actionEvent) {
+
 		final String methodName = "actionPerformed";
 		ControllerLogger.entering(CLASS_NAME, methodName);
-		
+
 		try {
-			
+
 			if (serverWindow == null) {
-				
+
 				throw new RemoteException("A reference to the Server window "
 						+ "does not exist");
-				
+
 			}
-			
+
 			startServer();
-			
+
 		} catch (RemoteException e) {
-			
-			ControllerLogger.severe(CLASS_NAME, methodName, 
+
+			ControllerLogger.severe(CLASS_NAME, methodName,
 					"Unable to start the server: " + e.getMessage());
-			
+
 			JOptionPane.showMessageDialog(serverWindow,
                     GUIMessages.UNABLE_TO_START_SERVER_MESSAGE,
                     GUIMessages.ERROR_TEXT,
                     JOptionPane.ERROR_MESSAGE);
-			
-		} 
-		
+
+		}
+
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}
 
@@ -90,7 +90,7 @@ public class StartServerListener implements ActionListener {
 	 * 
 	 * @throws RemoteException If any networking problem occurs.
 	 */
-	protected void startServer() throws RemoteException {
+	protected final void startServer() throws RemoteException {
 		
 		final String methodName = "startServer";
 		ControllerLogger.entering(CLASS_NAME, methodName);
@@ -119,22 +119,23 @@ public class StartServerListener implements ActionListener {
 	}
 
 	/**
-	 * Verifies if the database location and port number provided by the user 
+	 * Verifies if the database location and port number provided by the user
 	 * are valid or not.
-	 * <br />If either the database location or the port number is not valid, 
+	 * <br />If either the database location or the port number is not valid,
 	 * a warning message is shown to the user.
-	 * 
-	 * @return True if the database location and port number provided by the 
-	 * user are valid; False otherwise.
+	 *
+	 * @return True if the database location and port number provided by the
+	 *         user are valid; False otherwise.
 	 */
 	private boolean isValidUserInput() {
-		
+
 		final String methodName = "isValidUserInput";
 		ControllerLogger.entering(CLASS_NAME, methodName);
-		
+
 		try {
-			
-			final String databasePath = serverWindow.getServerLocationFieldText();
+
+			final String databasePath = 
+					serverWindow.getServerLocationFieldText();
 
 			if (!isValidDatabasePath(databasePath)) {
 
@@ -149,7 +150,7 @@ public class StartServerListener implements ActionListener {
 			if (!isDatabaseFileEditable(databasePath)) {
 
 				JOptionPane.showMessageDialog(serverWindow,
-						GUIMessages.DATABASE_NOT_EDITABLE_MESSAGE, 
+						GUIMessages.DATABASE_NOT_EDITABLE_MESSAGE,
 						GUIMessages.WARNING_TEXT,
 						JOptionPane.WARNING_MESSAGE);
 
@@ -180,34 +181,34 @@ public class StartServerListener implements ActionListener {
 	
 	/**
 	 * Verifies if the database file is readable and writable.
-	 * 
+	 *
 	 * @param databasePath Database file path to verify.
-	 * @return True if the database file has the proper permissions (+rw); 
+	 * @return True if the database file has the proper permissions (+rw);
 	 *         False, otherwise.
 	 */
 	private boolean isDatabaseFileEditable(final String databasePath) {
-		
+
 		final String methodName = "isDatabaseFileEditable";
 		ControllerLogger.entering(CLASS_NAME, methodName, databasePath);
-		
+
 		try {
-			
+
 			final File databaseFile = new File(databasePath);
 
 			if (!databaseFile.canRead()) {
 
-				ControllerLogger.warning(CLASS_NAME, methodName, 
+				ControllerLogger.warning(CLASS_NAME, methodName,
 						"Database file " + databasePath + " is not readable");
-				
+
 				return false;
 
 			}
-			
+
 			if (!databaseFile.canWrite()) {
-				
-				ControllerLogger.warning(CLASS_NAME, methodName, 
+
+				ControllerLogger.warning(CLASS_NAME, methodName,
 						"Database file " + databasePath + " is not writable");
-				
+
 				return false;
 				
 			}
@@ -222,8 +223,8 @@ public class StartServerListener implements ActionListener {
 	}
 	
 	/**
-	 * Verifies if the database location entered by the user is valid. Verifies
-	 * if it exists, is a file and has the .db file extension.
+	 * Verifies if the database location entered by the user is valid. 
+	 * Verifies if it exists, is a file and has the .db file extension.
 	 * 
 	 * @param databasePath Database location to verify.
 	 * @return True if it is a valid database path; False otherwise.
@@ -235,11 +236,12 @@ public class StartServerListener implements ActionListener {
 		
 		try {
 		
-			if ((databasePath == null) || ("".equals(databasePath.trim()))) {
+			if ((databasePath == null) 
+					|| ("".equals(databasePath.trim()))) {
 
-				ControllerLogger.warning(CLASS_NAME, methodName, 
+				ControllerLogger.warning(CLASS_NAME, methodName,
 						"Database file path empty");
-				
+
 				return false;
 
 			}
@@ -253,8 +255,8 @@ public class StartServerListener implements ActionListener {
 
 			} else {
 
-				ControllerLogger.warning(CLASS_NAME, methodName, 
-						"Database file path is not a file or a non-existing file: " 
+				ControllerLogger.warning(CLASS_NAME, methodName,
+						"Database file path is not a file or a non-existing file: "
 								+ databasePath);
 				
 				return false;
@@ -269,7 +271,7 @@ public class StartServerListener implements ActionListener {
 	}
 	
 	/**
-	 * Disable any editable component on server window once the server started 
+	 * Disable any editable component on server window once the server started
 	 * successfully.
 	 */
 	private void disableComponentsOnStart() {
@@ -283,7 +285,7 @@ public class StartServerListener implements ActionListener {
 		serverWindow.setEnabledBrowseButton(false);
 		serverWindow.setStatusLabelText(
 				GUIMessages.SERVER_RUNNING_STATUS_MESSAGE);
-		
+
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}
 
@@ -291,14 +293,14 @@ public class StartServerListener implements ActionListener {
 	 * Updates the properties file with the user input.
 	 */
 	private void updatePropertiesWithUserInput() {
-		
+
 		final String methodName = "updatePropertiesWithUserInput";
 		ControllerLogger.entering(CLASS_NAME, methodName);
-		
+
 		serverWindow.updateDatabasePath(
 				serverWindow.getServerLocationFieldText());
 		serverWindow.updateRMIPort(serverWindow.getPortNumberFieldText());
-		
+
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}
 

@@ -17,6 +17,13 @@ public class ApplicationRunner {
 	public static final String CLASS_NAME = ApplicationRunner.class.getName();
 	
 	/**
+	 * Constructor. 
+	 */
+	protected ApplicationRunner() {
+		
+	}
+	
+	/**
 	 * Launches the application.
 	 * 
 	 * @param args Possible modes to start the application, may be one of:
@@ -25,7 +32,7 @@ public class ApplicationRunner {
 	 *             <br />"server" - Starts the Server.
 	 *             <br />(No Parameter) - Starts the Server and the GUI Console.
 	 */
-	public static void main(String [] args) {
+	public static void main(final String [] args) {
 		
 		final String methodName = "main";
 		GUILogger.entering(CLASS_NAME, methodName);
@@ -45,7 +52,7 @@ public class ApplicationRunner {
 	 *             <br />"server" - Starts the Server.
 	 *             <br />(No Parameter) - Starts the Server and the GUI Console.
 	 */
-	private static void startApplication(String [] args) {
+	private static void startApplication(final String [] args) {
 		
 		final String methodName = "startApplication";
 		GUILogger.entering(CLASS_NAME, methodName);

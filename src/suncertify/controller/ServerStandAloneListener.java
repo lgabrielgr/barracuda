@@ -49,32 +49,32 @@ public class ServerStandAloneListener extends StartServerListener {
 	/**
 	 * Invoked when user clicks on Start Server button.
 	 * <br />Starts the server and runs the Client window.
-	 * 
+	 *
 	 * @param actionEvent The action event.
 	 */
-	public void actionPerformed(ActionEvent actionEvent) {
-		
+	public final void actionPerformed(final ActionEvent actionEvent) {
+
 		final String methodName = "actionPerformed";
 		ControllerLogger.entering(CLASS_NAME, methodName);
-		
+
 		try {
-			
+
 			if (serverWindow == null) {
-				
+
 				throw new RemoteException("A reference to the Server window "
 						+ "does not exist");
-				
+
 			}
-			
+
 			startServer();
-			
+
 			new StandAloneWindow(new Database());
-			
+
 		} catch (RemoteException e) {
-			
-			ControllerLogger.severe(CLASS_NAME, methodName, 
+
+			ControllerLogger.severe(CLASS_NAME, methodName,
 					"Unable to start the server: " + e.getMessage());
-			
+
 			JOptionPane.showMessageDialog(serverWindow,
                     GUIMessages.UNABLE_TO_START_SERVER_MESSAGE,
                     GUIMessages.ERROR_TEXT,

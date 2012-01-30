@@ -15,8 +15,8 @@ import suncertify.gui.GUIUtils;
  * 
  * @author Leo Gutierrez
  */
-public class ExitServerListener 
-	extends WindowAdapter implements ActionListener {
+public class ExitServerListener extends WindowAdapter 
+implements ActionListener {
 
 	/**
 	 * Class name.
@@ -29,7 +29,7 @@ public class ExitServerListener
 	 * 
 	 * @param windowEvent The window event.
 	 */
-	public void windowClosing(final WindowEvent windowEvent) {
+	public final void windowClosing(final WindowEvent windowEvent) {
 		exitServerWindow();
 	}
 	
@@ -40,7 +40,7 @@ public class ExitServerListener
 	 * 
 	 * @param actionEvent The action event.
 	 */
-	public void actionPerformed(final ActionEvent actionEvent) {
+	public final void actionPerformed(final ActionEvent actionEvent) {
 		exitServerWindow();
 	}
 	
@@ -49,20 +49,20 @@ public class ExitServerListener
 	 * the window.
 	 */
 	private void exitServerWindow() {
-		
+
 		final String methodName = "exitServerWindow";
 		ControllerLogger.entering(CLASS_NAME, methodName);
-		
+
 		try {
-			
+
 			GUIUtils.exitServerWindow();
-		
+
 		} finally {
-			
+
 			ControllerLogger.exiting(CLASS_NAME, methodName);
-			
+
 		}
-		
+
 	}
 
 }

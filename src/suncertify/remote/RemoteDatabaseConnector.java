@@ -12,7 +12,7 @@ import suncertify.db.IDatabase;
  * 
  * @author Leo Gutierrez
  */
-final public class RemoteDatabaseConnector {
+public class RemoteDatabaseConnector {
 
 	/**
 	 * Class name.
@@ -24,7 +24,7 @@ final public class RemoteDatabaseConnector {
 	 * Prevents <code>RemoteDatabaseConnector</code> instantiations, all 
 	 * methods are static.
 	 */
-	private RemoteDatabaseConnector() {
+	protected RemoteDatabaseConnector() {
 		
 	}
 	

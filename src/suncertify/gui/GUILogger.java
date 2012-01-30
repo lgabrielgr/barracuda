@@ -18,6 +18,13 @@ public class GUILogger {
 	private static final Logger LOGGER = AppLogger.getLogger("suncertify.gui");
 	
 	/**
+	 * Constructor.
+	 */
+	protected GUILogger() {
+		
+	}
+	
+	/**
 	 * Logs a method entry. 
 	 * 
 	 * @param sourceClass Name of class that issued the logging request.

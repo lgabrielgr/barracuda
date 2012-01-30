@@ -20,7 +20,7 @@ import suncertify.db.DatabaseProperties;
 import suncertify.remote.RemoteProperties;
 
 /**
- * Provides the abstract graphical user interface for the Server window, 
+ * Provides the abstract graphical user interface for the Server window,
  * drawing the components and delegating to any class that extends this  
  * to set the proper messages to the components.
  * 
@@ -235,7 +235,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @return The database path.
 	 */
-	public String readDatabasePath() {
+	public final String readDatabasePath() {
 		return dbProperties.readDatabasePath();
 	}
 	
@@ -245,7 +245,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param dbPath Database path.
 	 */
-	public void updateDatabasePath(final String dbPath) {
+	public final void updateDatabasePath(final String dbPath) {
 		dbProperties.updateDatabasePath(dbPath);
 	}
 	
@@ -254,7 +254,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @return The RMI port.
 	 */
-	public String readRMIPort() {
+	public final String readRMIPort() {
 		return remoteProperties.readRMIPort();
 	}
 	
@@ -264,16 +264,16 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param rmiPort The RMI port.
 	 */
-	public void updateRMIPort(final String rmiPort) {
+	public final void updateRMIPort(final String rmiPort) {
 		remoteProperties.updateRMIPort(rmiPort);
 	}
 	
 	/**
 	 * Reads the RMI host from the properties file.
 	 * 
-	 * @return
+	 * @return The RMI port.
 	 */
-	public String readRMIHost() {
+	public final String readRMIHost() {
 		return remoteProperties.readRMIHost();
 	}
 	
@@ -283,7 +283,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param rmiHost The RMI host.
 	 */
-	public void updateRMIHost(final String rmiHost) {
+	public final void updateRMIHost(final String rmiHost) {
 		remoteProperties.updateRMIHost(rmiHost);
 	}
 	
@@ -293,7 +293,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param text Text to set in the server location label.
 	 */
-	public void setServerLocationLabelText(final String text) {
+	public final void setServerLocationLabelText(final String text) {
 		serverLocationLabel.setText(text);
 	}
 	
@@ -302,7 +302,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param text Text to set in the server location field.
 	 */
-	public void setServerLocationFieldText(final String text) {
+	public final void setServerLocationFieldText(final String text) {
 		serverLocationTextField.setText(text);
 	}
 	
@@ -311,7 +311,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @return The text introduced in the server location field.
 	 */
-	public String getServerLocationFieldText() {
+	public final String getServerLocationFieldText() {
 		return serverLocationTextField.getText();
 	}
 	
@@ -320,7 +320,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param text The text to display in the port number field.
 	 */
-	public void setPortNumberFieldText(final String text) {
+	public final void setPortNumberFieldText(final String text) {
 		portNumberTextField.setText(text);
 	}
 	
@@ -329,7 +329,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @return The text introduced in the port number field.
 	 */
-	public String getPortNumberFieldText() {
+	public final String getPortNumberFieldText() {
 		return portNumberTextField.getText();
 	}
 	
@@ -338,7 +338,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param text The text to display in the window's status label.
 	 */
-	public void setStatusLabelText(final String text) {
+	public final void setStatusLabelText(final String text) {
 		statusLabel.setText(text);
 	}
 
@@ -347,7 +347,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param text The text to display in the window's primary button.
 	 */
-	public void setPrimaryServerButtonText(final String text) {
+	public final void setPrimaryServerButtonText(final String text) {
 		primaryServerButton.setText(text);
 	}
 	
@@ -356,7 +356,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param enable True to enable; False otherwise.
 	 */
-	public void setEnabledPrimaryServerButton(final boolean enable) {
+	public final void setEnabledPrimaryServerButton(final boolean enable) {
 		primaryServerButton.setEnabled(enable);
 	}
 	
@@ -365,7 +365,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param listener Listener to add to the window's primary button.
 	 */
-	public void addListenerToPrimaryServerButton(
+	public final void addListenerToPrimaryServerButton(
 			final ActionListener listener) {
 		primaryServerButton.addActionListener(listener);
 	}
@@ -375,7 +375,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param text The text to display in the window's secondary button.
 	 */
-	public void setSecondaryServerButtonText(final String text) {
+	public final void setSecondaryServerButtonText(final String text) {
 		secondaryServerButton.setText(text);
 	}
 	
@@ -384,7 +384,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param listener Listener to add to the window's secondary button.
 	 */
-	public void addListenerToSecondaryServerButton(
+	public final void addListenerToSecondaryServerButton(
 			final ActionListener listener) {
 		secondaryServerButton.addActionListener(listener);
 	}
@@ -394,7 +394,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param enable True to enable; False otherwise.
 	 */
-	public void setEnabledServerLocationField(final boolean enable) {
+	public final void setEnabledServerLocationField(final boolean enable) {
 		serverLocationTextField.setEnabled(enable);
 	}
 	
@@ -403,7 +403,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param enable True to enable; False otherwise.
 	 */
-	public void setEnabledPortNumberField(final boolean enable) {
+	public final void setEnabledPortNumberField(final boolean enable) {
 		portNumberTextField.setEnabled(enable);
 	}
 	
@@ -412,14 +412,14 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param enable True to enable; False, otherwise.
 	 */
-	public void setEnabledBrowseButton(final boolean enable) {
+	public final void setEnabledBrowseButton(final boolean enable) {
 		browseDatabase.setEnabled(enable);
 	}
 	
 	/**
 	 * Closes the frame.
 	 */
-	public void closeWindow() {
+	public final void closeWindow() {
 		
 		final String methodName = "dispose";
 		GUILogger.entering(CLASS_NAME, methodName);
@@ -437,7 +437,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * <br />It is called when the user only needs to specify the server IP 
 	 * address.
 	 */
-	protected void removeBrowseButton() {
+	protected final void removeBrowseButton() {
 		
 		final String methodName = "removeBrowseButton";
 		GUILogger.entering(CLASS_NAME, methodName);

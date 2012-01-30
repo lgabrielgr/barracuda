@@ -32,7 +32,7 @@ public class AppLoggerProperties extends AppProperties {
 	 * 
 	 * @return Logging level.
 	 */
-	public String readLoggingLevel() {
+	public final String readLoggingLevel() {
 		return readPropertyValue(LOGGING_LEVEL_PROP, DEFAULT_LOG_LEVEL);
 	}
 	

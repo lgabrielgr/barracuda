@@ -3,6 +3,11 @@ package suncertify.db;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * Validates the fields values for a <code>Record</code> object.
+ * 
+ * @author Leo Gutierrez.
+ */
 public class RecordValidator {
 
 	/**
@@ -30,13 +35,13 @@ public class RecordValidator {
 	}
 	
 	/**
-	 * Validates a record hotel name value. It is considered invalid if the value 
-	 * is null or empty.
+	 * Validates a record hotel name value. It is considered invalid if the 
+	 * value is null or empty.
 	 * 
 	 * @param name Hotel name value to validate.
 	 * @return True if value is valid (not null or empty); otherwise, false.
 	 */
-	public boolean isValidHotelName(final String name) {
+	public final boolean isValidHotelName(final String name) {
 		
 		final String methodName = "isValidHotelName";
 		DatabaseLogger.entering(CLASS_NAME, methodName, name);
@@ -59,7 +64,7 @@ public class RecordValidator {
 	 * @param location Location value to validate.
 	 * @return True if value is valid (not null or empty); otherwise, false.
 	 */
-	public boolean isValidLocation(final String location) {
+	public final boolean isValidLocation(final String location) {
 		
 		final String methodName = "isValidLocation";
 		DatabaseLogger.entering(CLASS_NAME, methodName, location);
@@ -76,13 +81,13 @@ public class RecordValidator {
 	}
 	
 	/**
-	 * Validates a record room size value. It is considered invalid if the value 
-	 * is not a number, negative, zero, null or empty.
+	 * Validates a record room size value. It is considered invalid if the 
+	 * value is not a number, negative, zero, null or empty.
 	 * 
 	 * @param size Size value to validate.
 	 * @return True if the size value is valid; otherwise, false.
 	 */
-	public boolean isValidRoomSize(final String size) {
+	public final boolean isValidRoomSize(final String size) {
 		
 		final String methodName = "isValidRoomSize";
 		DatabaseLogger.entering(CLASS_NAME, methodName, size);
@@ -121,7 +126,7 @@ public class RecordValidator {
 	 * @param smoking Smoking value to validate.
 	 * @return True if the smoking value is valid; otherwise, false.
 	 */
-	public boolean isValidSmoking(final String smoking) {
+	public final boolean isValidSmoking(final String smoking) {
 		
 		final String methodName = "isValidSmoking";
 		DatabaseLogger.entering(CLASS_NAME, methodName, smoking);
@@ -146,13 +151,13 @@ public class RecordValidator {
 	
 	/**
 	 * Validates a record rate value. It is considered invalid if the value
-	 * is null or empty, is not a number, does not start with the currency symbol
-	 * '$', or is not in the range 0-9999.99.
+	 * is null or empty, is not a number, does not start with the currency 
+	 * symbol '$', or is not in the range 0-9999.99.
 	 * 
 	 * @param rate Rate value to validate.
 	 * @return True is the record rate value is valid; otherwise, false.
 	 */
-	public boolean isValidRate(final String rate) {
+	public final boolean isValidRate(final String rate) {
 		
 		final String methodName = "isValidRate";
 		DatabaseLogger.entering(CLASS_NAME, methodName, rate);
@@ -198,7 +203,7 @@ public class RecordValidator {
 	 * @param date Date value to validate.
 	 * @return True is the record date value is valid; otherwise, false.
 	 */
-	public boolean isValidDate(final String date) {
+	public final boolean isValidDate(final String date) {
 		
 		final String methodName = "isValidaDate";
 		DatabaseLogger.entering(CLASS_NAME, methodName, date);
@@ -236,7 +241,7 @@ public class RecordValidator {
 	 * @param owner Owner value to validate.
 	 * @return True is the record owner value is valid; otherwise, false.
 	 */
-	public boolean isValidOwner(final String owner) {
+	public final boolean isValidOwner(final String owner) {
 		
 		final String methodName = "isValidOwner";
 		DatabaseLogger.entering(CLASS_NAME, methodName, owner);

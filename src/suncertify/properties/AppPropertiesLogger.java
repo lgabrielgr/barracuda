@@ -18,6 +18,13 @@ public class AppPropertiesLogger {
 	private static final Logger LOGGER = AppLogger.getLogger("suncertify.properties");
 	
 	/**
+	 * Constructor.
+	 */
+	protected AppPropertiesLogger() {
+		
+	}
+	
+	/**
 	 * Logs a method entry. 
 	 * 
 	 * @param sourceClass Name of class that issued the logging request.

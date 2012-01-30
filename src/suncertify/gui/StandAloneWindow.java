@@ -98,8 +98,7 @@ public class StandAloneWindow extends JFrame {
 	 * 
 	 * @param databaseConnection Database from where perform the operations.
 	 */
-	public StandAloneWindow(final IDatabase databaseConnection) 
-			throws RuntimeException {
+	public StandAloneWindow(final IDatabase databaseConnection) {
 
 		database = databaseConnection;
 
@@ -355,7 +354,7 @@ public class StandAloneWindow extends JFrame {
 	 * 
 	 * @param records List of <code>Record</code> objects to display.
 	 */
-	public void addDataToTableModel(List<Record> records) {
+	public final void addDataToTableModel(final List<Record> records) {
 		
 		tableModel = new RecordTableModel(records);
 		recordTable.setModel(tableModel);
@@ -371,7 +370,7 @@ public class StandAloneWindow extends JFrame {
 	 * @return A <code>Record</code> object that represents the selected 
 	 *         row by the user, or null of user selects an out of bounds row.
 	 */
-	public Record getRecordFromTable(final int row) {
+	public final Record getRecordFromTable(final int row) {
 		
 		final String methodName = "getRecordFromData";
 		GUILogger.entering(CLASS_NAME, methodName, row);
@@ -396,7 +395,7 @@ public class StandAloneWindow extends JFrame {
 	 * 
 	 * @param text Text to set to the status label.
 	 */
-	public void setStatusLabelText(final String text) {
+	public final void setStatusLabelText(final String text) {
 		statusLabel.setText(text);
 	}
 	
@@ -405,7 +404,7 @@ public class StandAloneWindow extends JFrame {
 	 * 
 	 * @return The name field text specified by the user.
 	 */
-	public String getHotelnameFieldText() {
+	public final String getHotelnameFieldText() {
 		return nameField.getText();
 	}
 	
@@ -414,7 +413,7 @@ public class StandAloneWindow extends JFrame {
 	 * 
 	 * @param text The name field text to set.
 	 */
-	public void setHotelnameFieldText(final String text) {
+	public final void setHotelnameFieldText(final String text) {
 		nameField.setText(text);
 	}
 	
@@ -423,7 +422,7 @@ public class StandAloneWindow extends JFrame {
 	 * 
 	 * @return The location field text specified by the user.
 	 */
-	public String getLocationFieldText() {
+	public final String getLocationFieldText() {
 		return locationField.getText();
 	}
 	
@@ -432,7 +431,7 @@ public class StandAloneWindow extends JFrame {
 	 * 
 	 * @param text The location field text.
 	 */
-	public void setLocationFieldText(final String text) {
+	public final void setLocationFieldText(final String text) {
 		locationField.setText(text);
 	}
 	
@@ -441,7 +440,7 @@ public class StandAloneWindow extends JFrame {
 	 * 
 	 * @return The database object.
 	 */
-	public IDatabase getDatabase() {
+	public final IDatabase getDatabase() {
 		return database;
 	}
 	
@@ -450,18 +449,18 @@ public class StandAloneWindow extends JFrame {
 	 * 
 	 * @return The main table that displays the records.
 	 */
-	public JTable getRecordTable() {
+	public final JTable getRecordTable() {
 		return recordTable;
 	}
 	
 	/**
-	 * Retrieves the <code>RecordTableModel</object> that is added to the
+	 * Retrieves the <code>RecordTableModel</code> that is added to the
 	 * <code>JTable</code> as the model.
 	 * 
-	 * @return The <code>RecordTableModel</object> that is added to the
+	 * @return The <code>RecordTableModel</code> that is added to the
 	 * <code>JTable</code> as the model.
 	 */
-	public RecordTableModel getRecordTableModel() {
+	public final RecordTableModel getRecordTableModel() {
 		return tableModel;
 	}
 	
@@ -471,7 +470,7 @@ public class StandAloneWindow extends JFrame {
 	 * @param enable <code>True</code> if want to enable the button; 
 	 *               <code>False</code> otherwise.
 	 */
-	public void enableBookRoomButton(final boolean enable) {
+	public final void enableBookRoomButton(final boolean enable) {
 		bookRoomButton.setEnabled(enable);
 	}
 	

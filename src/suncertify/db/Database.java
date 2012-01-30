@@ -35,7 +35,7 @@ public class Database implements IDatabase {
 	 * @throws DuplicateKeyException If the record already exists in the 
 	 *                               database.
 	 */
-	public int create(Record record) throws DuplicateKeyException {
+	public final int create(final Record record) throws DuplicateKeyException {
 		
 		final String methodName = "create";
 		DatabaseLogger.entering(CLASS_NAME, methodName, record);
@@ -66,7 +66,8 @@ public class Database implements IDatabase {
 	 * @throws RecordNotFoundException If the record is not found or already 
 	 *                                 deleted.
 	 */
-	public void delete(int recordRow) throws RecordNotFoundException {
+	public final void delete(final int recordRow) 
+			throws RecordNotFoundException {
 		
 		final String methodName = "delete";
 		DatabaseLogger.entering(CLASS_NAME, methodName, recordRow);
@@ -95,7 +96,7 @@ public class Database implements IDatabase {
 	 * @throws RecordNotFoundException If the record is not found or it is 
 	 *                                 deleted.
 	 */
-	public void update(int recordRow, Record record)
+	public final void update(final int recordRow, final Record record)
 			throws RecordNotFoundException {
 		
 		final String methodName = "update";
@@ -138,7 +139,8 @@ public class Database implements IDatabase {
 	 * @throws RecordNotFoundException If the record is not found or it is
 	 * 								   deleted.
 	 */
-	public Record read(int recordRow) throws RecordNotFoundException {
+	public final Record read(final int recordRow) 
+			throws RecordNotFoundException {
 		
 		final String methodName = "read";
 		DatabaseLogger.entering(CLASS_NAME, methodName, recordRow);
@@ -179,12 +181,12 @@ public class Database implements IDatabase {
 	 * 
 	 * @param name Name to search. Can be null or empty(will match any name 
 	 * 			   value).
-	 * @param location Location to search. Can be null or empty (will match any 
-	 *                 location value).
+	 * @param location Location to search. Can be null or empty (will match 
+	 *                 any location value).
 	 * @return Record(s) found during the search. If no record is found, an 
 	 *         empty list is returned.
 	 */
-	public List<Record> find(String name, String location) {
+	public final List<Record> find(final String name, final String location) {
 		
 		final String methodName = "find";
 		DatabaseLogger.entering(CLASS_NAME, methodName, name, location);

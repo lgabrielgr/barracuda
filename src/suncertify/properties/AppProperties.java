@@ -21,12 +21,12 @@ public class AppProperties {
 	/**
 	 * Properties file path.
 	 */
-	private static final String PROPERTIES_FILE = "suncertify.properties";
+	private static final String PROPERTIES_FILE_PATH = "suncertify.properties";
 	
 	/**
 	 * Reference to the properties.
 	 */
-	private static final Properties properties = new Properties();
+	private static final Properties PROPERTIES = new Properties();
 	
 	/**
 	 * Loads the properties file when the class is loaded.
@@ -51,9 +51,9 @@ public class AppProperties {
 		FileInputStream propertiesFIS = null;
 		try {
 		
-			propertiesFIS = new FileInputStream(PROPERTIES_FILE);
+			propertiesFIS = new FileInputStream(PROPERTIES_FILE_PATH);
 			
-			properties.load(propertiesFIS);
+			PROPERTIES.load(propertiesFIS);
 			
 		} catch (FileNotFoundException e) {
 
@@ -88,9 +88,9 @@ public class AppProperties {
 		FileOutputStream propertiesFOS = null;
 		try {
 			
-			propertiesFOS = new FileOutputStream(PROPERTIES_FILE);
+			propertiesFOS = new FileOutputStream(PROPERTIES_FILE_PATH);
 		
-			properties.store(propertiesFOS, null);
+			PROPERTIES.store(propertiesFOS, null);
 			
 		} catch (FileNotFoundException e) {
 			
@@ -128,10 +128,10 @@ public class AppProperties {
 	 * @param propertyName Property name to set. 
 	 * @param propertyValue Property vale to save.
 	 */
-	public void savePropertyValue(final String propertyName,
+	public final void savePropertyValue(final String propertyName,
 			final String propertyValue) {
 		
-		properties.setProperty(propertyName, propertyValue);
+		PROPERTIES.setProperty(propertyName, propertyValue);
 		
 		refreshProperties();
 	}
@@ -145,8 +145,8 @@ public class AppProperties {
 	 * @param defaultValue Default value to set if property is not found.
 	 * @return Property value if found, otherwise the default value.
 	 */
-	public String readPropertyValue(final String propertyName,
+	public final String readPropertyValue(final String propertyName,
 			final String defaultValue) {
-		return properties.getProperty(propertyName, defaultValue);
+		return PROPERTIES.getProperty(propertyName, defaultValue);
 	}
 }

@@ -34,7 +34,7 @@ public class ConnectToServerWindow extends AbstractServerWindow {
 	/**
 	 * Adds the proper text to display in the different frame's components.
 	 */
-	protected void addProperTextOnComponents() {
+	protected final void addProperTextOnComponents() {
 		
 		final String methodName = "addProperTextOnComponents";
 		GUILogger.entering(CLASS_NAME, methodName);

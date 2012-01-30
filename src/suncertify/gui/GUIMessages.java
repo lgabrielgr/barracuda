@@ -9,7 +9,7 @@ package suncertify.gui;
  *
  */
 public class GUIMessages {
-
+	
 	/**
 	 * Text to display as the Server window title.
 	 */
@@ -271,5 +271,12 @@ public class GUIMessages {
 	 * Text to set as title for the error message dialogs.
 	 */
 	public static final String ERROR_TEXT = "Error";
+	
+	/**
+	 * Constructor.
+	 */
+	protected GUIMessages() {
+		
+	}
 	
 }

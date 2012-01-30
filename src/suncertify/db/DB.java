@@ -18,7 +18,7 @@ public interface DB {
 	 * @throws RecordNotFoundException If the record is not found in the
 	 *                                 database.
 	 */
-	public String[] read(int recNo) throws RecordNotFoundException;
+	String[] read(int recNo) throws RecordNotFoundException;
 
 	/**
 	 * Modifies the fields of a record. The new value for field n appears 
@@ -33,7 +33,7 @@ public interface DB {
 	 * @throws SecurityException If the record is locked with a 
 	 *                           cookie other than lockCookie.
 	 */
-	public void update(int recNo, String[] data, long lockCookie)
+	void update(int recNo, String[] data, long lockCookie)
 	throws RecordNotFoundException, SecurityException;
 
 	/**
@@ -48,7 +48,7 @@ public interface DB {
 	 * @throws SecurityException If the record is locked with a cookie other 
 	 *                           than lockCookie.
 	 */
-	public void delete(int recNo, long lockCookie)
+	void delete(int recNo, long lockCookie)
 	throws RecordNotFoundException, SecurityException;
 
 	/**
@@ -61,31 +61,33 @@ public interface DB {
 	 * @param criteria Array containing the search criteria.
 	 * @return An array containing all the records numbers found.
 	 */
-	public int[] find(String[] criteria);
+	int[] find(String[] criteria);
 
 	/**
-	 * Creates a new record in the database (possibly reusing a deleted entry). 
-	 * Inserts the given data, and returns the record number of the new record.
+	 * Creates a new record in the database (possibly reusing a deleted 
+	 * entry). Inserts the given data, and returns the record number of 
+	 * the new record.
 	 * 
 	 * @param data Array that contains the data to be inserted as a new record.
 	 * @return The record number of the new record.
 	 * @throws DuplicateKeyException If the record already exists in the 
 	 *                               database.
 	 */
-	public int create(String[] data) throws DuplicateKeyException;
+	int create(String[] data) throws DuplicateKeyException;
 
 	/**
 	 * Locks a record so that it can only be updated or deleted by this client.
-	 * Returned value is a cookie that must be used when the record is unlocked,
-	 * updated, or deleted. If the specified record is already locked by a different
-	 * client, the current thread gives up the CPU and consumes no CPU cycles until
-	 * the record is unlocked.
+	 * Returned value is a cookie that must be used when the record is 
+	 * unlocked, updated, or deleted. If the specified record is already locked 
+	 * by a different client, the current thread gives up the CPU and consumes 
+	 * no CPU cycles until the record is unlocked.
 	 * 
 	 * @param recNo Record number to be locked.
 	 * @return Cookie value that owns the lock on the record.
-	 * @throws RecordNotFoundException If the record is not found in the database.
+	 * @throws RecordNotFoundException If the record is not found in the 
+	 *                                 database.
 	 */
-	public long lock(int recNo) throws RecordNotFoundException;
+	long lock(int recNo) throws RecordNotFoundException;
 
 	/**
 	 * Releases the lock on a record. Cookie must be the cookie returned when 
@@ -98,7 +100,7 @@ public interface DB {
 	 * @throws SecurityException If cookie value does not own the lock on the
 	 *                           record.
 	 */
-	public void unlock(int recNo, long cookie)
+	void unlock(int recNo, long cookie)
 	throws RecordNotFoundException, SecurityException;
 
 } 

@@ -7,7 +7,7 @@ package suncertify.db;
  * @author Leo Gutierrez
  */
 public class DatabaseConstants {
-
+	
 	/**
 	 * database.path property name.
 	 */
@@ -57,5 +57,12 @@ public class DatabaseConstants {
 	 * Maximum owner id value accepted by database.
 	 */
 	public static final int MAX_OWNER_ID_VALUE = 99999999;
+	
+	/**
+	 * Constructor.
+	 */
+	protected DatabaseConstants() {
+		
+	}
 	
 }

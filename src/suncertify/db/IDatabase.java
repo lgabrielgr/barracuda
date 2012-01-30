@@ -20,7 +20,7 @@ public interface IDatabase extends Remote {
 	 *                               database.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public int create(Record record) 
+	int create(Record record) 
 			throws DuplicateKeyException, RemoteException;
 	
 	/**
@@ -31,7 +31,7 @@ public interface IDatabase extends Remote {
 	 *                                 deleted.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public void delete(int recordRow) 
+	void delete(int recordRow) 
 			throws RecordNotFoundException, RemoteException;
 	
 	/**
@@ -43,7 +43,7 @@ public interface IDatabase extends Remote {
 	 *                                 deleted.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public void update(int recordRow, Record record) 
+	void update(int recordRow, Record record) 
 			throws RecordNotFoundException, RemoteException;
 	
 	/**
@@ -55,7 +55,7 @@ public interface IDatabase extends Remote {
 	 * 								   deleted.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public Record read(int recordRow) 
+	Record read(int recordRow) 
 			throws RecordNotFoundException, RemoteException;
 	
 	/**
@@ -70,13 +70,13 @@ public interface IDatabase extends Remote {
 	 * 
 	 * @param name Name to search. Can be null or empty (will match any name 
 	 *             value).
-	 * @param location Location to search. Can be null or empty (will match any 
-	 *                 location value).
+	 * @param location Location to search. Can be null or empty (will match 
+	 *                 any location value).
 	 * @return Record(s) found during the search. If no record is found, an 
 	 *         empty list is returned.
 	 * @throws RemoteException If any networking error occurs.
 	 */
-	public List<Record> find(String name, String location) 
+	List<Record> find(String name, String location) 
 			throws RemoteException;
 	
 }

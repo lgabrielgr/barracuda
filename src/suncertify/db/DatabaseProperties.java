@@ -22,7 +22,7 @@ public class DatabaseProperties extends AppProperties {
 	 * 
 	 * @return Database path.
 	 */
-	public String readDatabasePath() {
+	public final String readDatabasePath() {
 		return readPropertyValue(DatabaseConstants.DB_PATH_PROP, null);
 	}
 	
@@ -31,7 +31,7 @@ public class DatabaseProperties extends AppProperties {
 	 * 
 	 * @param dbPath New database path.
 	 */
-	public void updateDatabasePath(final String dbPath) {
+	public final void updateDatabasePath(final String dbPath) {
 		savePropertyValue(DatabaseConstants.DB_PATH_PROP, dbPath);
 	}
 }

@@ -9,6 +9,13 @@ package suncertify.remote;
 public class RemoteConstants {
 
 	/**
+	 * Constructor.
+	 */
+	protected RemoteConstants() {
+		
+	}
+	
+	/**
 	 * rmi.port property name.
 	 */
 	public static final String RMI_PORT_PROP = "rmi.port";

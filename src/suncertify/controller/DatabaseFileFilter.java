@@ -10,7 +10,7 @@ import suncertify.gui.GUIMessages;
 /**
  * Filters the set of files shown to the user by a <code>JFileChooser</code>,
  * letting to user only to select folders or *.db files.
- * 
+ *
  * @author Leo Gutierrez
  */
 public class DatabaseFileFilter extends FileFilter {
@@ -18,7 +18,7 @@ public class DatabaseFileFilter extends FileFilter {
 	/**
 	 * Class name.
 	 */
-	private static final String CLASS_NAME = 
+	private static final String CLASS_NAME =
 			DatabaseFileFilter.class.getName();
 	
 	/**
@@ -28,11 +28,11 @@ public class DatabaseFileFilter extends FileFilter {
 	 * @return True if the user can select this <code>File</code>; False
 	 *         otherwise.
 	 */
-	public boolean accept(final File file) {
-		
+	public final boolean accept(final File file) {
+
 		final String methodName = "accept";
 		ControllerLogger.entering(CLASS_NAME, methodName);
-		
+
 		try {
 
 			if (file == null) {
@@ -63,7 +63,7 @@ public class DatabaseFileFilter extends FileFilter {
 	 * 
 	 * @return The file filter description.
 	 */
-	public String getDescription() {
+	public final String getDescription() {
 		
 		final String methodName = "getDescription";
 		ControllerLogger.entering(CLASS_NAME, methodName);

@@ -24,6 +24,13 @@ public class GUIUtils {
 	private static final String CLASS_NAME = GUIUtils.class.getName();
 	
 	/**
+	 * Constructor.
+	 */
+	protected GUIUtils() {
+		
+	}
+	
+	/**
      * Centers on screen the specified frame.
      * 
      * @param frame Frame to center on screen.

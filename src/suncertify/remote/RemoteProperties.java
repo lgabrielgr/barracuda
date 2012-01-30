@@ -23,7 +23,7 @@ public class RemoteProperties extends AppProperties {
 	 * 
 	 * @return The RMI Port.
 	 */
-	public String readRMIPort() {
+	public final String readRMIPort() {
 		return readPropertyValue(RemoteConstants.RMI_PORT_PROP, null);
 	}
 	
@@ -32,7 +32,7 @@ public class RemoteProperties extends AppProperties {
 	 * 
 	 * @param rmiPort The new RMI Port value to save.
 	 */
-	public void updateRMIPort(final String rmiPort) {
+	public final void updateRMIPort(final String rmiPort) {
 		savePropertyValue(RemoteConstants.RMI_PORT_PROP, rmiPort);
 	}
 	
@@ -42,7 +42,7 @@ public class RemoteProperties extends AppProperties {
 	 * 
 	 * @return The RMI Host.
 	 */
-	public String readRMIHost() {
+	public final String readRMIHost() {
 		return readPropertyValue(RemoteConstants.RMI_HOST_PROP, 
 				RemoteConstants.DEFAULT_RMI_HOST);
 	}
@@ -52,7 +52,7 @@ public class RemoteProperties extends AppProperties {
 	 * 
 	 * @param rmiHost The new RMI Host to update.
 	 */
-	public void updateRMIHost(final String rmiHost) {
+	public final void updateRMIHost(final String rmiHost) {
 		savePropertyValue(RemoteConstants.RMI_HOST_PROP, rmiHost);
 	}
 }

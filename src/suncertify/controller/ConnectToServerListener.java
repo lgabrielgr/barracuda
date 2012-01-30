@@ -53,19 +53,19 @@ public class ConnectToServerListener implements ActionListener {
 	 * 
 	 * @param actionEvent The action event.
 	 */
-	public void actionPerformed(final ActionEvent actionEvent) {
+	public final void actionPerformed(final ActionEvent actionEvent) {
 		
 		final String methodName = "actionPerformed";
 		ControllerLogger.entering(CLASS_NAME, methodName);
 
 		if (connectToServerWindow == null) {
 
-			ControllerLogger.severe(CLASS_NAME, methodName, 
-					"User clicked on Connect To Server button but a " 
-							+ "reference to the connect to server frame " 
+			ControllerLogger.severe(CLASS_NAME, methodName,
+					"User clicked on Connect To Server button but a "
+							+ "reference to the connect to server frame "
 							+ "does not exist");
 
-			GUIUtils.showErrorMessageDialog(null, 
+			GUIUtils.showErrorMessageDialog(null,
 					GUIMessages.UNABLE_TO_CONNECT_MESSAGE);
 
 			return;
@@ -79,20 +79,18 @@ public class ConnectToServerListener implements ActionListener {
 	}
 
 	/**
-	 * Starts a connection with the server. 
-	 * 
-	 * @throws RemoteException If any networking problem occurs.
+	 * Starts a connection with the server.
 	 */
 	private void connectToServer() {
 		
 		final String methodName = "connectToServer";
 		ControllerLogger.entering(CLASS_NAME, methodName);
-		
+
 		try {
-			
-			final String hostname = 
+
+			final String hostname =
 					connectToServerWindow.getServerLocationFieldText();
-			final String port = 
+			final String port =
 					connectToServerWindow.getPortNumberFieldText();
 
 			if (isValidUserInput(hostname, port)) {
@@ -102,8 +100,8 @@ public class ConnectToServerListener implements ActionListener {
 				connectToServerWindow.setStatusLabelText(
 						GUIMessages.CONNECTING_TO_SERVER_MESSAGE);
 
-				final IDatabase database = 
-						RemoteDatabaseConnector.getConnection(hostname, 
+				final IDatabase database =
+						RemoteDatabaseConnector.getConnection(hostname,
 								Integer.valueOf(port));
 
 				ControllerLogger.info(CLASS_NAME, methodName, 
@@ -112,7 +110,7 @@ public class ConnectToServerListener implements ActionListener {
 				connectToServerWindow.closeWindow();
 
 				new StandAloneWindow(database);
-				
+
 			}
 
 		} catch (RemoteException e) {
@@ -139,47 +137,47 @@ public class ConnectToServerListener implements ActionListener {
 	 */
 	private void updatePropertiesWithUserInput(final String hostname,
 			final String port) {
-		
+
 		final String methodName = "updatePropertiesWithUserInput";
 		ControllerLogger.entering(CLASS_NAME, methodName, hostname, port);
-		
+
 		connectToServerWindow.updateRMIHost(hostname);
 		connectToServerWindow.updateRMIPort(port);
-		
+
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}
 
 	/**
 	 * Verifies if the hostname and port number are valid.
-	 * <br />If either the hostname or the port number is not valid, 
+	 * <br />If either the hostname or the port number is not valid,
 	 * a warning message is shown to the user.
 	 * 
 	 * @param hostname Hostname to verify.
 	 * @param port Port number to verify.
 	 * @return True if the hostname and port number are valid; False otherwise.
 	 */
-	private boolean isValidUserInput(final String hostname, 
+	private boolean isValidUserInput(final String hostname,
 			final String port) {
-		
+
 		final String methodName = "isValidUserInput";
 		ControllerLogger.entering(CLASS_NAME, methodName, hostname, port);
-		
+
 		try {
-			
+
 			if (!isValidHostname(hostname)) {
 
-				GUIUtils.showWarningMessage(connectToServerWindow, 
+				GUIUtils.showWarningMessage(connectToServerWindow,
 						GUIMessages.INVALID_HOSTNAME_MESSAGE);
-				
+
 				return false;
 
 			}
 
 			if (!GUIUtils.isPortNumberValid(port)) {
 
-				GUIUtils.showWarningMessage(connectToServerWindow, 
+				GUIUtils.showWarningMessage(connectToServerWindow,
 						GUIMessages.INVALID_PORT_NUMBER_MESSAGE);
-				
+
 				return false;
 
 			}
@@ -187,7 +185,7 @@ public class ConnectToServerListener implements ActionListener {
 			return true;
 
 		} finally {
-			
+
 			ControllerLogger.exiting(CLASS_NAME, methodName);
 			
 		}
@@ -201,17 +199,17 @@ public class ConnectToServerListener implements ActionListener {
 	 * @return True is the hostname is valid; False otherwise.
 	 */
 	private boolean isValidHostname(final String hostname) {
-		
+
 		final String methodName = "isValidHostname";
 		ControllerLogger.entering(CLASS_NAME, methodName, hostname);
-		
+
 		try {
-			
+
 			if ((hostname == null) || ("".equals(hostname.trim()))) {
 
-				ControllerLogger.warning(CLASS_NAME, methodName, 
+				ControllerLogger.warning(CLASS_NAME, methodName,
 						"Hostname value empty");
-				
+
 				return false;
 
 			}
@@ -219,10 +217,10 @@ public class ConnectToServerListener implements ActionListener {
 			return true;
 
 		} finally {
-			
+
 			ControllerLogger.exiting(CLASS_NAME, methodName);
-			
+
 		}
 	}
-	
+
 }

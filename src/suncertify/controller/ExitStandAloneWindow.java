@@ -17,14 +17,15 @@ public class ExitStandAloneWindow extends WindowAdapter {
 	/**
 	 * Class name.
 	 */
-	private static final String CLASS_NAME = ExitStandAloneWindow.class.getName();
+	private static final String CLASS_NAME = 
+			ExitStandAloneWindow.class.getName();
 	
 	/**
 	 * Invoked when a window is in the process of being closed.
 	 * 
 	 * @param windowEvent The window event.
 	 */
-	public void windowClosing(final WindowEvent windowEvent) {
+	public final void windowClosing(final WindowEvent windowEvent) {
 		
 		final String methodName = "windowClosing";
 		ControllerLogger.entering(CLASS_NAME, methodName);
