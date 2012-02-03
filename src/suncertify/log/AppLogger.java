@@ -13,22 +13,11 @@ import java.util.logging.SimpleFormatter;
  * @author Leo Gutierrez
  */
 public class AppLogger {
-
-	/**
-	 * Log directory.
-	 */
-	private static final String LOG_DIRECTORY = "log";
 	
 	/**
 	 * Log file name.
 	 */
-	private static final String LOG_FILE = "app.log";
-	
-	/**
-	 * Log file path.
-	 */
-	private static final String LOG_FILE_PATH = LOG_DIRECTORY
-			+ File.separator + LOG_FILE;
+	private static final String LOG_FILE_PATH = "app.log";
 	
 	/**
 	 * Reference to the <code>FileHandler</code> to add
@@ -78,12 +67,9 @@ public class AppLogger {
 	 */
 	private static void createFileHandlerManually() {
 		
-		final File logDirectory = new File(LOG_DIRECTORY);
-		
 		try {
-			if (logDirectory.mkdir()) {
 				
-				final File logFile = new File(LOG_FILE);
+				final File logFile = new File(LOG_FILE_PATH);
 				
 				if (logFile.createNewFile()) {
 				
@@ -96,12 +82,7 @@ public class AppLogger {
 							+ "directory permissions");
 					
 				}
-			} else {
-
-				System.out.println("Unable to create the log file, check "
-						+ "directory permissions");
 				
-			}
 		} catch (IOException e) {
 			
 			System.out.println("Unable to create the file handler for the "
