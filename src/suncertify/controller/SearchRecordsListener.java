@@ -82,6 +82,7 @@ public class SearchRecordsListener implements ActionListener {
 			}
 
 			final List<Record> records = searchRecords(database);
+			
 			standAloneWindow.addDataToTableModel(records);
 
 		} finally {

@@ -64,7 +64,7 @@ public class ServerWindow extends AbstractServerWindow {
 	/**
 	 * Adds the proper listener to the primary button on Server window frame.
 	 */
-	protected final void addListenerToPrimaryServerButton() {
+	protected void addListenerToPrimaryServerButton() {
 		addListenerToPrimaryServerButton(new StartServerListener(this));
 	}
 	

@@ -26,7 +26,7 @@ public class ServerStandAloneWindow extends ServerWindow {
 	 * Adds the proper listener to the primary button on Server StandAlone 
 	 * window frame.
 	 */
-	protected final void addListenerToPrimaryServerButton() {
+	protected void addListenerToPrimaryServerButton() {
 		addListenerToPrimaryServerButton(new ServerStandAloneListener(this));
 	}
 	
