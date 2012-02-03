@@ -33,11 +33,6 @@ public class RecordTableModel extends AbstractTableModel {
 			"Smoking", "Rate", "Date Available", "Owner"};
 	
 	/**
-	 * Minimum rows to display in the table.
-	 */
-	private static final int MIN_ROWS_COUNT = 18;
-	
-	/**
 	 * Reference to the records to model in table.
 	 */
 	private List<Record> records;
@@ -71,10 +66,6 @@ public class RecordTableModel extends AbstractTableModel {
 		GUILogger.entering(CLASS_NAME, methodName);
 		
 		int rowCount = records.size();
-		
-		if (rowCount < MIN_ROWS_COUNT) {
-			rowCount += (MIN_ROWS_COUNT - rowCount);
-		}
 		
 		GUILogger.exiting(CLASS_NAME, methodName, rowCount);
 		
