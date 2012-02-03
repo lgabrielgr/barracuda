@@ -67,15 +67,16 @@ public class RowSelectionListener implements ListSelectionListener {
 
 			final JTable recordTable = standAloneWindow.getRecordTable();
 
-			final String ownerValue = 
-					(String) recordTable.getValueAt(
-							recordTable.getSelectedRow(),
-							Record.OWNER_FIELD_INDEX);
+			final Record recordSelected = standAloneWindow.getRecordFromTable(
+					recordTable.getSelectedRow());
 			
-			if ((ownerValue == null) || ("".equals(ownerValue.trim()))) {
-				standAloneWindow.enableBookRoomButton(true);
-			} else {
+			if (recordSelected == null) {
 				standAloneWindow.enableBookRoomButton(false);
+			} else if ((recordSelected.getOwner() != null) 
+					&& (!"".equals(recordSelected.getOwner()))) {
+				standAloneWindow.enableBookRoomButton(false);
+			} else {
+				standAloneWindow.enableBookRoomButton(true);
 			}
 
 		}
@@ -83,5 +84,5 @@ public class RowSelectionListener implements ListSelectionListener {
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 
 	}
-	
+		
 }
