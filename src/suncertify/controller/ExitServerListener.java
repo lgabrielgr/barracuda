@@ -59,6 +59,8 @@ implements ActionListener {
 
 		} finally {
 
+			ControllerLogger.info(CLASS_NAME, methodName, 
+					"User quits server window");
 			ControllerLogger.exiting(CLASS_NAME, methodName);
 
 		}

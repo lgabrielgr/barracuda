@@ -43,6 +43,8 @@ implements ActionListener {
 		
 		} finally {
 			
+			ControllerLogger.info(CLASS_NAME, methodName, 
+					"User quits 'connect to server' window");
 			ControllerLogger.exiting(CLASS_NAME, methodName);
 			
 		}
@@ -69,6 +71,8 @@ implements ActionListener {
 
 		} finally {
 
+			ControllerLogger.info(CLASS_NAME, methodName, 
+					"User quits 'connect to server' window");
 			ControllerLogger.exiting(CLASS_NAME, methodName);
 
 		}
