@@ -70,11 +70,14 @@ public class BookRoomListener implements ActionListener {
 				return;
 			}
 
-			final String ownerId = askOwnerIdToUser();
+			String ownerId = askOwnerIdToUser();
 
 			// If owner is null or empty, means that user cancels the operation
 			if ((ownerId != null) && (!"".equals(ownerId.trim()))) {
-
+				
+				// Remove left zeros (if any)
+				ownerId = Long.valueOf(ownerId).toString(); 
+				
 				bookRoom(ownerId);
 
 			}
