@@ -90,7 +90,7 @@ public class StartServerListener implements ActionListener {
 	 * 
 	 * @throws RemoteException If any networking problem occurs.
 	 */
-	protected final void startServer() throws RemoteException {
+	private void startServer() throws RemoteException {
 		
 		final String methodName = "startServer";
 		ControllerLogger.entering(CLASS_NAME, methodName);
@@ -98,9 +98,9 @@ public class StartServerListener implements ActionListener {
 		try {
 			
 		
-			if (isValidUserInput()) {
+			if (isValidUserInput(true)) {
 
-				updatePropertiesWithUserInput();
+				updatePropertiesWithUserInput(true);
 
 				RegisterDatabase.bind();
 
@@ -124,10 +124,15 @@ public class StartServerListener implements ActionListener {
 	 * <br />If either the database location or the port number is not valid,
 	 * a warning message is shown to the user.
 	 *
+	 * @param serverWindowInput Flag that indicates if the user input comes
+	 *                          comes from Connect To Server window.
+	 *                          <code>True</code> if yes; <code>False</code> 
+	 *                          otherwise.
+	 *
 	 * @return True if the database location and port number provided by the
 	 *         user are valid; False otherwise.
 	 */
-	private boolean isValidUserInput() {
+	protected final boolean isValidUserInput(final boolean serverWindowInput) {
 
 		final String methodName = "isValidUserInput";
 		ControllerLogger.entering(CLASS_NAME, methodName);
@@ -158,8 +163,9 @@ public class StartServerListener implements ActionListener {
 
 			}
 
-			if (!GUIUtils.isPortNumberValid(
-					serverWindow.getPortNumberFieldText())) {
+			if ((serverWindowInput)
+					&& (!GUIUtils.isPortNumberValid(
+							serverWindow.getPortNumberFieldText()))) {
 
 				JOptionPane.showMessageDialog(serverWindow,
 						GUIMessages.INVALID_PORT_NUMBER_MESSAGE,
@@ -191,6 +197,8 @@ public class StartServerListener implements ActionListener {
 		final String methodName = "isDatabaseFileEditable";
 		ControllerLogger.entering(CLASS_NAME, methodName, databasePath);
 
+		boolean validDatabase = true; 
+		
 		try {
 
 			final File databaseFile = new File(databasePath);
@@ -200,7 +208,7 @@ public class StartServerListener implements ActionListener {
 				ControllerLogger.warning(CLASS_NAME, methodName,
 						"Database file " + databasePath + " is not readable");
 
-				return false;
+				validDatabase = false;
 
 			}
 
@@ -209,11 +217,11 @@ public class StartServerListener implements ActionListener {
 				ControllerLogger.warning(CLASS_NAME, methodName,
 						"Database file " + databasePath + " is not writable");
 
-				return false;
+				validDatabase = false;
 				
 			}
 			
-			return true;
+			return validDatabase;
 		
 		} finally {
 			
@@ -291,16 +299,27 @@ public class StartServerListener implements ActionListener {
 
 	/**
 	 * Updates the properties file with the user input.
+	 * 
+	 * @param serverWindowInput Flag that indicates if the user input comes
+	 *                          comes from Connect To Server window.
+	 *                          <code>True</code> if yes; <code>False</code> 
+	 *                          otherwise. 
 	 */
-	private void updatePropertiesWithUserInput() {
+	protected final void updatePropertiesWithUserInput(
+			final boolean serverWindowInput) {
 
 		final String methodName = "updatePropertiesWithUserInput";
 		ControllerLogger.entering(CLASS_NAME, methodName);
 
 		serverWindow.updateDatabasePath(
 				serverWindow.getServerLocationFieldText());
-		serverWindow.updateRMIPort(serverWindow.getPortNumberFieldText());
+		
+		if (serverWindowInput) {
+		
+			serverWindow.updateRMIPort(serverWindow.getPortNumberFieldText());
 
+		}
+		
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}
 

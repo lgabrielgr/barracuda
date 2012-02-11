@@ -19,7 +19,7 @@ import suncertify.gui.StandAloneWindow;
  * 
  * @author Leo Gutierrez
  */
-public class ServerStandAloneListener extends StartServerListener {
+public class ConnectToDatabaseListener extends StartServerListener {
 
 	/**
 	 * Reference to the Server window frame.
@@ -30,14 +30,14 @@ public class ServerStandAloneListener extends StartServerListener {
 	 * Class name.
 	 */
 	private static final String CLASS_NAME = 
-			ServerStandAloneListener.class.getName();
+			ConnectToDatabaseListener.class.getName();
 	
 	/**
-	 * Constructs a <code>ServerStandAloneListener</code> object.
+	 * Constructs a <code>ConnectToDatabaseListener</code> object.
 	 * 
 	 * @param abstractServerWindow A reference to the Server window frame.
 	 */
-	public ServerStandAloneListener(
+	public ConnectToDatabaseListener(
 			final AbstractServerWindow abstractServerWindow) {
 		
 		super(abstractServerWindow);
@@ -47,7 +47,7 @@ public class ServerStandAloneListener extends StartServerListener {
 	}
 	
 	/**
-	 * Invoked when user clicks on Start Server button.
+	 * Invoked when user clicks on Connect to Database button.
 	 * <br />Starts the server and runs the Client window.
 	 *
 	 * @param actionEvent The action event.
@@ -66,9 +66,15 @@ public class ServerStandAloneListener extends StartServerListener {
 
 			}
 
-			startServer();
-
-			new StandAloneWindow(new Database());
+			if (isValidUserInput(false)) {
+			
+				updatePropertiesWithUserInput(false);
+				
+				serverWindow.closeWindow();
+				
+				new StandAloneWindow(new Database());
+				
+			}
 
 		} catch (RemoteException e) {
 

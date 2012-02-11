@@ -34,7 +34,7 @@ public class ServerWindow extends AbstractServerWindow {
 	/**
 	 * Adds the proper text to display in the different frame's components.
 	 */
-	protected final void addProperTextOnComponents() {
+	protected void addProperTextOnComponents() {
 		
 		final String methodName = "addProperTextOnComponents";
 		GUILogger.entering(CLASS_NAME, methodName);
@@ -48,7 +48,7 @@ public class ServerWindow extends AbstractServerWindow {
 		setStatusLabelText(GUIMessages.INITIAL_SERVER_STATUS_MESSAGE);
 		
 		setPrimaryServerButtonText(GUIMessages.START_SERVER_TEXT);
-		addListenerToPrimaryServerButton();
+		addListenerToPrimaryServerButton(new StartServerListener(this));
 		
 		final ExitServerListener exitServerListener = new ExitServerListener();
 		
@@ -59,13 +59,6 @@ public class ServerWindow extends AbstractServerWindow {
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
 		
-	}
-
-	/**
-	 * Adds the proper listener to the primary button on Server window frame.
-	 */
-	protected void addListenerToPrimaryServerButton() {
-		addListenerToPrimaryServerButton(new StartServerListener(this));
 	}
 	
 	/**

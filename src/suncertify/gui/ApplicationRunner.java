@@ -17,13 +17,6 @@ public class ApplicationRunner {
 	public static final String CLASS_NAME = ApplicationRunner.class.getName();
 	
 	/**
-	 * Constructor. 
-	 */
-	protected ApplicationRunner() {
-		
-	}
-	
-	/**
 	 * Launches the application.
 	 * 
 	 * @param args Possible modes to start the application, may be one of:
@@ -61,7 +54,7 @@ public class ApplicationRunner {
 		
 		if (args.length == 0) {
 			
-			new ServerStandAloneWindow();
+			new ConnectToServerWindow();
 			
 		} else if (GUIConstants.SERVER_MODE_PARAMETER.equals(args[0])) {
 			
@@ -69,7 +62,7 @@ public class ApplicationRunner {
 			
 		} else if (GUIConstants.STAND_ALONE_MODE_PARAMETER.equals(args[0])) {
 			
-			new ConnectToServerWindow();
+			new ConnectToDatabaseWindow();
 			
 		} else {
 			

@@ -53,6 +53,13 @@ public class GUIMessages {
 			"Database location:";
 	
 	/**
+	 * Text to display to let know user that he/she needs to connect
+	 * to database.
+	 */
+	public static final String CONNECT_TO_DATABASE_TEXT = 
+			"Connect to Database";
+	
+	/**
 	 * Text to display for the server location label.
 	 */
 	public static final String HOSTNAME_LABEL_TEXT = "Hostname: ";
@@ -97,6 +104,13 @@ public class GUIMessages {
 	 * Test to display as title for a question dialog with the user. 
 	 */
 	public static final String CONFIRM_MESSAGE_TITLE_TEXT = "Confirm";
+	
+	/**
+	 * Text to display for the initial status to connect to database.
+	 */
+	public static final String CONNECT_TO_DATABASE_STATUS_MESSAGE = 
+			"Please, select the database file location and press connect " 
+					+ "button.";
 	
 	/**
 	 * Text to display when the server is running.  

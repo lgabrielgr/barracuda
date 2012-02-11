@@ -21,8 +21,8 @@ import suncertify.remote.RemoteProperties;
 
 /**
  * Provides the abstract graphical user interface for the Server window,
- * drawing the components and delegating to any class that extends this  
- * to set the proper messages to the components.
+ * drawing the components and delegating to any class that extends this class 
+ * to set the proper messages and draw/remove the necessary components.
  * 
  * @author Leo Gutierrez
  */
@@ -63,6 +63,12 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * Reference to the port text field.
 	 */
 	private final JTextField portNumberTextField = new JTextField(5);
+	
+	/**
+	 * Reference to the server port label.
+	 */
+	private final JLabel portNumberLabel = 
+    		new JLabel(GUIMessages.SERVER_PORT_LABEL_TEXT);
 	
 	/**
 	 * Reference to the status label.
@@ -213,12 +219,10 @@ public abstract class AbstractServerWindow extends JFrame {
         
         constraints.weightx = 0.0;
         
-        final JLabel serverPortLabel = 
-        		new JLabel(GUIMessages.SERVER_PORT_LABEL_TEXT);
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.EAST;
-        gridbag.setConstraints(serverPortLabel, constraints);
-        dbConfigPanel.add(serverPortLabel);
+        gridbag.setConstraints(portNumberLabel, constraints);
+        dbConfigPanel.add(portNumberLabel);
         
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.anchor = GridBagConstraints.WEST;
@@ -416,6 +420,12 @@ public abstract class AbstractServerWindow extends JFrame {
 		browseDatabase.setEnabled(enable);
 	}
 	
+	public final void disableRMIPortInput() {
+		
+		
+		
+	}
+	
 	/**
 	 * Closes the frame.
 	 */
@@ -451,6 +461,23 @@ public abstract class AbstractServerWindow extends JFrame {
 		
 		gridbag.setConstraints(serverLocationTextField, 
 				serverLocationConstraint);
+		
+		GUILogger.exiting(CLASS_NAME, methodName);
+		
+	}
+	
+	/**
+	 * Removes the port section (label and input text) from 
+	 * <code>JPanel</code>. It is called only when user only needs to specify
+	 * the database location.
+	 */
+	protected final void removePortSection() {
+		
+		final String methodName = "removePorSection";
+		GUILogger.entering(CLASS_NAME, methodName);
+		
+		dbConfigPanel.remove(portNumberLabel);
+		dbConfigPanel.remove(portNumberTextField);
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
 		
