@@ -11,7 +11,7 @@ import suncertify.db.IDatabase;
 import suncertify.db.Record;
 import suncertify.gui.GUIMessages;
 import suncertify.gui.GUIUtils;
-import suncertify.gui.StandAloneWindow;
+import suncertify.gui.ClientWindow;
 
 /**
  * Provides the functionality when user clicks on Search button.
@@ -27,19 +27,19 @@ public class SearchRecordsListener implements ActionListener {
 			SearchRecordsListener.class.getName();
 	
 	/**
-	 * Reference to the stand alone window frame.
+	 * Reference to the client window frame.
 	 */
-	private StandAloneWindow standAloneWindow = null;
+	private ClientWindow clientWindow = null;
 
 	/**
 	 * Constructs a <code>SearchRecordsListener</code> object.
 	 *
-	 * @param standAloneWindowFrame Reference of the stand alone window frame.
+	 * @param clientWindowFrame Reference of the client window frame.
 	 */
 	public SearchRecordsListener(
-			final StandAloneWindow standAloneWindowFrame) {
+			final ClientWindow clientWindowFrame) {
 
-		this.standAloneWindow = standAloneWindowFrame;
+		this.clientWindow = clientWindowFrame;
 
 	}
 
@@ -56,11 +56,11 @@ public class SearchRecordsListener implements ActionListener {
 
 		try {
 
-			if (standAloneWindow == null) {
+			if (clientWindow == null) {
 
 				ControllerLogger.severe(CLASS_NAME, methodName,
 						"User clicked on Search button but a reference to the "
-								+ "stand alone window does not exist");
+								+ "client window does not exist");
 
 				GUIUtils.showErrorMessageDialog(null, 
 						GUIMessages.UNABLE_TO_SEARCH_MESSAGE);
@@ -68,22 +68,25 @@ public class SearchRecordsListener implements ActionListener {
 				return;
 			}
 
-			final IDatabase database = standAloneWindow.getDatabase();
+			final IDatabase database = clientWindow.getDatabase();
 			if (database == null) {
 
 				ControllerLogger.severe(CLASS_NAME, methodName, 
 						"User clicked on Search button but a reference to the "
 								+ "database does not exist");
 
-				GUIUtils.showErrorMessageDialog(null,
-						GUIMessages.CANT_ACCESS_TO_DB_MESSAGE);
+				GUIUtils.showErrorMessageDialog(clientWindow,
+						GUIMessages.CANT_CONTACT_DB_MESSAGE);
 
+				clientWindow.setStatusLabelText(
+						GUIMessages.NOT_CONNECTED_TO_SERVER_MESSAGE);
+				
 				return;
 			}
 
 			final List<Record> records = searchRecords(database);
 			
-			standAloneWindow.addDataToTableModel(records);
+			clientWindow.addDataToTableModel(records);
 
 		} finally {
 			ControllerLogger.exiting(CLASS_NAME, methodName);
@@ -130,9 +133,6 @@ public class SearchRecordsListener implements ActionListener {
 			ControllerLogger.info(CLASS_NAME, methodName, 
 					"Records found: " + records.size());
 
-			standAloneWindow.setStatusLabelText(records.size() 
-					+ GUIMessages.RECORDS_FOUND_MESSAGE);
-
 		} catch (RemoteException e) {
 
 			ControllerLogger.severe(CLASS_NAME, methodName,
@@ -140,10 +140,10 @@ public class SearchRecordsListener implements ActionListener {
 							+ e.getMessage());
 
 			GUIUtils.showErrorMessageDialog(null,
-					GUIMessages.CANT_ACCESS_TO_DB_MESSAGE);
-
-			standAloneWindow.setStatusLabelText(
 					GUIMessages.CANT_CONTACT_DB_MESSAGE);
+			
+			clientWindow.setStatusLabelText(
+					GUIMessages.NOT_CONNECTED_TO_SERVER_MESSAGE);
 
 			records = new ArrayList<Record>();
 
@@ -211,7 +211,7 @@ public class SearchRecordsListener implements ActionListener {
 
 		try {
 
-			final IDatabase database = standAloneWindow.getDatabase();
+			final IDatabase database = clientWindow.getDatabase();
 			return database.find(null, null);
 
 		} finally {
@@ -280,8 +280,8 @@ public class SearchRecordsListener implements ActionListener {
 
 		final String[] userInputData = new String[2];
 
-		String hotelName = standAloneWindow.getHotelnameFieldText();
-		String location = standAloneWindow.getLocationFieldText();
+		String hotelName = clientWindow.getHotelnameFieldText();
+		String location = clientWindow.getLocationFieldText();
 
 		if (hotelName != null) {
 			userInputData[0] = hotelName.trim();

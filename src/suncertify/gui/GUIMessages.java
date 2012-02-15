@@ -21,11 +21,6 @@ public class GUIMessages {
 	public static final String CLIENT_TITLE_TEXT =  "Client";
 	
 	/**
-	 * Test to display to user as a welcome message in the Client window.
-	 */
-	public static final String WELCOME_TEXT = "Welcome.";
-	
-	/**
 	 * Text to display as the Connect to Server window title.
 	 */
 	public static final String CONNECT_TO_SERVER_TITLE_TEXT = 
@@ -101,9 +96,29 @@ public class GUIMessages {
 	public static final String EXIT_MESSAGE_TITLE_TEXT = "Exit";
 	
 	/**
-	 * Test to display as title for a question dialog with the user. 
+	 * Text to display as title for a question dialog with the user. 
 	 */
 	public static final String CONFIRM_MESSAGE_TITLE_TEXT = "Confirm";
+	
+	/**
+	 * Text to display when the server is unable to retrieve the host name.
+	 */
+	public static final String UNKNOWN_HOST = "Unknown host";
+	
+	/**
+	 * Text to display to user when the server is unable to start.
+	 */
+	public static final String CANT_START_THE_SERVER_MESSAGE = 
+			"Unable to start the server, please see logs for details.";
+	
+	/**
+	 * Text to display to user when the server is running but the system 
+	 * wasn't unable to retrieve the host name. 
+	 */
+	public static final String CANT_RETRIEVE_SERVER_HOST_NAME = 
+			"The server is running, but the System is unable to retrieve " +
+					"the server's host name. Please contact the " +
+					"System Administrator to get the host name.";
 	
 	/**
 	 * Text to display for the initial status to connect to database.
@@ -113,10 +128,10 @@ public class GUIMessages {
 					+ "button.";
 	
 	/**
-	 * Text to display when the server is running.  
+	 * Text to display when the server is running, adding the hostname.
 	 */
 	public static final String SERVER_RUNNING_STATUS_MESSAGE = 
-			"Server is running.";
+			"Server is running on host {0}";
 	
 	/**
 	 * Text to display for the initial server status.
@@ -161,14 +176,6 @@ public class GUIMessages {
 	 */
 	public static final String UNABLE_TO_SEARCH_MESSAGE = 
 			"Unable to perform the search action, please see logs for details.";
-	
-	/**
-	 * Text to display to user when it is unable to contact the database 
-	 * server.
-	 */
-	public static final String CANT_ACCESS_TO_DB_MESSAGE = 
-			"Unable to connect to the database server, please see logs for "
-			+ "details.";
 	
 	/**
 	 * Text to display to user when it is tried to update a row with an 
@@ -218,18 +225,26 @@ public class GUIMessages {
 	public static final String BOOK_ROOM_TITLE = "Book Room";
 	
 	/**
-	 * Text to display in the status bar, when a room was booked 
-	 * successfully.
-	 */
-	public static final String ROOM_BOOKED_MESSAGE = 
-			"Room booked successfully: ";
-	
-	/**
-	 * Text to display to user in the status when it is unable to contact
+	 * Text to display to user when it is unable to contact
 	 * the database server.
 	 */
 	public static final String CANT_CONTACT_DB_MESSAGE = 
-			"Unable to connect to the database server.";
+			"Unable to connect to the database server. " +
+					"Please, contact the System Administrator.";
+	
+	/**
+	 * Text to display to user in the status bar when the client is not 
+	 * connected to a server.
+	 */
+	public static final String NOT_CONNECTED_TO_SERVER_MESSAGE = 
+			"Not connected to a Server.";
+	
+	/**
+	 * Text to display to user in client's status bar to show to which 
+	 * server the client is connected.
+	 */
+	public static final String CONNECTED_TO_SERVER_MESSAGE = 
+			"Connected to Server running on host {0}";
 	
 	/**
 	 * Text to display to user when it is attemping to connect to server.
@@ -241,28 +256,23 @@ public class GUIMessages {
 	 * Text to display to user when an invalid database file path is entered.
 	 */
 	public static final String INVALID_DATABASE_MESSAGE = 
-			"The database file is not a valid file (*.db) or a non-existing "
-			+ "file. Please, enter a valid database file.";
+			"The database file is not a valid file (*.db) or is a non-existing" + 
+					" file. Please, enter a valid database file.";
 	
 	/**
 	 * Text to display to user when the database file path is not readable and 
 	 * not writable. 
 	 */
 	public static final String DATABASE_NOT_EDITABLE_MESSAGE = 
-			"The database file is not readable and/or writable. Please, verify "
-			+ "the file's permissions.";
+			"The database file is not readable and/or writable. Please, verify" + 
+					" the file's permissions.";
 
 	/**
 	 * Text to display to user when it was an error during the initial startup.
 	 */
 	public static final String INITIAL_STARTUP_ERROR_MESSAGE = 
-			"Unable to load all records ot display as the initial startup, "
-			+ "please see log for details";
-	
-	/**
-	 * Text to display to user the number of records found during the search.
-	 */
-	public static final String RECORDS_FOUND_MESSAGE = " records found.";
+			"Unable to load all records ot display as the initial startup, " + 
+					"please see log for details";
 	
 	/**
 	 * Text to display to user when an invalid port number is entered.

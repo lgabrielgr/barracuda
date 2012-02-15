@@ -8,7 +8,7 @@ import suncertify.db.IDatabase;
 import suncertify.gui.AbstractServerWindow;
 import suncertify.gui.GUIMessages;
 import suncertify.gui.GUIUtils;
-import suncertify.gui.StandAloneWindow;
+import suncertify.gui.ClientWindow;
 import suncertify.remote.RemoteDatabaseConnector;
 
 /**
@@ -109,7 +109,8 @@ public class ConnectToServerListener implements ActionListener {
 
 				connectToServerWindow.closeWindow();
 
-				new StandAloneWindow(database);
+				final ClientWindow client = new ClientWindow(database);
+				client.setStatusLabelText("Connected to Server running on host " + hostname);
 
 			}
 

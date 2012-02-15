@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import suncertify.db.Database;
 import suncertify.gui.AbstractServerWindow;
 import suncertify.gui.GUIMessages;
-import suncertify.gui.StandAloneWindow;
+import suncertify.gui.ClientWindow;
 
 /**
  * Provides the functionality when user clicks on 'Start server' button on 
@@ -72,7 +72,7 @@ public class ConnectToDatabaseListener extends StartServerListener {
 				
 				serverWindow.closeWindow();
 				
-				new StandAloneWindow(new Database());
+				new ClientWindow(new Database());
 				
 			}
 

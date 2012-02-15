@@ -5,7 +5,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import suncertify.db.Record;
-import suncertify.gui.StandAloneWindow;
+import suncertify.gui.ClientWindow;
 
 /**
  * Provides the functionality when user selects a single row in the main table.
@@ -26,14 +26,14 @@ public class RowSelectionListener implements ListSelectionListener {
 	/**
 	 * Reference to the stand alone window frame.
 	 */
-	private StandAloneWindow standAloneWindow = null;
+	private ClientWindow standAloneWindow = null;
 
 	/**
 	 * Constructs a <code>RowSelectionListener</code> object.
 	 * 
 	 * @param standAloneWindowFrame Reference to the stand alone window frame.
 	 */
-	public RowSelectionListener(final StandAloneWindow standAloneWindowFrame) {
+	public RowSelectionListener(final ClientWindow standAloneWindowFrame) {
 
 		standAloneWindow = standAloneWindowFrame;
 

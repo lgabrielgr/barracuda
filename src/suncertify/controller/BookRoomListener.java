@@ -12,7 +12,7 @@ import suncertify.db.Record;
 import suncertify.db.RecordNotFoundException;
 import suncertify.gui.GUIMessages;
 import suncertify.gui.GUIUtils;
-import suncertify.gui.StandAloneWindow;
+import suncertify.gui.ClientWindow;
 
 /**
  * Provides the functionality when user books a room.
@@ -29,19 +29,18 @@ public class BookRoomListener implements ActionListener {
 			BookRoomListener.class.getName();
 
 	/**
-	 * Reference to the stand alone window frame.
+	 * Reference to the client window frame.
 	 */
-	private StandAloneWindow standAloneWindow = null;
+	private ClientWindow clientWindow = null;
 
 	/**
 	 * Constructs a <code>BookRoomListener</code> object.
 	 *
-	 * @param standAloneWindowFrame Reference to the stand alone window
-	 *                              frame.
+	 * @param clientWindowFrame Reference to the client window frame.
 	 */
-	public BookRoomListener(final StandAloneWindow standAloneWindowFrame) {
+	public BookRoomListener(final ClientWindow clientWindowFrame) {
 
-		standAloneWindow = standAloneWindowFrame;
+		clientWindow = clientWindowFrame;
 
 	}
 
@@ -57,8 +56,8 @@ public class BookRoomListener implements ActionListener {
 
 		try {
 
-			if ((standAloneWindow == null)
-					|| (standAloneWindow.getDatabase() == null)) {
+			if ((clientWindow == null)
+					|| (clientWindow.getDatabase() == null)) {
 
 				ControllerLogger.severe(CLASS_NAME, methodName,
 						"The user booked a room, but a reference to the stand"
@@ -104,7 +103,7 @@ public class BookRoomListener implements ActionListener {
 		final String methodName = "bookRoom";
 		ControllerLogger.entering(CLASS_NAME, methodName, ownerId);
 
-		final JTable recordTable = standAloneWindow.getRecordTable();
+		final JTable recordTable = clientWindow.getRecordTable();
 
 		if (!isRoomAlreadyBooked(recordTable)) {
 
@@ -113,7 +112,7 @@ public class BookRoomListener implements ActionListener {
 				final int selectedRow = recordTable.getSelectedRow();
 
 				final Record recordToUpdate =
-						standAloneWindow.getRecordFromTable(selectedRow);
+						clientWindow.getRecordFromTable(selectedRow);
 
 				recordToUpdate.setOwner(ownerId);
 
@@ -121,15 +120,6 @@ public class BookRoomListener implements ActionListener {
 
 					recordTable.setValueAt(ownerId, selectedRow,
 							Record.OWNER_FIELD_INDEX);
-
-					final StringBuilder statusMessage = new StringBuilder();
-					statusMessage.append(GUIMessages.ROOM_BOOKED_MESSAGE);
-					statusMessage.append(
-							recordToUpdate.getHotelName()).append(", ");
-					statusMessage.append(recordToUpdate.getLocation());
-
-					standAloneWindow.setStatusLabelText(
-							statusMessage.toString());
 
 					recordTable.getSelectionModel().setSelectionInterval(
 							selectedRow, selectedRow);
@@ -141,7 +131,7 @@ public class BookRoomListener implements ActionListener {
 				ControllerLogger.warning(CLASS_NAME, methodName,
 						"Invalid owner id value: " + ownerId);
 
-				GUIUtils.showWarningMessage(standAloneWindow,
+				GUIUtils.showWarningMessage(clientWindow,
 						GUIMessages.INVALID_VALUE_TO_SET_MESSAGE);
 
 			}
@@ -172,7 +162,7 @@ public class BookRoomListener implements ActionListener {
 		final int selectedRow = recordTable.getSelectedRow();
 
 		final Record recordSelected =
-				standAloneWindow.getRecordFromTable(selectedRow);
+				clientWindow.getRecordFromTable(selectedRow);
 
 		final Record freshRecord = readRecordFromDatabase(
 				recordSelected.getDatabaseRow());
@@ -194,7 +184,7 @@ public class BookRoomListener implements ActionListener {
 				ControllerLogger.severe(CLASS_NAME, methodName,
 						"Unable to book the room, it is already booked");
 
-				displayError(
+				displayErrorToUser(
 						GUIMessages.ROOM_ALREADY_BOOKED_MESSAGE);
 
 			}
@@ -220,7 +210,7 @@ public class BookRoomListener implements ActionListener {
 
 		Record record = null;
 
-		final IDatabase database = standAloneWindow.getDatabase();
+		final IDatabase database = clientWindow.getDatabase();
 
 		try {
 
@@ -259,7 +249,7 @@ public class BookRoomListener implements ActionListener {
 
 		boolean recordUpdated = true;
 
-		final IDatabase database = standAloneWindow.getDatabase();
+		final IDatabase database = clientWindow.getDatabase();
 
 		try {
 
@@ -271,7 +261,10 @@ public class BookRoomListener implements ActionListener {
 					"Unable to book the room due to networking problems: "
 							+ e.getMessage());
 
-			displayError(GUIMessages.FAILED_BOOK_ROOM_DB_MESSAGE);
+			displayErrorToUser(GUIMessages.FAILED_BOOK_ROOM_DB_MESSAGE);
+			
+			clientWindow.setStatusLabelText(
+					GUIMessages.NOT_CONNECTED_TO_SERVER_MESSAGE);
 			
 			recordUpdated = false;
 
@@ -281,7 +274,7 @@ public class BookRoomListener implements ActionListener {
 					"Unable to book the room, the record was not found in db: "
 							+ e.getMessage());
 
-			displayError(
+			displayErrorToUser(
 					GUIMessages.FAILED_BOOK_ROOM_RECORD_NOT_FOUND_MESSAGE);
 
 			recordUpdated = false;
@@ -298,11 +291,9 @@ public class BookRoomListener implements ActionListener {
 	 * 
 	 * @param errorMessage Error message to display to user.
 	 */
-	private void displayError(final String errorMessage) {
+	private void displayErrorToUser(final String errorMessage) {
 
-		standAloneWindow.setStatusLabelText(errorMessage);
-
-		GUIUtils.showErrorMessageDialog(standAloneWindow, errorMessage);
+		GUIUtils.showErrorMessageDialog(clientWindow, errorMessage);
 
 	}
 
@@ -315,7 +306,7 @@ public class BookRoomListener implements ActionListener {
 	 */
 	private String askOwnerIdToUser() {
 		
-		return JOptionPane.showInputDialog(standAloneWindow,
+		return JOptionPane.showInputDialog(clientWindow,
 				GUIMessages.ENTER_OWNER_ID_MESSAGE,
 				GUIMessages.BOOK_ROOM_TITLE, JOptionPane.PLAIN_MESSAGE);
 

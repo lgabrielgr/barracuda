@@ -3,7 +3,10 @@ package suncertify.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
+import java.text.MessageFormat;
 
 import javax.swing.JOptionPane;
 
@@ -96,7 +99,6 @@ public class StartServerListener implements ActionListener {
 		ControllerLogger.entering(CLASS_NAME, methodName);
 		
 		try {
-			
 		
 			if (isValidUserInput(true)) {
 
@@ -106,18 +108,81 @@ public class StartServerListener implements ActionListener {
 
 				disableComponentsOnStart();
 
-				ControllerLogger.info(CLASS_NAME, methodName, 
-						"Server is running");
-
+				updateStatusSuccessfulStart();
 			}
 
+		} catch (RemoteException e) {
+			
+			ControllerLogger.severe(CLASS_NAME, methodName, 
+					"Unable to start the server due to remote exception: " + 
+							e.getMessage());
+			
+			GUIUtils.showErrorMessageDialog(serverWindow, 
+					GUIMessages.UNABLE_TO_START_SERVER_MESSAGE);
+			
 		} finally {
 			
 			ControllerLogger.exiting(CLASS_NAME, methodName);
 			
 		}
 	}
-
+	
+	/**
+	 * Updates the server windows status that the server is running.
+	 */
+	private void updateStatusSuccessfulStart() {
+		
+		final String methodName = "updateServerStatus";
+		ControllerLogger.entering(CLASS_NAME, methodName);
+		
+		final String serverHostName = retrieveServerHostName();
+		
+		serverWindow.setStatusLabelText(
+				MessageFormat.format(GUIMessages.SERVER_RUNNING_STATUS_MESSAGE, 
+						serverHostName));
+		
+		ControllerLogger.info(CLASS_NAME, methodName, 
+				"Server is running on host " + serverHostName);
+		
+		ControllerLogger.exiting(CLASS_NAME, methodName);
+		
+		
+	}
+	
+	/**
+	 * Retrieves the host name where the server is running. If server is 
+	 * unable to read the host name, a message is displayed to user to let
+	 * him/her know about this.
+	 * 
+	 * @return Host name as <code>String</code>.
+	 */
+	private String retrieveServerHostName() {
+		
+		final String methodName = "retrieveServerHostName";
+		ControllerLogger.entering(CLASS_NAME, methodName);
+		
+		String serverIPAddress = GUIMessages.UNKNOWN_HOST;
+		
+		try {
+			
+			serverIPAddress = InetAddress.getLocalHost().getHostName();
+			
+		} catch (UnknownHostException e) {
+			
+			ControllerLogger.warning(CLASS_NAME, methodName, 
+					"Can't retrieve server's host name: " + e.getMessage());
+			
+			GUIUtils.showWarningMessage(serverWindow, 
+					GUIMessages.CANT_RETRIEVE_SERVER_HOST_NAME);
+			
+		}
+		
+		ControllerLogger.exiting(CLASS_NAME, methodName, serverIPAddress);
+		
+		return serverIPAddress;
+		
+	}
+	
 	/**
 	 * Verifies if the database location and port number provided by the user
 	 * are valid or not.
@@ -144,21 +209,17 @@ public class StartServerListener implements ActionListener {
 
 			if (!isValidDatabasePath(databasePath)) {
 
-				JOptionPane.showMessageDialog(serverWindow,
-						GUIMessages.INVALID_DATABASE_MESSAGE,
-						GUIMessages.WARNING_TEXT,
-						JOptionPane.WARNING_MESSAGE);
+				GUIUtils.showWarningMessage(serverWindow, 
+						GUIMessages.INVALID_DATABASE_MESSAGE);
 
 				return false;
 			}
 
 			if (!isDatabaseFileEditable(databasePath)) {
 
-				JOptionPane.showMessageDialog(serverWindow,
-						GUIMessages.DATABASE_NOT_EDITABLE_MESSAGE,
-						GUIMessages.WARNING_TEXT,
-						JOptionPane.WARNING_MESSAGE);
-
+				GUIUtils.showWarningMessage(serverWindow, 
+						GUIMessages.DATABASE_NOT_EDITABLE_MESSAGE);
+				
 				return false;
 
 			}
@@ -167,11 +228,9 @@ public class StartServerListener implements ActionListener {
 					&& (!GUIUtils.isPortNumberValid(
 							serverWindow.getPortNumberFieldText()))) {
 
-				JOptionPane.showMessageDialog(serverWindow,
-						GUIMessages.INVALID_PORT_NUMBER_MESSAGE,
-						GUIMessages.WARNING_TEXT,
-						JOptionPane.WARNING_MESSAGE);
-
+				GUIUtils.showWarningMessage(serverWindow, 
+						GUIMessages.INVALID_PORT_NUMBER_MESSAGE);
+				
 				return false;
 
 			}
@@ -291,8 +350,6 @@ public class StartServerListener implements ActionListener {
 		serverWindow.setEnabledServerLocationField(false);
 		serverWindow.setEnabledPortNumberField(false);
 		serverWindow.setEnabledBrowseButton(false);
-		serverWindow.setStatusLabelText(
-				GUIMessages.SERVER_RUNNING_STATUS_MESSAGE);
 
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}

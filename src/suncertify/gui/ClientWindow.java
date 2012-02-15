@@ -34,7 +34,7 @@ import suncertify.db.Record;
  * 
  * @author Leo Gutierrez
  */
-public class StandAloneWindow extends JFrame {
+public class ClientWindow extends JFrame {
 
 	/**
 	 * Serial version UID
@@ -44,7 +44,7 @@ public class StandAloneWindow extends JFrame {
 	/**
 	 * Class name.
 	 */
-	private static final String CLASS_NAME = StandAloneWindow.class.getName();
+	private static final String CLASS_NAME = ClientWindow.class.getName();
 	
 	/**
 	 * Reference to the frame's main panel.
@@ -98,7 +98,7 @@ public class StandAloneWindow extends JFrame {
 	 * 
 	 * @param databaseConnection Database from where perform the operations.
 	 */
-	public StandAloneWindow(final IDatabase databaseConnection) {
+	public ClientWindow(final IDatabase databaseConnection) {
 
 		database = databaseConnection;
 
@@ -154,8 +154,6 @@ public class StandAloneWindow extends JFrame {
         final JPanel statusPanel = new JPanel(new BorderLayout());
         statusPanel.add(statusLabel, BorderLayout.CENTER);
         
-        setStatusLabelText(GUIMessages.WELCOME_TEXT);
-        
         bottomPanel.add(statusPanel, BorderLayout.SOUTH);
         
         GUILogger.exiting(CLASS_NAME, method);
@@ -175,10 +173,12 @@ public class StandAloneWindow extends JFrame {
 		
 		bookRoomButton.addActionListener(new BookRoomListener(this));
         
+		
         final JPanel bookRoomPanel = new JPanel(
         		new FlowLayout(FlowLayout.RIGHT));
+        
         bookRoomPanel.add(bookRoomButton);
-
+        
         bottomPanel.add(bookRoomPanel, BorderLayout.CENTER);
         
         GUILogger.exiting(CLASS_NAME, methodName);
@@ -211,14 +211,13 @@ public class StandAloneWindow extends JFrame {
 		
 		constraints.gridwidth = GridBagConstraints.REMAINDER;
 		gridbag.setConstraints(nameField, constraints);
-		
 		nameField.addActionListener(searchRecordListener);
 		searchPanel.add(nameField);
 		
-		
 		constraints.weightx = 0.0;
 		
-		JLabel locationLabel = new JLabel(GUIMessages.LOCATION_LABEL_TEXT);
+		final JLabel locationLabel = 
+				new JLabel(GUIMessages.LOCATION_LABEL_TEXT);
 		
 		constraints.gridwidth = GridBagConstraints.RELATIVE;
 		gridbag.setConstraints(locationLabel, constraints);
@@ -226,8 +225,8 @@ public class StandAloneWindow extends JFrame {
 		
 		constraints.gridwidth = GridBagConstraints.RELATIVE;
 		gridbag.setConstraints(locationField, constraints);
-		searchPanel.add(locationField);
 		locationField.addActionListener(searchRecordListener);
+		searchPanel.add(locationField);
 		
 		JButton searchButton = new JButton(GUIMessages.SEARCH_BUTTON_NAME);
 		searchButton.setMnemonic(KeyEvent.VK_S);
@@ -287,7 +286,7 @@ public class StandAloneWindow extends JFrame {
 				GUILogger.warning(CLASS_NAME, methodName, 
 						"Database object is null");
 				
-				setStatusLabelText(GUIMessages.CANT_CONTACT_DB_MESSAGE);
+				throw new RemoteException("Database object is null");
 				
 			} else {
 			
@@ -301,7 +300,10 @@ public class StandAloneWindow extends JFrame {
 					+ "records to display in the initial startup: " 
 					+ e.getMessage());
 			
-			setStatusLabelText(GUIMessages.INITIAL_STARTUP_ERROR_MESSAGE);
+			GUIUtils.showErrorMessageDialog(this, 
+					GUIMessages.CANT_CONTACT_DB_MESSAGE);
+			
+			setStatusLabelText(GUIMessages.NOT_CONNECTED_TO_SERVER_MESSAGE);
 			
 		}
 		
