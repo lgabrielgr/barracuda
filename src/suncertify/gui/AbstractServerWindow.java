@@ -6,16 +6,23 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.DocumentListener;
 
 import suncertify.controller.BrowseDatabaseListener;
+import suncertify.controller.ExitFrameWithEscape;
 import suncertify.db.DatabaseProperties;
 import suncertify.remote.RemoteProperties;
 
@@ -55,14 +62,15 @@ public abstract class AbstractServerWindow extends JFrame {
 	private final JLabel serverLocationLabel = new JLabel();
 	
 	/**
-	 * Reference to the database location server field.
+	 * Reference to the database/server location server field.
 	 */
-	private final JTextField serverLocationTextField = new JTextField(40);
+	private final JTextField dbServerLocationTextField = new JTextField(35);
 	
 	/**
 	 * Reference to the port text field.
 	 */
-	private final JTextField portNumberTextField = new JTextField(5);
+	private final NumericTextField portNumberTextField = 
+			new NumericTextField(5);
 	
 	/**
 	 * Reference to the server port label.
@@ -88,16 +96,16 @@ public abstract class AbstractServerWindow extends JFrame {
     /**
      * Reference to the browse button.
      */
-    private final JButton browseDatabase = 
-    		new JButton(GUIConstants.BROWSE_BUTTON_SIMPLE_TEXT);
+    private final JButton browseDatabaseButton = 
+    		new JButton(GUIMessages.BROWSE_BUTTON_SIMPLE_TEXT);
     
     /**
      * Reference to the database/server configuration panel.
      */
-    private final JPanel dbConfigPanel = new JPanel();
+    private final JPanel dbServerConfigPanel = new JPanel();
 	
     /**
-     * Reference to the grid bag layout to use into the database/server 
+     * Reference to the grid bag layout to use into the database/server
      * configuration panel.
      */
     private final GridBagLayout gridbag = new GridBagLayout();
@@ -131,7 +139,7 @@ public abstract class AbstractServerWindow extends JFrame {
         
         addStatusSection();
         
-        addProperTextOnComponents();
+        addConfigurationOnComponents();
         
         GUILogger.exiting(CLASS_NAME, methodName);
 	}
@@ -149,7 +157,16 @@ public abstract class AbstractServerWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
 		setResizable(false);
-        
+		
+		final InputMap inputMap = 
+				getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Escape");
+		
+		final ActionMap actionMap = getRootPane().getActionMap();
+		actionMap.put("Escape", new ExitFrameWithEscape());
+		
+		getRootPane().setDefaultButton(primaryServerButton);
+		
         GUILogger.exiting(CLASS_NAME, methodName);
 	}
 
@@ -161,7 +178,8 @@ public abstract class AbstractServerWindow extends JFrame {
 		final String methodName = "addStatusSection";
 		GUILogger.entering(CLASS_NAME, methodName);
 
-        statusLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        statusLabel.setBorder(
+        		BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         
         final JPanel statusPanel = new JPanel(new BorderLayout());
         statusPanel.add(statusLabel, BorderLayout.CENTER);
@@ -198,38 +216,39 @@ public abstract class AbstractServerWindow extends JFrame {
 		final String methodName = "addServerConfigSection";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
-        dbConfigPanel.setLayout(gridbag);
+        dbServerConfigPanel.setLayout(gridbag);
      
         constraints.insets = new Insets(2, 2, 2, 2);
 
         gridbag.setConstraints(serverLocationLabel, constraints);
-        dbConfigPanel.add(serverLocationLabel);
+        dbServerConfigPanel.add(serverLocationLabel);
         
         constraints.gridwidth = GridBagConstraints.RELATIVE; 
         
-        gridbag.setConstraints(serverLocationTextField, constraints);
-        dbConfigPanel.add(serverLocationTextField);
+        gridbag.setConstraints(dbServerLocationTextField, constraints);
+        dbServerConfigPanel.add(dbServerLocationTextField);
         
-        browseDatabase.addActionListener(new BrowseDatabaseListener(this));
+        browseDatabaseButton.setMnemonic(KeyEvent.VK_C);
+        browseDatabaseButton.addActionListener(new BrowseDatabaseListener(this));
         
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         
-        gridbag.setConstraints(browseDatabase, constraints);
-        dbConfigPanel.add(browseDatabase);
+        gridbag.setConstraints(browseDatabaseButton, constraints);
+        dbServerConfigPanel.add(browseDatabaseButton);
         
         constraints.weightx = 0.0;
         
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.EAST;
         gridbag.setConstraints(portNumberLabel, constraints);
-        dbConfigPanel.add(portNumberLabel);
+        dbServerConfigPanel.add(portNumberLabel);
         
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.anchor = GridBagConstraints.WEST;
         gridbag.setConstraints(portNumberTextField, constraints);
-        dbConfigPanel.add(portNumberTextField);
+        dbServerConfigPanel.add(portNumberTextField);
         
-        add(dbConfigPanel, BorderLayout.NORTH);
+        add(dbServerConfigPanel, BorderLayout.NORTH);
         
         GUILogger.exiting(CLASS_NAME, methodName);
 	}
@@ -306,17 +325,17 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param text Text to set in the server location field.
 	 */
-	public final void setServerLocationFieldText(final String text) {
-		serverLocationTextField.setText(text);
+	public final void setServerLocationTextField(final String text) {
+		dbServerLocationTextField.setText(text);
 	}
 	
 	/**
-	 * Retrieves the text introduced in the server location field.
+	 * Retrieves the text introduced in the database/server location field.
 	 * 
 	 * @return The text introduced in the server location field.
 	 */
-	public final String getServerLocationFieldText() {
-		return serverLocationTextField.getText();
+	public final String getDBServerLocationFieldText() {
+		return dbServerLocationTextField.getText();
 	}
 	
 	/**
@@ -324,7 +343,7 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * 
 	 * @param text The text to display in the port number field.
 	 */
-	public final void setPortNumberFieldText(final String text) {
+	public final void setPortNumberTextField(final String text) {
 		portNumberTextField.setText(text);
 	}
 	
@@ -350,9 +369,16 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * Sets the text to display in the window's primary button.
 	 * 
 	 * @param text The text to display in the window's primary button.
+	 * @param mnemonic Mnemonic to set to button. -1 if don't want to set 
+	 *                 Mnemonic. 
 	 */
-	public final void setPrimaryServerButtonText(final String text) {
+	public final void setPrimaryServerButtonText(final String text, 
+			final int mnemonic) {
 		primaryServerButton.setText(text);
+		
+		if (mnemonic != -1) {
+			primaryServerButton.setMnemonic(mnemonic);
+		}
 	}
 	
 	/**
@@ -378,9 +404,16 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * Sets the text to display in the window's secondary button.
 	 * 
 	 * @param text The text to display in the window's secondary button.
+	 * @param mnemonic Mnemonic to set to button. -1 if don't want to set 
+	 *                 Mnemonic. 
 	 */
-	public final void setSecondaryServerButtonText(final String text) {
+	public final void setSecondaryServerButtonText(final String text,
+			final int mnemonic) {
 		secondaryServerButton.setText(text);
+		
+		if (mnemonic != -1) {
+			secondaryServerButton.setMnemonic(mnemonic);
+		}
 	}
 	
 	/**
@@ -394,12 +427,12 @@ public abstract class AbstractServerWindow extends JFrame {
 	}
 
 	/**
-	 * Sets enabled or not enabled the server location field.
+	 * Sets enabled or not enabled the database/server location field.
 	 * 
 	 * @param enable True to enable; False otherwise.
 	 */
-	public final void setEnabledServerLocationField(final boolean enable) {
-		serverLocationTextField.setEnabled(enable);
+	public final void setEnabledDBServerLocationField(final boolean enable) {
+		dbServerLocationTextField.setEnabled(enable);
 	}
 	
 	/**
@@ -417,13 +450,39 @@ public abstract class AbstractServerWindow extends JFrame {
 	 * @param enable True to enable; False, otherwise.
 	 */
 	public final void setEnabledBrowseButton(final boolean enable) {
-		browseDatabase.setEnabled(enable);
+		browseDatabaseButton.setEnabled(enable);
 	}
 	
-	public final void disableRMIPortInput() {
-		
-		
-		
+	/**
+	 * Adds a document listener to the database/server's text field.
+	 * 
+	 * @param listener The <code>DocumentListener</code> to add to the text 
+	 *                 field.
+	 */
+	public final void addDocumentListenerToDBServerTextField(
+			final DocumentListener listener) {
+		dbServerLocationTextField.getDocument().addDocumentListener(listener);
+	}
+	
+	/**
+	 * Adds a document listener to the port's text field.
+	 * 
+	 * @param listener The <code>DocumentListener</code> to add to the text 
+	 *                 field.
+	 */
+	public final void addDocumentListenerToPortTextField(
+			final DocumentListener listener) {
+		portNumberTextField.getDocument().addDocumentListener(listener);
+	}
+	
+	/**
+	 * Sets the browse database focusable or not.
+	 * 
+	 * @param focusable <code>True</code> if want to set focusable the browse 
+	 *                  database button; <code>False</code> otherwise.
+	 */
+	public final void setBrowseButtonFocusable(final boolean focusable) {
+		browseDatabaseButton.setFocusable(focusable);
 	}
 	
 	/**
@@ -452,14 +511,14 @@ public abstract class AbstractServerWindow extends JFrame {
 		final String methodName = "removeBrowseButton";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
-		dbConfigPanel.remove(browseDatabase);
+		dbServerConfigPanel.remove(browseDatabaseButton);
 
 		final GridBagConstraints serverLocationConstraint = 
-				gridbag.getConstraints(serverLocationTextField);
+				gridbag.getConstraints(dbServerLocationTextField);
 		
 		serverLocationConstraint.gridwidth = GridBagConstraints.REMAINDER;
 		
-		gridbag.setConstraints(serverLocationTextField, 
+		gridbag.setConstraints(dbServerLocationTextField, 
 				serverLocationConstraint);
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
@@ -476,17 +535,17 @@ public abstract class AbstractServerWindow extends JFrame {
 		final String methodName = "removePorSection";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
-		dbConfigPanel.remove(portNumberLabel);
-		dbConfigPanel.remove(portNumberTextField);
+		dbServerConfigPanel.remove(portNumberLabel);
+		dbServerConfigPanel.remove(portNumberTextField);
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
 		
 	}
 	
 	/**
-	 * Adds the proper text to display in the different frame's components.
+	 * Adds the proper configuration in the different frame's components.
 	 */
-	protected abstract void addProperTextOnComponents();
+	protected abstract void addConfigurationOnComponents();
 	
 }
 

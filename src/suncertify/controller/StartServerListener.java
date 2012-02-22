@@ -9,6 +9,8 @@ import java.rmi.RemoteException;
 import java.text.MessageFormat;
 
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import suncertify.gui.AbstractServerWindow;
 import suncertify.gui.GUIConstants;
@@ -19,11 +21,11 @@ import suncertify.remote.RegisterDatabase;
 /**
  * Provides the functionality when user clicks on 'Start server' button on 
  * the Server Window. 
- * <br />Starts the server if the input user data is valid.
+ * <br />Starts the server if the user input data is complete and valid.
  * 
  * @author Leo Gutierrez
  */
-public class StartServerListener implements ActionListener {
+public class StartServerListener implements ActionListener, DocumentListener {
 
 	/**
 	 * Class name.
@@ -83,7 +85,62 @@ public class StartServerListener implements ActionListener {
 
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}
+	
+	/**
+	 * Invoked when user inserts text on database or port text fields.
+	 * 
+	 * @param documentEvent The document event.
+	 */
+	public void insertUpdate(final DocumentEvent documentEvent) {
+		verifyIfUserCanStartServer();
+	}
 
+	/**
+	 * Invoked when user removes text on databaseb or port text fields.
+	 * 
+	 * @param documentEvent The document event.
+	 */
+	public void removeUpdate(final DocumentEvent documentEvent) {
+		verifyIfUserCanStartServer();
+	}
+
+	/**
+	 * Invoked when user changes text on database or port text fields.
+	 * 
+	 * @param documentEvent The document event.
+	 */
+	public void changedUpdate(final DocumentEvent documentEvent) {
+		verifyIfUserCanStartServer();
+	}
+	
+	/**
+	 * Verifies if user can start the server. Verifies if both text fields 
+	 * for database location and port are completed, enabling the Start 
+	 * Server button if they're; Disabling otherwise. 
+	 */
+	private void verifyIfUserCanStartServer() {
+		
+		final String methodName = "verifyIfUserCanStartServer";
+		ControllerLogger.entering(CLASS_NAME, methodName);
+		
+		final String dbText = serverWindow.getDBServerLocationFieldText();
+		final String portText = serverWindow.getPortNumberFieldText();
+		
+		if ((GUIUtils.isEmptyValue(dbText))
+				|| (GUIUtils.isEmptyValue(portText))) {
+			
+			serverWindow.setEnabledPrimaryServerButton(false);
+			
+		} else {
+			
+			serverWindow.setEnabledPrimaryServerButton(true);
+			
+		}
+		
+		ControllerLogger.exiting(CLASS_NAME, methodName);
+		
+	}
+	
 	/**
 	 * Starts the server doing the following:
 	 * <br />- Validates user inputs.
@@ -205,7 +262,7 @@ public class StartServerListener implements ActionListener {
 		try {
 
 			final String databasePath = 
-					serverWindow.getServerLocationFieldText();
+					serverWindow.getDBServerLocationFieldText();
 
 			if (!isValidDatabasePath(databasePath)) {
 
@@ -347,7 +404,7 @@ public class StartServerListener implements ActionListener {
 		ControllerLogger.entering(CLASS_NAME, methodName);
 		
 		serverWindow.setEnabledPrimaryServerButton(false);
-		serverWindow.setEnabledServerLocationField(false);
+		serverWindow.setEnabledDBServerLocationField(false);
 		serverWindow.setEnabledPortNumberField(false);
 		serverWindow.setEnabledBrowseButton(false);
 
@@ -369,7 +426,7 @@ public class StartServerListener implements ActionListener {
 		ControllerLogger.entering(CLASS_NAME, methodName);
 
 		serverWindow.updateDatabasePath(
-				serverWindow.getServerLocationFieldText());
+				serverWindow.getDBServerLocationFieldText());
 		
 		if (serverWindowInput) {
 		

@@ -85,6 +85,11 @@ public class GUIMessages {
 	public static final String SERVER_PORT_LABEL_TEXT = "Port: ";
 	
 	/**
+	 * Browse button text as 'Choose File'.
+	 */
+	public static final String BROWSE_BUTTON_SIMPLE_TEXT = "Choose File";
+	
+	/**
 	 * Text to display for the exit dialog window.
 	 */
 	public static final String EXIT_MESSAGE_DIALOG_TEXT = 

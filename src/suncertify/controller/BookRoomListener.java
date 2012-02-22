@@ -15,7 +15,7 @@ import suncertify.gui.GUIUtils;
 import suncertify.gui.ClientWindow;
 
 /**
- * Provides the functionality when user books a room.
+ * Provides the functionality when user wants to book a room.
  *
  * @author Leo Gutierrez
  *

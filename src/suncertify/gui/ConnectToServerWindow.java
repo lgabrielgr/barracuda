@@ -1,5 +1,7 @@
 package suncertify.gui;
 
+import java.awt.event.KeyEvent;
+
 import suncertify.controller.ConnectToServerListener;
 import suncertify.controller.ExitConnectToServerListener;
 
@@ -34,30 +36,37 @@ public class ConnectToServerWindow extends AbstractServerWindow {
 	/**
 	 * Adds the proper text to display in the different frame's components.
 	 */
-	protected final void addProperTextOnComponents() {
+	protected final void addConfigurationOnComponents() {
 		
-		final String methodName = "addProperTextOnComponents";
+		final String methodName = "addConfigurationOnComponents";
 		GUILogger.entering(CLASS_NAME, methodName);
+		
+		final ConnectToServerListener serverListener =
+				new ConnectToServerListener(this);
 		
 		setTitle(GUIMessages.CONNECT_TO_SERVER_TITLE_TEXT);
 		
 		setServerLocationLabelText(GUIMessages.HOSTNAME_LABEL_TEXT);
 
-		setServerLocationFieldText(readRMIHost());
-
-		setPortNumberFieldText(readRMIPort());
+		setServerLocationTextField(readRMIHost());
+		addDocumentListenerToDBServerTextField(serverListener);
+		
+		setPortNumberTextField(readRMIPort());
+		addDocumentListenerToPortTextField(serverListener);
 
 		setStatusLabelText(GUIMessages.INITIAL_CONNECT_STATUS_MESSAGE);
 
-		setPrimaryServerButtonText(GUIMessages.CONNECT_TO_SERVER_TEXT);
-		addListenerToPrimaryServerButton(new ConnectToServerListener(this));
+		setPrimaryServerButtonText(GUIMessages.CONNECT_TO_SERVER_TEXT, KeyEvent.VK_C);
+		addListenerToPrimaryServerButton(serverListener);
 
-		setSecondaryServerButtonText(GUIMessages.EXIT_TEXT);
+		setSecondaryServerButtonText(GUIMessages.EXIT_TEXT, KeyEvent.VK_E);
 		addListenerToSecondaryServerButton(new ExitConnectToServerListener());
 
 		addWindowListener(new ExitConnectToServerListener());
 		
 		removeBrowseButton();
+		
+		serverListener.insertUpdate(null);
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
 

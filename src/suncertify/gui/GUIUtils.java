@@ -24,13 +24,6 @@ public class GUIUtils {
 	private static final String CLASS_NAME = GUIUtils.class.getName();
 	
 	/**
-	 * Constructor.
-	 */
-	protected GUIUtils() {
-		
-	}
-	
-	/**
      * Centers on screen the specified frame.
      * 
      * @param frame Frame to center on screen.
@@ -40,7 +33,8 @@ public class GUIUtils {
     	final String sourceMethod = "centerFrame";
         GUILogger.entering(CLASS_NAME, sourceMethod);
 
-        final Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension dimension = 
+        		Toolkit.getDefaultToolkit().getScreenSize();
         final int positionX =
             (int) ((dimension.getWidth() - frame.getWidth()) / 2);
         final int positionY =
@@ -211,7 +205,35 @@ public class GUIUtils {
 	 * @param arguments Argument to use in message.
 	 * @return Message formatted with arguments specified.
 	 */
-	public static String formatMessage(final String message, final Object ... arguments) {
+	public static String formatMessage(final String message, 
+			final Object ... arguments) {
 		return MessageFormat.format(message, arguments);
+	}
+	
+	/**
+	 * Verifies if the given value is empty or not.
+	 * 
+	 * @param value Value to verify.
+	 * @return <code>True</code> if value is null or empty; <code>False</code> 
+	 *         otherwise. 
+	 */
+	public static boolean isEmptyValue(final String value) {
+		
+		final String methodName = "isEmptyValue";
+		GUILogger.entering(CLASS_NAME, methodName, value);
+		
+		boolean emptyValue = false;
+		
+		if ((value == null)
+				|| ("".equals(value.trim()))) {
+			
+			emptyValue = true;
+			
+		}
+		
+		GUILogger.exiting(CLASS_NAME, methodName, emptyValue);
+		
+		return emptyValue;
+		
 	}
 }

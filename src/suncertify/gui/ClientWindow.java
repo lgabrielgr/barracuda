@@ -30,7 +30,7 @@ import suncertify.db.IDatabase;
 import suncertify.db.Record;
 
 /**
- * Provides the graphical user interface for the StandAlone window.
+ * Provides the graphical user interface for the Client window.
  * 
  * @author Leo Gutierrez
  */
@@ -149,7 +149,8 @@ public class ClientWindow extends JFrame {
 		final String method = "addStatusSection";
 		GUILogger.entering(CLASS_NAME, method);
 		
-		statusLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		statusLabel.setBorder(
+				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
         final JPanel statusPanel = new JPanel(new BorderLayout());
         statusPanel.add(statusLabel, BorderLayout.CENTER);
@@ -173,7 +174,6 @@ public class ClientWindow extends JFrame {
 		
 		bookRoomButton.addActionListener(new BookRoomListener(this));
         
-		
         final JPanel bookRoomPanel = new JPanel(
         		new FlowLayout(FlowLayout.RIGHT));
         

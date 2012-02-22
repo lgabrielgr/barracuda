@@ -1,5 +1,7 @@
 package suncertify.gui;
 
+import java.awt.event.KeyEvent;
+
 import suncertify.controller.ConnectToDatabaseListener;
 import suncertify.controller.ExitServerListener;
 
@@ -31,32 +33,39 @@ public class ConnectToDatabaseWindow extends ServerWindow {
 
 	
 	/**
-	 * Adds the proper text to display in the different frame's components.
+	 * Adds the proper configuration for the Connect to Database window.
 	 */
-	protected final void addProperTextOnComponents() {
+	protected final void addConfigurationOnComponents() {
 		
-		final String methodName = "addProperTextOnComponents";
+		final String methodName = "addConfigurationOnComponents";
 		GUILogger.entering(CLASS_NAME, methodName);
+		
+		final ConnectToDatabaseListener connectToDBListener =
+				new ConnectToDatabaseListener(this);
 		
 		setTitle(GUIMessages.CONNECT_TO_DATABASE_TEXT);
 		
 		setServerLocationLabelText(GUIMessages.DATABASE_LOCATION_LABEL_TEXT);
 		
-		setServerLocationFieldText(readDatabasePath());
+		setServerLocationTextField(readDatabasePath());
+		addDocumentListenerToDBServerTextField(connectToDBListener);
 		
 		removePortSection();
 		
 		setStatusLabelText(GUIMessages.CONNECT_TO_DATABASE_STATUS_MESSAGE);
 		
-		setPrimaryServerButtonText(GUIMessages.CONNECT_TO_DATABASE_TEXT);
-		addListenerToPrimaryServerButton(new ConnectToDatabaseListener(this));
+		setPrimaryServerButtonText(GUIMessages.CONNECT_TO_DATABASE_TEXT, 
+				KeyEvent.VK_D);
+		addListenerToPrimaryServerButton(connectToDBListener);
 		
 		final ExitServerListener exitWindowListener = new ExitServerListener();
 		
-		setSecondaryServerButtonText(GUIMessages.EXIT_TEXT);
+		setSecondaryServerButtonText(GUIMessages.EXIT_TEXT, KeyEvent.VK_E);
 		addListenerToSecondaryServerButton(exitWindowListener);
 		
 		addWindowListener(exitWindowListener);
+		
+		connectToDBListener.insertUpdate(null);
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
 		

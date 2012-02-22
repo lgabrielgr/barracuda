@@ -1,5 +1,7 @@
 package suncertify.gui;
 
+import java.awt.event.KeyEvent;
+
 import suncertify.controller.ExitServerListener;
 import suncertify.controller.StartServerListener;
 
@@ -20,7 +22,7 @@ public class ServerWindow extends AbstractServerWindow {
 	 * Class name.
 	 */
 	private static final String CLASS_NAME = ServerWindow.class.getName();
-	
+
 	/**
 	 * Constructs a <code>ServerWindow</code> object and displays the Server 
 	 * window.
@@ -32,30 +34,38 @@ public class ServerWindow extends AbstractServerWindow {
 	}
 	
 	/**
-	 * Adds the proper text to display in the different frame's components.
+	 * Adds the proper configuration for Server window.
 	 */
-	protected void addProperTextOnComponents() {
+	protected void addConfigurationOnComponents() {
 		
-		final String methodName = "addProperTextOnComponents";
+		final String methodName = "addConfigurationOnComponents";
 		GUILogger.entering(CLASS_NAME, methodName);
+		
+		final StartServerListener startServerListener = 
+				new StartServerListener(this);
 		
 		setServerLocationLabelText(GUIMessages.DATABASE_LOCATION_LABEL_TEXT);
 		
-		setServerLocationFieldText(readDatabasePath());
+		setServerLocationTextField(readDatabasePath());
+		addDocumentListenerToDBServerTextField(startServerListener);
 		
-		setPortNumberFieldText(readRMIPort());
+		setPortNumberTextField(readRMIPort());
+		addDocumentListenerToPortTextField(startServerListener);
 		
 		setStatusLabelText(GUIMessages.INITIAL_SERVER_STATUS_MESSAGE);
 		
-		setPrimaryServerButtonText(GUIMessages.START_SERVER_TEXT);
-		addListenerToPrimaryServerButton(new StartServerListener(this));
+		setPrimaryServerButtonText(GUIMessages.START_SERVER_TEXT, 
+				KeyEvent.VK_S);
+		addListenerToPrimaryServerButton(startServerListener);
 		
 		final ExitServerListener exitServerListener = new ExitServerListener();
 		
-		setSecondaryServerButtonText(GUIMessages.EXIT_TEXT);
+		setSecondaryServerButtonText(GUIMessages.EXIT_TEXT, KeyEvent.VK_E);
 		addListenerToSecondaryServerButton(exitServerListener);
 		
 		addWindowListener(exitServerListener);
+		
+		startServerListener.insertUpdate(null);
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
 		

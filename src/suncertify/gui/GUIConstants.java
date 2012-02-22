@@ -13,10 +13,6 @@ public class GUIConstants {
 	 */
 	public static final String DATABASE_FILE_EXTENSION = ".db";
 	
-	/**
-	 * Browse button text as '...'.
-	 */
-	public static final String BROWSE_BUTTON_SIMPLE_TEXT = "...";
 	
 	/**
 	 * Default dimension height size of the scroll pane that display data

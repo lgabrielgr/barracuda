@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import suncertify.db.IDatabase;
 import suncertify.gui.AbstractServerWindow;
 import suncertify.gui.GUIMessages;
@@ -13,12 +16,13 @@ import suncertify.remote.RemoteDatabaseConnector;
 
 /**
  * Provides the functionality when user clicks on connect to server button.
- * <br />Connects to server if the input data is valid, and starts the main 
- * window.
+ * <br />Connects to server if the input data is valid and complete, then 
+ * starts the Client window.
  * 
  * @author Leo Gutierrez
  */
-public class ConnectToServerListener implements ActionListener {
+public class ConnectToServerListener 
+implements ActionListener, DocumentListener {
 
 	/**
 	 * Class name.
@@ -77,7 +81,66 @@ public class ConnectToServerListener implements ActionListener {
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 				
 	}
+	
+	/**
+	 * Invoked when user updates text on hostname/port text field.
+	 * 
+	 * @param documentEvent The document event.
+	 */
+	public void insertUpdate(final DocumentEvent documentEvent) {
+		verifyIfUserCanConnectToServer();
+	}
 
+	/**
+	 * Invoked when user removes text on hostname/port text field.
+	 * 
+	 * @param documentEvent The document event.
+	 */
+	public void removeUpdate(final DocumentEvent documentEvent) {
+		verifyIfUserCanConnectToServer();
+	}
+
+	/**
+	 * Invoked when user changes text on hostname/port text field.
+	 * 
+	 * @param documentEvent The document event.
+	 */
+	public void changedUpdate(final DocumentEvent documentEvent) {
+		verifyIfUserCanConnectToServer();
+	}
+
+	/**
+	 * Verifies if the user can connect to the server. Verifies both text 
+	 * fields hostname and port, if one of those are empty, the Connect To
+	 * Server button is disabled. It is only enabled if both fields are 
+	 * completed.
+	 */
+	private void verifyIfUserCanConnectToServer() {
+		
+		final String methodName = "verifyIfUserCanConnectToServer";
+		ControllerLogger.entering(CLASS_NAME, methodName);
+		
+		final String hostname =
+				connectToServerWindow.getDBServerLocationFieldText();
+		final String port =
+				connectToServerWindow.getPortNumberFieldText();
+		
+		if ((GUIUtils.isEmptyValue(hostname))
+				|| (GUIUtils.isEmptyValue(port))) {
+			
+			connectToServerWindow.setEnabledPrimaryServerButton(false);
+			
+		} else {
+			
+			connectToServerWindow.setEnabledPrimaryServerButton(true);
+			
+		}
+		
+		ControllerLogger.exiting(CLASS_NAME, methodName);
+		
+	}
+	
+	
 	/**
 	 * Starts a connection with the server.
 	 */
@@ -89,7 +152,7 @@ public class ConnectToServerListener implements ActionListener {
 		try {
 
 			final String hostname =
-					connectToServerWindow.getServerLocationFieldText();
+					connectToServerWindow.getDBServerLocationFieldText();
 			final String port =
 					connectToServerWindow.getPortNumberFieldText();
 
@@ -110,7 +173,11 @@ public class ConnectToServerListener implements ActionListener {
 				connectToServerWindow.closeWindow();
 
 				final ClientWindow client = new ClientWindow(database);
-				client.setStatusLabelText("Connected to Server running on host " + hostname);
+				
+				final String statusMessage = GUIUtils.formatMessage(
+						GUIMessages.CONNECTED_TO_SERVER_MESSAGE, hostname);
+				
+				client.setStatusLabelText(statusMessage);
 
 			}
 
@@ -165,7 +232,7 @@ public class ConnectToServerListener implements ActionListener {
 
 		try {
 
-			if (!isValidHostname(hostname)) {
+			if (!GUIUtils.isEmptyValue(hostname)) {
 
 				GUIUtils.showWarningMessage(connectToServerWindow,
 						GUIMessages.INVALID_HOSTNAME_MESSAGE);
@@ -173,7 +240,7 @@ public class ConnectToServerListener implements ActionListener {
 				return false;
 
 			}
-
+			
 			if (!GUIUtils.isPortNumberValid(port)) {
 
 				GUIUtils.showWarningMessage(connectToServerWindow,
@@ -193,35 +260,5 @@ public class ConnectToServerListener implements ActionListener {
 		
 	}
 	
-	/**
-	 * Verifies if the hostname entered by the user is not empty.
-	 * 
-	 * @param hostname Hostname to verify.
-	 * @return True is the hostname is valid; False otherwise.
-	 */
-	private boolean isValidHostname(final String hostname) {
-
-		final String methodName = "isValidHostname";
-		ControllerLogger.entering(CLASS_NAME, methodName, hostname);
-
-		try {
-
-			if ((hostname == null) || ("".equals(hostname.trim()))) {
-
-				ControllerLogger.warning(CLASS_NAME, methodName,
-						"Hostname value empty");
-
-				return false;
-
-			}
-
-			return true;
-
-		} finally {
-
-			ControllerLogger.exiting(CLASS_NAME, methodName);
-
-		}
-	}
 
 }

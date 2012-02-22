@@ -54,11 +54,13 @@ public class BrowseDatabaseListener implements ActionListener {
 
 		if (JFileChooser.APPROVE_OPTION == userSelection) {
 
-			serverWindow.setServerLocationFieldText(
+			serverWindow.setServerLocationTextField(
 					fileChooser.getSelectedFile().getAbsolutePath());
-
+			
 		}
 
+		serverWindow.setBrowseButtonFocusable(false);
+		
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 	}
 
