@@ -1,5 +1,6 @@
 package suncertify.controller;
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -28,6 +29,32 @@ public class ExitFrameWithEscape extends AbstractAction {
 			ExitFrameWithEscape.class.getName();
 	
 	/**
+	 * Reference to the window to close.
+	 */
+	private Window windowToExit = null;
+	
+	/**
+	 * Flag reference to know if need to ask to user first or not before close.
+	 */
+	private boolean askUserToExit = false;
+	
+	/**
+	 * Constructs a <code>ExitFrameWithEscape</code> object.
+	 * 
+	 * @param window <code>Window</code> to close.
+	 * @param askUser <code>True</code> if want to ask user first or not 
+	 *                before close.
+	 */
+	public ExitFrameWithEscape(final Window window, 
+			final boolean askUser) {
+		
+		windowToExit = window;
+		
+		askUserToExit = askUser;
+		
+	}
+	
+	/**
 	 * Invoked when user press 'Escape' to exit the frame.
 	 * 
 	 * @param actionEvent The action event.
@@ -39,10 +66,18 @@ public class ExitFrameWithEscape extends AbstractAction {
 		
 		try {
 			
-			final int userSelection = GUIUtils.askUserToExit();
+			int userSelection = JOptionPane.OK_OPTION;
+			
+			if (askUserToExit) {
+			
+				userSelection = GUIUtils.askUserToExit();
+				
+			}
 
 			if (userSelection == JOptionPane.OK_OPTION) {
-				System.exit(0);
+				
+				windowToExit.setVisible(false);
+				
 			}
 
 		} finally {

@@ -58,11 +58,6 @@ public class DatabaseConstants {
 	 */
 	public static final int MAX_OWNER_ID_VALUE = 99999999;
 	
-	/**
-	 * Constructor.
-	 */
-	protected DatabaseConstants() {
-		
-	}
+	public static final int OWNER_FIELD_LENGTH = 8;
 	
 }

@@ -75,7 +75,7 @@ implements ActionListener, DocumentListener {
 			return;
 
 		}
-
+		
 		connectToServer(); 
 
 		ControllerLogger.exiting(CLASS_NAME, methodName);
@@ -157,25 +157,24 @@ implements ActionListener, DocumentListener {
 					connectToServerWindow.getPortNumberFieldText();
 
 			if (isValidUserInput(hostname, port)) {
-
+				
 				updatePropertiesWithUserInput(hostname, port);
-
+				
 				connectToServerWindow.setStatusLabelText(
 						GUIMessages.CONNECTING_TO_SERVER_MESSAGE);
-
+				
 				final IDatabase database =
 						RemoteDatabaseConnector.getConnection(hostname,
 								Integer.valueOf(port));
 
-				ControllerLogger.info(CLASS_NAME, methodName, 
-						"Connected to server (" + hostname + ")");
+				final String statusMessage = GUIUtils.formatMessage(
+						GUIMessages.CONNECTED_TO_SERVER_MESSAGE, hostname);
+				
+				ControllerLogger.info(CLASS_NAME, methodName, statusMessage);
 
 				connectToServerWindow.closeWindow();
 
 				final ClientWindow client = new ClientWindow(database);
-				
-				final String statusMessage = GUIUtils.formatMessage(
-						GUIMessages.CONNECTED_TO_SERVER_MESSAGE, hostname);
 				
 				client.setStatusLabelText(statusMessage);
 
@@ -232,7 +231,7 @@ implements ActionListener, DocumentListener {
 
 		try {
 
-			if (!GUIUtils.isEmptyValue(hostname)) {
+			if (GUIUtils.isEmptyValue(hostname)) {
 
 				GUIUtils.showWarningMessage(connectToServerWindow,
 						GUIMessages.INVALID_HOSTNAME_MESSAGE);

@@ -37,9 +37,7 @@ public class ExitStandAloneWindow extends WindowAdapter {
 			}
 		
 		} finally {
-			
-			ControllerLogger.info(CLASS_NAME, methodName, 
-					"User quits client window");
+
 			ControllerLogger.exiting(CLASS_NAME, methodName);
 			
 		}

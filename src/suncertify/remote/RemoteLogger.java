@@ -18,13 +18,6 @@ public class RemoteLogger {
 	private static final Logger LOGGER = AppLogger.getLogger("suncertify.remote");
 	
 	/**
-	 * Constructor.
-	 */
-	protected RemoteLogger() {
-		
-	}
-	
-	/**
 	 * Logs a method entry. 
 	 * 
 	 * @param sourceClass Name of class that issued the logging request.

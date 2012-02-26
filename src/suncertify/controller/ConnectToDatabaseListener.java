@@ -74,7 +74,10 @@ public class ConnectToDatabaseListener extends StartServerListener {
 				
 				connectToDbWindow.closeWindow();
 				
-				new ClientWindow(new Database());
+				final ClientWindow client = new ClientWindow(new Database());
+				
+				client.setStatusLabelText(
+						GUIMessages.CONNECTED_TO_LOCAL_DB_MESSAGE);
 				
 			}
 

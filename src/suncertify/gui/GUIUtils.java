@@ -3,11 +3,19 @@ package suncertify.gui;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.KeyEvent;
 import java.text.MessageFormat;
 
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
 
+import suncertify.controller.ExitFrameWithEscape;
 import suncertify.remote.RegisterDatabase;
 
 /**
@@ -199,6 +207,21 @@ public class GUIUtils {
 	}
 	
 	/**
+	 * Shows an information message dialog to the user over the component 
+	 * specified and displaying the specified information message.
+	 * 
+	 * @param component Component to which display the message over.
+	 * @param infoMessage Information message to print.
+	 */
+	public static void showInformationMessage(final Component component, 
+			final String infoMessage) {
+				
+		JOptionPane.showMessageDialog(component, infoMessage,
+				GUIMessages.INFORMATION_TEXT, JOptionPane.INFORMATION_MESSAGE);
+
+	}
+	
+	/**
 	 * Formats the given message with the given arguments.
 	 * 
 	 * @param message Message to format.
@@ -236,4 +259,31 @@ public class GUIUtils {
 		return emptyValue;
 		
 	}
+	
+	/**
+	 * Enables to user when Escape is pressed the window can be closed.
+	 * 
+	 * @param window <code>Window</code> to enable the Escape function.
+	 * @param rootPane <code>JOptionPane</code> to add the function.
+	 * @param askUserToExit <code>True</code> if want to ask to user first
+	 *                      before close; <code>False</code> otherwise.
+	 */
+	public static void enableEscapeToExit(final Window window,
+			final JRootPane rootPane, final boolean askUserToExit) {
+		
+		final String methodName = "enableEscapeToExit";
+		GUILogger.entering(CLASS_NAME, methodName);
+		
+		final InputMap inputMap = 
+				rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Escape");
+		
+		final ActionMap actionMap = rootPane.getActionMap();
+		actionMap.put("Escape", new ExitFrameWithEscape(window, 
+				askUserToExit));
+		
+		GUILogger.exiting(CLASS_NAME, methodName);
+		
+	}
+	
 }

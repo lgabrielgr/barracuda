@@ -37,10 +37,8 @@ public class GUIConstants {
 	public static final String STAND_ALONE_MODE_PARAMETER = "alone";
 
 	/**
-	 * Constructor.
+	 * OK text.
 	 */
-	protected GUIConstants() {
-		
-	}
+	public static final String OK_TEXT = "OK";
 	
 }

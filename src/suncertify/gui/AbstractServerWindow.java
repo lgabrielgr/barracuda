@@ -8,21 +8,16 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
-import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentListener;
 
 import suncertify.controller.BrowseDatabaseListener;
-import suncertify.controller.ExitFrameWithEscape;
 import suncertify.db.DatabaseProperties;
 import suncertify.remote.RemoteProperties;
 
@@ -158,12 +153,7 @@ public abstract class AbstractServerWindow extends JFrame {
         
 		setResizable(false);
 		
-		final InputMap inputMap = 
-				getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Escape");
-		
-		final ActionMap actionMap = getRootPane().getActionMap();
-		actionMap.put("Escape", new ExitFrameWithEscape());
+		GUIUtils.enableEscapeToExit(this, getRootPane(), true);
 		
 		getRootPane().setDefaultButton(primaryServerButton);
 		

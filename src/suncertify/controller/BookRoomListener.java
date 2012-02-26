@@ -4,15 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import suncertify.db.IDatabase;
 import suncertify.db.Record;
 import suncertify.db.RecordNotFoundException;
+import suncertify.gui.BookRoomPane;
+import suncertify.gui.ClientWindow;
 import suncertify.gui.GUIMessages;
 import suncertify.gui.GUIUtils;
-import suncertify.gui.ClientWindow;
 
 /**
  * Provides the functionality when user wants to book a room.
@@ -69,13 +69,10 @@ public class BookRoomListener implements ActionListener {
 				return;
 			}
 
-			String ownerId = askOwnerIdToUser();
+			String ownerId = BookRoomPane.showDialog(clientWindow);
 
-			// If owner is null or empty, means that user cancels the operation
+			// If owner is null or empty, means that user cancelled the operation
 			if ((ownerId != null) && (!"".equals(ownerId.trim()))) {
-				
-				// Remove left zeros (if any)
-				ownerId = Long.valueOf(ownerId).toString(); 
 				
 				bookRoom(ownerId);
 
@@ -124,6 +121,13 @@ public class BookRoomListener implements ActionListener {
 					recordTable.getSelectionModel().setSelectionInterval(
 							selectedRow, selectedRow);
 
+					final String messageToUser = GUIUtils.formatMessage(
+							GUIMessages.ROOM_BOOKED_MESSAGE, 
+							new Object[]{recordToUpdate.getHotelName(), 
+									recordToUpdate.getLocation(), recordToUpdate.getOwner()});
+					
+					GUIUtils.showInformationMessage(clientWindow, messageToUser);
+					
 				}
 
 			} catch (IllegalArgumentException e) {
@@ -294,21 +298,6 @@ public class BookRoomListener implements ActionListener {
 	private void displayErrorToUser(final String errorMessage) {
 
 		GUIUtils.showErrorMessageDialog(clientWindow, errorMessage);
-
-	}
-
-	/**
-	 * Displays a dialog to the user asking for the Owner Id to use to book the
-	 * selected room.
-	 * 
-	 * @return Value entered by the user, or null/empty value if user cancels
-	 *         the operation.
-	 */
-	private String askOwnerIdToUser() {
-		
-		return JOptionPane.showInputDialog(clientWindow,
-				GUIMessages.ENTER_OWNER_ID_MESSAGE,
-				GUIMessages.BOOK_ROOM_TITLE, JOptionPane.PLAIN_MESSAGE);
 
 	}
 

@@ -160,7 +160,7 @@ public class StartServerListener implements ActionListener, DocumentListener {
 			if (isValidUserInput(true)) {
 
 				updatePropertiesWithUserInput(true);
-
+				
 				RegisterDatabase.bind();
 
 				disableComponentsOnStart();

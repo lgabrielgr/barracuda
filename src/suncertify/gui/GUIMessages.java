@@ -222,7 +222,7 @@ public class GUIMessages {
 	 * Text to display when it is asked to user to enter the owner id.
 	 */
 	public static final String ENTER_OWNER_ID_MESSAGE = 
-			"Please, enter the owner ID.";
+			"Please, enter the owner ID";
 	
 	/**
 	 * Title to set when it is asked to user to enter the owner id.
@@ -252,7 +252,14 @@ public class GUIMessages {
 			"Connected to Server running on host {0}";
 	
 	/**
-	 * Text to display to user when it is attemping to connect to server.
+	 * Text to display to user in client's status bar when it is started
+	 * in "alone" mode.
+	 */
+	public static final String CONNECTED_TO_LOCAL_DB_MESSAGE = 
+			"Connected to a local database (not connected to a Server)";
+	
+	/**
+	 * Text to display to user when it is attempting to connect to server.
 	 */
 	public static final String CONNECTING_TO_SERVER_MESSAGE = 
 			"Connecting to server ...";
@@ -280,6 +287,13 @@ public class GUIMessages {
 					"please see log for details";
 	
 	/**
+	 * Text to display to user when a room was successfully booked.
+	 */
+	public static final String ROOM_BOOKED_MESSAGE = 
+			"Room booked successfully:\n\nHotel: {0}\nLocation: {1}\n" +
+					"Owner ID: {2}\n\nThank You!";
+	
+	/**
 	 * Text to display to user when an invalid port number is entered.
 	 */
 	public static final String INVALID_PORT_NUMBER_MESSAGE = 
@@ -300,6 +314,11 @@ public class GUIMessages {
 	 * Text to set as title for the error message dialogs.
 	 */
 	public static final String ERROR_TEXT = "Error";
+	
+	/**
+	 * Text to set as title for the information message dialogs. 
+	 */
+	public static final String INFORMATION_TEXT = "Information";  
 	
 	/**
 	 * Constructor.

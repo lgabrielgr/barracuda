@@ -21,14 +21,6 @@ public class RemoteDatabaseConnector {
 			RemoteDatabaseConnector.class.getName();
 	
 	/**
-	 * Prevents <code>RemoteDatabaseConnector</code> instantiations, all 
-	 * methods are static.
-	 */
-	protected RemoteDatabaseConnector() {
-		
-	}
-	
-	/**
 	 * Connects to the database server with the specified host and port.
 	 * 
 	 * @param host Host to which to connect.

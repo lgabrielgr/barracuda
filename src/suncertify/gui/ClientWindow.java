@@ -12,20 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 
+import suncertify.controller.BookRoomListener;
 import suncertify.controller.ExitStandAloneWindow;
 import suncertify.controller.RowSelectionListener;
 import suncertify.controller.SearchRecordsListener;
-import suncertify.controller.BookRoomListener;
 import suncertify.db.IDatabase;
 import suncertify.db.Record;
 
@@ -262,6 +265,10 @@ public class ClientWindow extends JFrame {
 				new RowSelectionListener(this));
 		recordTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
+		final InputMap inputMap = 
+				recordTable.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "none");
+		
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		
 		GUILogger.exiting(CLASS_NAME, methodName);
@@ -328,6 +335,10 @@ public class ClientWindow extends JFrame {
 		addWindowListener(new ExitStandAloneWindow());
 		
 		setResizable(false);
+		
+		GUIUtils.enableEscapeToExit(this, getRootPane(), true);
+		
+		getRootPane().setDefaultButton(bookRoomButton);
 		
 		add(mainPanel);
 		
