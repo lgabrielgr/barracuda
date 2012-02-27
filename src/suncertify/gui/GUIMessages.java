@@ -57,7 +57,8 @@ public class GUIMessages {
 	/**
 	 * Text to display for the server location label.
 	 */
-	public static final String HOSTNAME_LABEL_TEXT = "Hostname: ";
+	public static final String HOSTNAME_IP_LABEL_TEXT = 
+			"Hostname / IP Address: ";
 	
 	/**
 	 * Text to display for the hotel name label.
@@ -106,9 +107,10 @@ public class GUIMessages {
 	public static final String CONFIRM_MESSAGE_TITLE_TEXT = "Confirm";
 	
 	/**
-	 * Text to display when the server is unable to retrieve the host name.
+	 * Text to display when the server is unable to retrieve the ip address
+	 * where the server is running.
 	 */
-	public static final String UNKNOWN_HOST = "Unknown host";
+	public static final String UNKNOWN_HOST = "Unknown IP Address";
 	
 	/**
 	 * Text to display to user when the server is unable to start.
@@ -118,12 +120,12 @@ public class GUIMessages {
 	
 	/**
 	 * Text to display to user when the server is running but the system 
-	 * wasn't unable to retrieve the host name. 
+	 * wasn't unable to retrieve the ip address. 
 	 */
 	public static final String CANT_RETRIEVE_SERVER_HOST_NAME = 
 			"The server is running, but the System is unable to retrieve " +
-					"the server's host name. Please contact the " +
-					"System Administrator to get the host name.";
+					"the server's IP Address. Please contact the " +
+					"System Administrator to get the IP Address.";
 	
 	/**
 	 * Text to display for the initial status to connect to database.

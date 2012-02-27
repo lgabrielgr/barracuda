@@ -171,12 +171,16 @@ public class ClientWindow extends JFrame {
 		final String methodName = "addBookRoomSection";
 		GUILogger.entering(CLASS_NAME, methodName);
 		
+		final BookRoomListener bookRoomListener = new BookRoomListener(this);
+		
 		// Disable button until user selects a row.
 		bookRoomButton.setEnabled(false);
 		bookRoomButton.setMnemonic(KeyEvent.VK_B);
 		
-		bookRoomButton.addActionListener(new BookRoomListener(this));
+		bookRoomButton.addActionListener(bookRoomListener);
         
+		recordTable.addMouseListener(bookRoomListener);
+		
         final JPanel bookRoomPanel = new JPanel(
         		new FlowLayout(FlowLayout.RIGHT));
         

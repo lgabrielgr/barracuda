@@ -46,7 +46,7 @@ public class ConnectToServerWindow extends AbstractServerWindow {
 		
 		setTitle(GUIMessages.CONNECT_TO_SERVER_TITLE_TEXT);
 		
-		setServerLocationLabelText(GUIMessages.HOSTNAME_LABEL_TEXT);
+		setServerLocationLabelText(GUIMessages.HOSTNAME_IP_LABEL_TEXT);
 
 		setServerLocationTextField(readRMIHost());
 		addDocumentListenerToDBServerTextField(serverListener);

@@ -1,11 +1,8 @@
 package suncertify.gui;
 
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -41,11 +38,7 @@ public class BookRoomPane extends JPanel implements DocumentListener {
 	 */
 	final private JTextField ownerIDTextField = new NumericTextField();
 	
-	/**
-	 * Reference to the <code>Map</code> of the JOptionPane's buttons.
-	 */
-	final Map<String, JButton> optionPaneButtons = 
-			new HashMap<String, JButton>();
+	private JButton dialogOKButton = null;
 	
 	/**
 	 * Constructor.
@@ -91,9 +84,7 @@ public class BookRoomPane extends JPanel implements DocumentListener {
 	 */
 	private void verifyIfUserCanBookRoom() {
 		
-		final JButton okButton = retrieveJOptionPaneOKButton(); 
-		
-		if (okButton != null) {
+		if (dialogOKButton != null) {
 			
 			final String ownerIDText = ownerIDTextField.getText();
 			
@@ -101,11 +92,11 @@ public class BookRoomPane extends JPanel implements DocumentListener {
 					&& (!"".equals(ownerIDText.trim()))
 					&& (!"0".equals(ownerIDText.trim()))) {
 				
-				okButton.setEnabled(true);
+				dialogOKButton.setEnabled(true);
 				
 			} else {
 				
-				okButton.setEnabled(false);
+				dialogOKButton.setEnabled(false);
 				
 			}
 			
@@ -123,49 +114,6 @@ public class BookRoomPane extends JPanel implements DocumentListener {
 		ownerIDTextField.getDocument().addDocumentListener(this);
 		
 		add(ownerIDTextField);
-		
-	}
-	
-	/**
-	 * Searches the <code>JOptionPane</code> buttons, so the document listener
-	 * can enable and disable the OK button depending on what the user enters 
-	 * into the Owner ID <code>JTextField</code>. 
-	 * 
-	 * @param panelComponents <code>Component</code> list from where the buttons
-	 *                        are searched. 
-	 */
-	private void initDocumentListener(final Component [] panelComponents) {
-		
-		for (Component component: panelComponents) {
-			
-			if (component instanceof JButton) {
-				
-				final JButton button = (JButton) component;
-				
-				optionPaneButtons.put(button.getText(), button);
-				
-			} else if (component instanceof JPanel) {
-				
-				final JPanel panel = (JPanel) component;
-				
-				initDocumentListener(panel.getComponents());
-				
-			}
-			
-		}
-		
-		insertUpdate(null);
-		
-	}
-	
-	/**
-	 * Retrieves the JOptionPane's OK Button.
-	 * 
-	 * @return JOptionPane's OK Button.
-	 */
-	private JButton retrieveJOptionPaneOKButton() {
-		
-		return optionPaneButtons.get(GUIConstants.OK_TEXT);
 		
 	}
 	
@@ -199,6 +147,8 @@ public class BookRoomPane extends JPanel implements DocumentListener {
 		dialog.pack();
 		dialog.setLocationRelativeTo(parentFrame);
 		
+		dialogOKButton = dialog.getRootPane().getDefaultButton();
+		
 		optionPane.addPropertyChangeListener(new PropertyChangeListener() {
 
 			/**
@@ -226,6 +176,8 @@ public class BookRoomPane extends JPanel implements DocumentListener {
 		
 		GUIUtils.enableEscapeToExit(dialog, dialog.getRootPane(), false);
 		
+		insertUpdate(null);
+		
 		return dialog;
 	}
 	
@@ -245,8 +197,6 @@ public class BookRoomPane extends JPanel implements DocumentListener {
 		
 		final JOptionPane optionPane = new JOptionPane(bookRoomPane, 
 				JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-		
-		bookRoomPane.initDocumentListener(optionPane.getComponents());
 		
 		final JDialog dialog = bookRoomPane.createDialog(parentFrame, 
 				GUIMessages.BOOK_ROOM_TITLE, optionPane);

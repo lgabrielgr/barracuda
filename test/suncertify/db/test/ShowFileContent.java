@@ -12,7 +12,6 @@ public class ShowFileContent {
 	 */
 	public static void main(String[] args) throws IOException {
 		
-		
 		File f = new File("/home/leo/dbd/db-1x111.db");
 		System.out.println(f.exists());
 		

@@ -192,14 +192,14 @@ public class StartServerListener implements ActionListener, DocumentListener {
 		final String methodName = "updateServerStatus";
 		ControllerLogger.entering(CLASS_NAME, methodName);
 		
-		final String serverHostName = retrieveServerHostName();
+		final String serverIPAddress = retrieveServerIPAddress();
 		
 		serverWindow.setStatusLabelText(
 				MessageFormat.format(GUIMessages.SERVER_RUNNING_STATUS_MESSAGE, 
-						serverHostName));
+						serverIPAddress));
 		
 		ControllerLogger.info(CLASS_NAME, methodName, 
-				"Server is running on host " + serverHostName);
+				"Server is running on host " + serverIPAddress);
 		
 		ControllerLogger.exiting(CLASS_NAME, methodName);
 		
@@ -207,27 +207,27 @@ public class StartServerListener implements ActionListener, DocumentListener {
 	}
 	
 	/**
-	 * Retrieves the host name where the server is running. If server is 
-	 * unable to read the host name, a message is displayed to user to let
+	 * Retrieves the IP Address where the server is running. If server is 
+	 * unable to read the IP Address, a message is displayed to user to let
 	 * him/her know about this.
 	 * 
-	 * @return Host name as <code>String</code>.
+	 * @return IP Address as <code>String</code>.
 	 */
-	private String retrieveServerHostName() {
+	private String retrieveServerIPAddress() {
 		
-		final String methodName = "retrieveServerHostName";
+		final String methodName = "retrieveServerIPAddress";
 		ControllerLogger.entering(CLASS_NAME, methodName);
 		
 		String serverIPAddress = GUIMessages.UNKNOWN_HOST;
 		
 		try {
 			
-			serverIPAddress = InetAddress.getLocalHost().getHostName();
+			serverIPAddress = InetAddress.getLocalHost().getHostAddress();
 			
 		} catch (UnknownHostException e) {
 			
 			ControllerLogger.warning(CLASS_NAME, methodName, 
-					"Can't retrieve server's host name: " + e.getMessage());
+					"Can't retrieve server's ip address: " + e.getMessage());
 			
 			GUIUtils.showWarningMessage(serverWindow, 
 					GUIMessages.CANT_RETRIEVE_SERVER_HOST_NAME);

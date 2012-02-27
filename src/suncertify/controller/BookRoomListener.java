@@ -2,6 +2,8 @@ package suncertify.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.rmi.RemoteException;
 
 import javax.swing.JTable;
@@ -20,7 +22,7 @@ import suncertify.gui.GUIUtils;
  * @author Leo Gutierrez
  *
  */
-public class BookRoomListener implements ActionListener {
+public class BookRoomListener implements ActionListener, MouseListener {
 
 	/**
 	 * Class name.
@@ -88,6 +90,74 @@ public class BookRoomListener implements ActionListener {
 	}
 
 	/**
+	 * Invoked when mouse is clicked over a row in the list of rooms. The 
+	 * function is only considered when user clicks twice indicating that 
+	 * wants to book the selected room.
+	 * 
+	 * @param mouseEvent The mouse event.
+	 */
+	public void mouseClicked(final MouseEvent mouseEvent) {
+		
+		if (mouseEvent.getClickCount() == 2) {
+			
+			final int selectedRow = 
+					clientWindow.getRecordTable().getSelectedRow();
+			
+			final Record recordSelected =
+					clientWindow.getRecordFromTable(selectedRow);
+			
+			if ((recordSelected != null)
+					&& ((recordSelected.getOwner() == null)
+							|| ("".equals(recordSelected.getOwner().trim())))) {
+				
+				actionPerformed(null);
+				
+			}
+			
+		}
+	}
+
+	/**
+	 * Invoked when mouse is pressed over a row in the list of rooms.
+	 * <br /><b>This function is currently not supported.</b>
+	 * 
+	 * @param mouseEvent The mouse event.
+	 */
+	public void mousePressed(final MouseEvent mouseEvent) {
+		
+	}
+
+	/**
+	 * Invoked when mouse is released over a row in the list of rooms.
+	 * <br /><b>This function is currently not supported.</b>
+	 * 
+	 * @param mouseEvent The mouse event.
+	 */
+	public void mouseReleased(final MouseEvent mouseEvent) {
+		
+	}
+
+	/**
+	 * Invoked when mouse is entered over a row in the list of rooms.
+	 * <br /><b>This function is currently not supported.</b>
+	 * 
+	 * @param mouseEvent The mouse event.
+	 */
+	public void mouseEntered(final MouseEvent mouseEvent) {
+		
+	}
+
+	/**
+	 * Invoked when mouse is exited over a row in the list of rooms.
+	 * <br /><b>This function is currently not supported.</b>
+	 * 
+	 * @param mouseEvent The mouse event.
+	 */
+	public void mouseExited(final MouseEvent mouseEvent) {
+		
+	}
+	
+	/**
 	 * Books a room with the specified Owner Id value. A message is displayed
 	 * to the user indicating if the room was booked successfully or not.
 	 * <br/ >The <code>Record</code> object is extracted from the selected row
@@ -102,7 +172,15 @@ public class BookRoomListener implements ActionListener {
 
 		final JTable recordTable = clientWindow.getRecordTable();
 
-		if (!isRoomAlreadyBooked(recordTable)) {
+		if (isRoomAlreadyBooked(recordTable)) {
+			
+			ControllerLogger.severe(CLASS_NAME, methodName,
+					"Unable to book the room, it is already booked");
+
+			displayErrorToUser(
+					GUIMessages.ROOM_ALREADY_BOOKED_MESSAGE);
+			
+		} else {
 
 			try {
 
@@ -179,17 +257,12 @@ public class BookRoomListener implements ActionListener {
 
 				roomBooked = true;
 
+				// Update record selected with owner that already has booked the room.
 				recordTable.setValueAt(ownerId, selectedRow,
 						Record.OWNER_FIELD_INDEX);
 
 				recordTable.getSelectionModel().setSelectionInterval(
 						selectedRow, selectedRow);
-
-				ControllerLogger.severe(CLASS_NAME, methodName,
-						"Unable to book the room, it is already booked");
-
-				displayErrorToUser(
-						GUIMessages.ROOM_ALREADY_BOOKED_MESSAGE);
 
 			}
 
